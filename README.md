@@ -140,6 +140,12 @@ La estructura se plantea de manera modular para facilitar la incorporación de n
 
 ---
 
+## WireFrames
+
+https://www.figma.com/design/bes5asi7LB9SEXOv93DPJ7/TP1---PAW?node-id=4-63&t=TVVFWESKudebklfp-0
+
+---
+
 ## Equipo
 
 **Grupo: La 25**
