@@ -11,6 +11,9 @@ En esta primera etapa se trabajó sobre la estructura y maquetación del sitio u
 
 ---
 
+
+---
+
 ## Objetivos
 
 El objetivo principal de este trabajo es aplicar los conceptos fundamentales de **maquetación y estructuración semántica de sitios web mediante HTML5**.
@@ -22,6 +25,9 @@ En particular, se buscó:
 * Implementar las páginas utilizando exclusivamente **HTML5**.
 * Utilizar correctamente los **elementos semánticos de HTML5**.
 * Implementar un **formulario de reserva de libros**, utilizando tipos de campos y atributos adecuados para facilitar la validación.
+
+---
+
 
 ---
 
@@ -43,6 +49,9 @@ La funcionalidad de procesamiento de reservas no se encuentra implementada en es
 
 ---
 
+
+---
+
 ## Estructura del sitio
 
 El sitio se encuentra organizado en diferentes secciones y páginas, siguiendo la jerarquía definida en el Sitemap:
@@ -55,6 +64,9 @@ El sitio se encuentra organizado en diferentes secciones y páginas, siguiendo l
 
 ---
 
+
+---
+
 ## Tecnologías utilizadas
 
 Para el desarrollo de este Trabajo Práctico se utilizaron:
@@ -64,6 +76,9 @@ Para el desarrollo de este Trabajo Práctico se utilizaron:
 * **Git / GitHub** — control de versiones y trabajo colaborativo.
 
 No se utilizaron tecnologías de estilos ni funcionalidades de programación del lado del cliente o servidor, de acuerdo con los objetivos establecidos para esta etapa.
+
+---
+
 
 ---
 
@@ -84,6 +99,9 @@ Entre ellos:
 
 ---
 
+
+---
+
 ## Formulario de reserva
 
 El sitio incluye un formulario destinado a que los usuarios puedan solicitar la reserva de un libro.
@@ -99,6 +117,9 @@ El formulario contempla los siguientes datos:
 Se utilizaron diferentes tipos de campos HTML5 y atributos como `required` para favorecer la validación de los datos ingresados.
 
 El formulario tiene carácter demostrativo y **no realiza el procesamiento efectivo de las reservas**.
+
+---
+
 
 ---
 
@@ -140,9 +161,15 @@ La estructura se plantea de manera modular para facilitar la incorporación de n
 
 ---
 
+
+---
+
 ## WireFrames
 
 https://www.figma.com/design/bes5asi7LB9SEXOv93DPJ7/TP1---PAW?node-id=4-63&t=TVVFWESKudebklfp-0
+
+---
+
 
 ---
 
@@ -153,3 +180,25 @@ https://www.figma.com/design/bes5asi7LB9SEXOv93DPJ7/TP1---PAW?node-id=4-63&t=TVV
 **Proyecto: PAWPrints — Librería**
 
 Trabajo realizado en el marco de la asignatura **Programación de Aplicaciones Web (PAW)**.
+
+---
+
+## Instalación y ejecución
+
+Requisitos: PHP 8.0 o superior y Composer instalados.
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/romeroppau/PAW--Frontend--TP1.git
+cd PAW--Frontend--TP1
+
+# Instalar dependencias
+composer install
+
+# Iniciar el servidor de desarrollo
+php -S localhost:8000 -t .
+```
+
+Luego abrí http://localhost:8000 en el navegador.
+
+---

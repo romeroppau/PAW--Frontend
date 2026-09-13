@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,78 +8,75 @@
 <body>
     <header>
         <h1>PAWPrints</h1>
-        <img src="/media/logo.png" alt="logo" width="100" height="100">
+        <img src="../media/logo.png" alt="logo" width="100" height="100">
         <form role="search">
             <label for="buscar">Buscar libro</label>
             <input type="search" id="buscar" name="buscar">
             <button type="submit">Buscar</button>
         </form>
         <nav>
-            <a href="/index.html">Home</a>
-            <a href="/formulario/formulario.html">Formulario</a>
-            <a href="/catalogo/catalogo.html">catalogo</a>
-            <a href="/promociones/promociones.html">Promociones</a>
-            <a href="/nosotros/nosotros.html">Nosotros</a>
-            <a href="/contacto/contacto.html">Contacto</a>
+            <a href="../index.html">Home</a>
+            <a href="../formulario/formulario.html">Formulario</a>
+            <a href="../catalogo/catalogo.html">catalogo</a>
+            <a href="../promociones/promociones.html">Promociones</a>
+            <a href="../nosotros/nosotros.html">Nosotros</a>
+            <a href="../contacto/contacto.html">Contacto</a>
         </nav>
-        <nav aria-label="Cuenta">
-            <a href="/login.html">Sign in</a>
-            <a href="/registro.html">Register</a>
-            <a href="/notificaciones.html">Notificaciones</a>
-            <a href="/carrito.html">Carrito</a>
-        </nav>
+
     </header>
 
-    <aside aria-label="Filtros">
-        <form>
-            <fieldset>
-                <legend>% Descuento</legend>
-                <label for="desc-min">Minimo</label>
-                <input type="range" id="desc-min" name="desc-min" min="0" max="100">
-                <label for="desc-max">Maximo</label>
-                <input type="range" id="desc-max" name="desc-max" min="0" max="100">
-            </fieldset>
+    <main>
+        <aside aria-label="Filtros">
+            <form>
+                <fieldset>
+                    <legend>% Descuento</legend>
+                    <label for="desc-min">Minimo</label>
+                    <input type="range" id="desc-min" name="desc-min" min="0" max="100">
+                    <label for="desc-max">Maximo</label>
+                    <input type="range" id="desc-max" name="desc-max" min="0" max="100">
+                </fieldset>
 
-            <fieldset>
-                <legend>Categoria</legend>
-                <label><input type="checkbox" name="categoria">Terror</label>
-                <label><input type="checkbox" name="categoria">Fantasia</label>
-                <label><input type="checkbox" name="categoria">Accion</label>
-                <label><input type="checkbox" name="categoria">Drama</label>
-                <label><input type="checkbox" name="categoria">Comedia</label>
-            </fieldset>
+                <fieldset>
+                    <legend>Categoria</legend>
+                    <label><input type="checkbox" name="categoria">Terror</label>
+                    <label><input type="checkbox" name="categoria">Fantasia</label>
+                    <label><input type="checkbox" name="categoria">Accion</label>
+                    <label><input type="checkbox" name="categoria">Drama</label>
+                    <label><input type="checkbox" name="categoria">Comedia</label>
+                </fieldset>
 
-            <fieldset>
-                <legend>Precio</legend>
-                <label for="precio-min">Minimo</label>
-                <input type="range" id="precio-min" name="precio-min" min="0" max="1000">
-                <label for="precio-max">Maximo</label>
-                <input type="range" id="precio-max" name="precio-max" min="0" max="1000">
-            </fieldset>
-        </form>
-    </aside>
-    <section aria-labelledby="promociones-heading">
-        <h2 id="promociones-heading">Promociones</h2>
+                <fieldset>
+                    <legend>Precio</legend>
+                    <label for="precio-min">Minimo</label>
+                    <input type="range" id="precio-min" name="precio-min" min="0" max="1000">
+                    <label for="precio-max">Maximo</label>
+                    <input type="range" id="precio-max" name="precio-max" min="0" max="1000">
+                </fieldset>
+            </form>
+        </aside>
+        <section aria-labelledby="promociones-heading">
+            <h2 id="promociones-heading">Promociones</h2>
 
-        <article>
-            <h3>Libro 1</h3>
-            <figure>
-                <img src="/media/libros/monje-ferrari.jpg" alt="Descripción libro 1" width="150">
-            </figure>
-            <p><mark>-20%</mark></p>
-            <p>Precio:<data value="0">$0</data></p>
-        </article>
+            <article>
+                <h3>Libro 1</h3>
+                <figure>
+                    <img src="../media/libros/monje-ferrari.jpg" alt="Descripción libro 1" width="150">
+                </figure>
+                <p><mark>-20%</mark></p>
+                <p>Precio:<data value="0">$0</data></p>
+            </article>
 
-        <article>
-            <h3>Libro 2</h3>
-            <figure>
-                <img src="/media/libros/poder-ahora.jpg" alt="Descripción libro 2" width="150">
-            </figure>
-            <p><mark>-15%</mark></p>
-            <p>Precio:<data value="0">$0</data></p>
-        </article>
+            <article>
+                <h3>Libro 2</h3>
+                <figure>
+                    <img src="../media/libros/poder-ahora.jpg" alt="Descripción libro 2" width="150">
+                </figure>
+                <p><mark>-15%</mark></p>
+                <p>Precio:<data value="0">$0</data></p>
+            </article>
 
-    </section>
+        </section>
+    </main>
 
     <footer>
         <p>© 2026 PAWprints - La 25</p>
