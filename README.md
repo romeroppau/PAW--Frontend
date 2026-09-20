@@ -185,8 +185,6 @@ Trabajo realizado en el marco de la asignatura **Programación de Aplicaciones W
 
 ## Instalación y ejecución
 
-Como este proyecto consiste únicamente en archivos estáticos HTML y CSS, no requiere ningún entorno de ejecución backend (como PHP) ni gestores de dependencias (como Composer).
-
 Para visualizar el sitio:
 
 1. Cloná el repositorio:
