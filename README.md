@@ -185,20 +185,18 @@ Trabajo realizado en el marco de la asignatura **Programación de Aplicaciones W
 
 ## Instalación y ejecución
 
-Requisitos: PHP 8.0 o superior y Composer instalados.
+Como este proyecto consiste únicamente en archivos estáticos HTML y CSS, no requiere ningún entorno de ejecución backend (como PHP) ni gestores de dependencias (como Composer).
 
-```bash
-# Clonar el repositorio
-git clone https://github.com/romeroppau/PAW--Frontend--TP1.git
-cd PAW--Frontend--TP1
+Para visualizar el sitio:
 
-# Instalar dependencias
-composer install
+1. Cloná el repositorio:
+   ```bash
+   git clone https://github.com/romeroppau/PAW--Frontend--TP1.git
+   cd PAW--Frontend--TP1
+   ```
 
-# Iniciar el servidor de desarrollo
-php -S localhost:8000 -t .
-```
+2. Abrí el archivo `index.html` directamente en tu navegador web.
 
-Luego abrí http://localhost:8000 en el navegador.
+*Recomendación:* Para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
 
 ---

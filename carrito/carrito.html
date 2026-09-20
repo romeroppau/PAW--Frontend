@@ -3,75 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAWPrints</title>
+    <title>Carrito de compras - PAWPrints</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <header>
-        <h1>PAWPrints</h1>
         <img src="../media/logo.png" alt="logo" width="100" height="100">
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../catalogo/catalogo.html">Catálogo</a>
+            <a href="../promociones/promociones.html">Promociones</a>
+            <a href="../nosotros/nosotros.html">Nosotros</a>
+            <a href="../contacto/contacto.html">Contacto</a>
+            <a href="../formulario/formulario.html">Formulario</a>
+            <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
+        </nav>
         <form role="search">
             <label for="buscar">Buscar libro</label>
             <input type="search" id="buscar" name="buscar">
             <button type="submit">Buscar</button>
         </form>
-        <nav>
-            <a href="../index.html">Home</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../catalogo/catalogo.html">catalogo</a>
-            <a href="../promociones/promociones.html">Promociones</a>
-            <a href="../nosotros/nosotros.html">Nosotros</a>
-            <a href="../contacto/contacto.html">Contacto</a>
-        </nav>
-
     </header>
 
     <main>
-        <section aria-labelledby="carrito-heading">
-            <h2 id="carrito-heading">Carrito de compras</h2>
+        <div class="carrito-wrapper">
+            <section class="seccion-carrito" aria-labelledby="carrito-heading">
+                <h2 id="carrito-heading">Carrito de compras</h2>
 
-            <article>
-                <h3>Titulo y Autor</h3>
-                <figure>
-                    <img src="../media/libros/sutil-arte.jpg" alt="Descripción libro 3" width="150">
-                </figure>
-                <p>Precio:<data value="0">$0</data></p>
+                <article>
+                    <figure>
+                        <img src="../media/libros/sutil-arte.jpg" alt="Portada de El sutil arte de que casi todo te importe una mierda">
+                    </figure>
+                    <h3>El sutil arte de que casi todo te importe una mierda — Mark Manson</h3>
+                    <p>Precio: <data value="25000">$25.000</data></p>
+                    <form>
+                        <label for="cantidad-1">Cantidad</label>
+                        <input type="number" id="cantidad-1" name="cantidad-1" value="1" min="1">
+                    </form>
+                    <button type="button">Eliminar</button>
+                </article>
+
+                <article>
+                    <figure>
+                        <img src="../media/libros/revolucion-abundancia.jpg" alt="Portada de La revolución de la abundancia">
+                    </figure>
+                    <h3>La revolución de la abundancia — Ismael Cala</h3>
+                    <p>Precio: <data value="20999">$20.999</data></p>
+                    <form>
+                        <label for="cantidad-2">Cantidad</label>
+                        <input type="number" id="cantidad-2" name="cantidad-2" value="1" min="1">
+                    </form>
+                    <button type="button">Eliminar</button>
+                </article>
+            </section>
+
+            <section class="seccion-resumen" aria-labelledby="resumen-heading">
+                <h2 id="resumen-heading">Resumen de compra</h2>
+                <dl>
+                    <dt>Subtotal</dt>
+                    <dd>$45.999</dd>
+                    <dt>Envio</dt>
+                    <dd>$2.500</dd>
+                    <dt>total</dt>
+                    <dd>$48.499</dd>
+                </dl>
                 <form>
-                    <label for="cantidad-1">Cantidad</label>
-                    <input type="number" id="cantidad-1" name="cantidad-1" value="1" min="1">
+                    <label for="fecha-entrega">Fecha de entrega estimada</label>
+                    <input type="date" id="fecha-entrega" name="fecha-entrega">
                 </form>
-                <button type="button">Eliminar</button>
-            </article>
-
-            <article>
-                <h3>Titulo y Autor</h3>
-                <figure>
-                    <img src="../media/libros/revolucion-abundancia.jpg" alt="Descripción libro 4" width="150">
-                </figure>
-                <p>Precio:<data value="0">$0</data></p>
-                <form>
-                    <label for="cantidad-2">Cantidad</label>
-                    <input type="number" id="cantidad-2" name="cantidad-2" value="1" min="1">
-                </form>
-                <button type="button">Eliminar</button>
-            </article>
-        </section>
-
-        <section aria-labelledby="resumen-heading">
-            <h2 id="resumen-heading">Resumen de compra</h2>
-            <dl>
-                <dt>Subtotal</dt>
-                <dd>$0</dd>
-                <dt>Envio</dt>
-                <dd>$0</dd>
-                <dt>total</dt>
-                <dd>$0</dd>
-            </dl>
-            <form>
-                <label for="fecha-entrega">Fecha de entrega estimada</label>
-                <input type="date" id="fecha-entrega" name="fecha-entrega">
-            </form>
-            <button type="submit">Finalizar compra</button>
-        </section>
+                <button type="submit">Finalizar compra</button>
+            </section>
+        </div>
     </main>
 
     <footer>
