@@ -1,96 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWPrints</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="contacto.css">
 </head>
+
 <body>
     <header>
         <img src="../media/logo.png" alt="logo" width="100" height="100">
         <nav>
             <a href="../index.html">Home</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../catalogo/catalogo.html">catalogo</a>
+            <a href="../catalogo/catalogo.html">Catálogo</a>
             <a href="../promociones/promociones.html">Promociones</a>
             <a href="../nosotros/nosotros.html">Nosotros</a>
             <a href="../contacto/contacto.html">Contacto</a>
+            <a href="../formulario/formulario.html">Formulario</a>
         </nav>
-                <form role="search">
-            <label for="buscar">Buscar libro</label>
-            <input type="search" id="buscar" name="buscar">
-            <button type="submit">Buscar</button>
-        </form>
 
     </header>
-    <main>
-        <section id="informacion-contacto">
-            <h1>Contacto</h1>
-            <h2>Encontranos</h2>
-            <address>
-                <p>
-                    Dirección: Av. Principal 123, Luján
-                </p>
-                <p>
-                    Teléfono: 02323-123456
-                </p>
-                <p>
-                    Email:
-                    <a href="mailto:contacto@pawprints.com">
-                        contacto@pawprints.com
-                    </a>
-                </p>
-            </address>
-        </section>
-        <section id="redes">
-            <h2>Seguinos en redes</h2>
+    <main class="contacto-main">
+
+        <section class="contacto-presentacion">
+            <h1>Hablemos</h1>
             <p>
-                Encontrá nuestras novedades y recomendaciones:
+                ¿Tenés alguna consulta, recomendación o simplemente querés
+                hablar de libros? Estamos para escucharte.
             </p>
-            <ul>
-                <li>
-                    <a href="#">Instagram</a>
-                </li>
-                <li>
-                    <a href="#">Facebook</a>
-                </li>
-               
-            </ul>
         </section>
-        <section id="formulario">
-            <h2>¿Tenés alguna consulta?</h2>
-            <form action="#" method="post">
-                <label for="nombre">Nombre:</label>
-                <input type="text"
-                       id="nombre"
-                       name="nombre"
-                       maxlength="15"
-                       min="2"
-                       required>
-                <br><br>
-                <label for="email">Email:</label>
-                <input type="email"
-                       id="email"
-                       name="email"
-                       required>
-                <br><br>
-                <label for="mensaje">Mensaje:</label>
-                <br>
-                <textarea id="mensaje"
-                          name="mensaje"
-                          rows="5"
-                          cols="40"
-                          required>
-                </textarea>
-                <br><br>
+
+        <section class="informacion-contacto">
+            <h2>Encontranos</h2>
+            <div class="tarjetas-contacto">
+                <article class="tarjeta-contacto">
+                    <div class="icono-contacto">⌖</div>
+                    <h3>Visitá nuestra librería</h3>
+                    <address>
+                        Av. Principal 123, Luján
+                    </address>
+
+                    <a href="#">
+                        Ver ubicación
+                    </a>
+                </article>
+                <article class="tarjeta-contacto">
+                    <div class="icono-contacto">☎</div>
+                    <h3>Hablemos</h3>
+                    <p>
+                        02323-123456
+                    </p>
+                    <a href="tel:02323123456">
+                        Llamanos
+                    </a>
+                </article>
+                <article class="tarjeta-contacto">
+                    <div class="icono-contacto">@</div>
+                    <h3>Escribinos</h3>
+                    <p>
+                        contacto@pawprints.com
+                    </p>
+
+                    <a href="mailto:contacto@pawprints.com">
+                        Enviar email
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <section class="consulta-contacto">
+            <div class="texto-consulta">
+                <span class="numero-consulta">01</span>
+                <h2>¿Tenés alguna consulta?</h2>
+                <p>
+                    Completá el formulario y dejanos tu mensaje.
+                    Nos encanta conocer a nuestros lectores.
+                </p>
+
+                <p class="frase-contacto">
+                    “Cada buena historia comienza con una conversación.”
+                </p>
+            </div>
+            <form class="formulario-contacto" action="#" method="post">
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+
+                    <input type="text" id="nombre" name="nombre" maxlength="15" minlength="2" placeholder="Tu nombre"
+                        required>
+                </div>
+                <div class="campo">
+                    <label for="email">Email</label>
+
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="campo">
+                    <label for="mensaje">Mensaje</label>
+
+                    <textarea id="mensaje" name="mensaje" rows="6" placeholder="Escribí tu consulta..."
+                        required></textarea>
+                </div>
                 <button type="submit">
                     Enviar consulta
                 </button>
             </form>
+        </section>
+
+        <section class="redes">
+            <h2>Seguinos</h2>
+            <p>
+                Encontrá nuestras novedades, recomendaciones y próximos lanzamientos.
+            </p>
+            <div class="redes-links">
+                <a href="#" class="red-social">
+                    Instagram
+                </a>
+                <a href="#" class="red-social">
+                    Facebook
+                </a>
+            </div>
         </section>
     </main>
     <footer>
         <p>© 2026 PAWprints - La 25</p>
     </footer>
 </body>
+
 </html>
