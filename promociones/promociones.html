@@ -1,80 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWPrints</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="promociones.css">
+
 </head>
+
 <body>
     <header>
         <h1>PAWPrints</h1>
         <img src="../media/logo.png" alt="logo" width="100" height="100">
-        <form role="search">
-            <label for="buscar">Buscar libro</label>
-            <input type="search" id="buscar" name="buscar">
-            <button type="submit">Buscar</button>
-        </form>
+
         <nav>
             <a href="../index.html">Home</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../catalogo/catalogo.html">catalogo</a>
+            <a href="../catalogo/catalogo.html">Catálogo</a>
             <a href="../promociones/promociones.html">Promociones</a>
             <a href="../nosotros/nosotros.html">Nosotros</a>
             <a href="../contacto/contacto.html">Contacto</a>
+            <a href="../formulario/formulario.html">Formulario</a>
+            <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
+
         </nav>
 
     </header>
 
-    <main>
-        <aside aria-label="Filtros">
+    <section class="busqueda">
+        <form class="buscador">
+            <label for="buscar-libro">Buscar libro:</label>
+
+            <div class="buscador-control">
+                <input type="search" id="buscar-libro" name="buscar-libro" placeholder="Inserte el nombre">
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+    </section>
+    <main class="promociones-main">
+        <aside class="filtros" aria-label="Filtros de promociones">
             <form>
-                <fieldset>
+                <fieldset class="filtro">
                     <legend>% Descuento</legend>
-                    <label for="desc-min">Minimo</label>
-                    <input type="range" id="desc-min" name="desc-min" min="0" max="100">
-                    <label for="desc-max">Maximo</label>
-                    <input type="range" id="desc-max" name="desc-max" min="0" max="100">
-                </fieldset>
+                    <div class="rango">
+                        <label for="desc-min">Mínimo</label>
 
-                <fieldset>
-                    <legend>Categoria</legend>
-                    <label><input type="checkbox" name="categoria">Terror</label>
-                    <label><input type="checkbox" name="categoria">Fantasia</label>
-                    <label><input type="checkbox" name="categoria">Accion</label>
-                    <label><input type="checkbox" name="categoria">Drama</label>
-                    <label><input type="checkbox" name="categoria">Comedia</label>
-                </fieldset>
+                        <div class="rango-control">
+                            <input type="range" id="desc-min" name="desc-min" min="0" max="100" value="0">
+                            <output id="desc-min-value">0%</output>
+                        </div>
 
-                <fieldset>
+                        <label for="desc-max">Máximo</label>
+
+                        <div class="rango-control">
+                            <input type="range" id="desc-max" name="desc-max" min="0" max="100" value="100">
+                            <output id="desc-max-value">100%</output>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="filtro">
+                    <legend>Categoría</legend>
+                    <div class="categorias">
+                        <label>
+                            <input type="checkbox" name="categoria" value="terror">
+                            Terror
+                        </label>
+                        <label>
+                            <input type="checkbox" name="categoria" value="fantasia">
+                            Fantasía
+                        </label>
+                        <label>
+                            <input type="checkbox" name="categoria" value="accion">
+                            Acción
+                        </label>
+                        <label>
+                            <input type="checkbox" name="categoria" value="drama">
+                            Drama
+                        </label>
+                        <label>
+                            <input type="checkbox" name="categoria" value="comedia">
+                            Comedia
+                        </label>
+                    </div>
+                </fieldset>
+                <fieldset class="filtro">
                     <legend>Precio</legend>
-                    <label for="precio-min">Minimo</label>
-                    <input type="range" id="precio-min" name="precio-min" min="0" max="1000">
-                    <label for="precio-max">Maximo</label>
-                    <input type="range" id="precio-max" name="precio-max" min="0" max="1000">
+                    <div class="rango">
+                        <label for="precio-min">Mínimo</label>
+                        <div class="rango-control">
+                            <input type="range" id="precio-min" name="precio-min" min="0" max="1000" value="0">
+                            <output>$0</output>
+                        </div>
+                        <label for="precio-max">Máximo</label>
+                        <div class="rango-control">
+                            <input type="range" id="precio-max" name="precio-max" min="0" max="1000" value="1000">
+                            <output>$100.000</output>
+                        </div>
+                    </div>
                 </fieldset>
             </form>
         </aside>
-        <section aria-labelledby="promociones-heading">
+        <section class="lista-promociones" aria-labelledby="promociones-heading">
             <h2 id="promociones-heading">Promociones</h2>
-
-            <article>
-                <h3>Libro 1</h3>
-                <figure>
-                    <img src="../media/libros/monje-ferrari.jpg" alt="Descripción libro 1" width="150">
-                </figure>
-                <p><mark>-20%</mark></p>
-                <p>Precio:<data value="0">$0</data></p>
-            </article>
-
-            <article>
-                <h3>Libro 2</h3>
-                <figure>
-                    <img src="../media/libros/poder-ahora.jpg" alt="Descripción libro 2" width="150">
-                </figure>
-                <p><mark>-15%</mark></p>
-                <p>Precio:<data value="0">$0</data></p>
-            </article>
-
+            <div class="productos-promocion">
+                <!-- PROMOCIÓN 1 -->
+                <article class="promocion">
+                    <h3>El monje que vendió su Ferrari</h3>
+                    <figure>
+                        <img src="../media/libros/monje-ferrari.jpg" alt="Portada de El monje que vendió su Ferrari"
+                            width="150">
+                    </figure>
+                    <p class="descuento">
+                        <mark>-20%</mark>
+                    </p>
+                    <p>
+                        Precio:
+                        <data value="0">$10000</data>
+                    </p>
+                    <button type="button" class="btn-carrito">
+                        Añadir al carrito
+                    </button>
+                </article>
+                <!-- PROMOCIÓN 2 -->
+                <article class="promocion">
+                    <h3>El poder del ahora</h3>
+                    <figure>
+                        <img src="../media/libros/poder-ahora.jpg" alt="Portada de El poder del ahora" width="150">
+                    </figure>
+                    <p class="descuento">
+                        <mark>-15%</mark>
+                    </p>
+                    <p>
+                        Precio:
+                        <data value="0">$12000</data>
+                    </p>
+                    <button type="button" class="btn-carrito">
+                        Añadir al carrito
+                    </button>
+                </article>
         </section>
     </main>
 
@@ -82,4 +146,5 @@
         <p>© 2026 PAWprints - La 25</p>
     </footer>
 </body>
+
 </html>
