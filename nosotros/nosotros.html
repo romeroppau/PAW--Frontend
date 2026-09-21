@@ -1,66 +1,202 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWPrints</title>
+       <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="nosotros.css">
 </head>
+
 <body>
     <header>
-        <img src="../media/logo.png" alt="logo" width="100" height="100">
+        <img src="/media/logo.png" alt="logo" width="100" height="100">
         <nav>
             <a href="../index.html">Home</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../catalogo/catalogo.html">catalogo</a>
+            <a href="../catalogo/catalogo.html">Catálogo</a>
             <a href="../promociones/promociones.html">Promociones</a>
             <a href="../nosotros/nosotros.html">Nosotros</a>
             <a href="../contacto/contacto.html">Contacto</a>
+            <a href="../formulario/formulario.html">Formulario</a>
         </nav>
-                <form role="search">
-            <label for="buscar">Buscar libro</label>
-            <input type="search" id="buscar" name="buscar">
-            <button type="submit">Buscar</button>
-        </form>
-
+        
+    
     </header>
-    <main>
-        <section id="historia">
-            <h1>Sobre nosotros</h1>
-            <h2>Nuestra historia</h2>
+    <main class="nosotros-main">
+        <section class="presentacion-nosotros">
+            <h1>Conocé PAWprints</h1>
             <p>
-                PAWprints nació como un proyecto del grupo "La 25",
-                con el objetivo de crear un espacio dedicado a los
-                amantes de la lectura.
-            </p>
-            <p>
-                Buscamos ofrecer una selección variada de libros y
-                generar un lugar donde los lectores puedan descubrir
-                nuevas historias.
+                Una librería creada por lectores, para lectores.
             </p>
         </section>
+        <section class="informacion-nosotros">
+            <h2>Conocé nuestra historia</h2>
+            <div class="tarjetas-nosotros">
+                <article class="tarjeta-flip">
+                    <div class="tarjeta-interior">
 
-        <section id="mision">
-            <h2>Nuestra misión</h2>
-            <p>
-                Nuestra misión es fomentar la lectura y acercar los
-                libros a nuestra comunidad, ofreciendo una experiencia
-                de compra sencilla y accesible.
-            </p>
+                        <div class="tarjeta-frente">
+                            <span class="icono-tarjeta">01</span>
+                            <h3>Nuestra historia</h3>
+                            <p>Conocé cómo nació PAWprints</p>
+                            <span class="ver-mas">Pasá el cursor</span>
+                        </div>
+
+                        <div class="tarjeta-dorso">
+                            <h3>Nuestra historia</h3>
+                            <p>
+                                PAWprints nació como un proyecto del grupo
+                                "La 25", con el objetivo de crear un espacio
+                                dedicado a los amantes de la lectura.
+                            </p>
+                            <p>
+                                Buscamos ofrecer una selección variada de
+                                libros y generar un lugar donde los lectores
+                                puedan descubrir nuevas historias.
+                            </p>
+                        </div>
+
+                    </div>
+                </article>
+
+                <article class="tarjeta-flip">
+                    <div class="tarjeta-interior">
+
+                        <div class="tarjeta-frente">
+                            <span class="icono-tarjeta">02</span>
+                            <h3>Nuestra misión</h3>
+                            <p>Lo que buscamos construir</p>
+                            <span class="ver-mas">Pasá el cursor</span>
+                        </div>
+
+                        <div class="tarjeta-dorso">
+                            <h3>Nuestra misión</h3>
+                            <p>
+                                Nuestra misión es fomentar la lectura y
+                                acercar los libros a nuestra comunidad,
+                                ofreciendo una experiencia de compra
+                                sencilla y accesible.
+                            </p>
+                        </div>
+
+                    </div>
+                </article>
+
+                <article class="tarjeta-flip">
+                    <div class="tarjeta-interior">
+
+                        <div class="tarjeta-frente">
+                            <span class="icono-tarjeta">03</span>
+                            <h3>Qué ofrecemos</h3>
+                            <p>Descubrí nuestros servicios</p>
+                            <span class="ver-mas">Pasá el cursor</span>
+                        </div>
+
+                        <div class="tarjeta-dorso">
+                            <h3>Qué ofrecemos</h3>
+
+                            <ul>
+                                <li>Venta de libros</li>
+                                <li>Recomendaciones personalizadas</li>
+                                <li>Novedades literarias</li>
+                                <li>Pedidos de libros</li>
+                                <li>Actividades relacionadas con la lectura</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        </section>
+        <section class="historia-timeline">
+            <h2>El comienzo de PAWprints</h2>
+            <div class="timeline">
+                <article class="evento-timeline">
+                    <div class="punto-timeline"></div>
+                    <div class="contenido-timeline">
+                        <span>2026</span>
+                        <h3>Nace la idea</h3>
+                        <p>
+                            Surge el proyecto de crear una librería
+                            pensada para los amantes de la lectura.
+                        </p>
+                    </div>
+                </article>
+                <article class="evento-timeline">
+                    <div class="punto-timeline"></div>
+
+                    <div class="contenido-timeline">
+                        <span>LA 25</span>
+                        <h3>Se forma el equipo</h3>
+                        <p>
+                            El proyecto comienza a tomar forma como
+                            trabajo del grupo "La 25".
+                        </p>
+                    </div>
+                </article>
+                <article class="evento-timeline">
+                    <div class="punto-timeline"></div>
+
+                    <div class="contenido-timeline">
+                        <span>PAWPRINTS</span>
+                        <h3>Nuestro proyecto</h3>
+                        <p>
+                            La idea se transforma en una experiencia
+                            web para descubrir y comprar libros.
+                        </p>
+                    </div>
+                </article>
+            </div>
         </section>
 
-        <section id="servicios">
-            <h2>Servicios</h2>
-            <ul>
-                <li>Venta de libros</li>
-                <li>Recomendaciones personalizadas</li>
-                <li>Novedades literarias</li>
-                <li>Pedidos de libros</li>
-                <li>Actividades relacionadas con la lectura</li>
-            </ul>
+        <section class="equipo">
+            <h2>Conocé a La 25</h2>
+            <p class="introduccion-equipo">
+                Detrás de PAWprints está el equipo que hizo posible
+                este proyecto.
+            </p>
+
+            <div class="tarjetas-equipo">
+                <article class="integrante">
+                    <div class="foto-integrante">
+                        <img src="../media/sinfoto.png" alt="">
+                    </div>
+
+                    <h3>Trinidad Lopez</h3>
+                    <p>Desarrollador del proyecto</p>
+                </article>
+
+                <article class="integrante">
+                    <div class="foto-integrante">
+                        <img src="../media/sinfoto.png" alt="">
+                    </div>
+
+                    <h3>Valentino Aimale</h3>
+                    <p>Desarrollador del proyecto</p>
+                </article>
+                <article class="integrante">
+                    <div class="foto-integrante">
+                        <img src="../media/sinfoto.png" alt="">
+                    </div>
+                    <h3>Cristian Tomás Garcia</h3>
+                    <p>Desarrollador del proyecto</p>
+                </article>
+                <article class="integrante">
+                    <div class="foto-integrante">
+                        <img src="../media/sinfoto.png" alt="">
+                    </div>
+
+                    <h3>Ana Paula Romero</h3>
+                    <p>Desarrollador del proyecto</p>
+                </article>
+            </div>
         </section>
     </main>
     <footer>
         <p>© 2026 PAWprints - La 25</p>
     </footer>
 </body>
+
 </html>
