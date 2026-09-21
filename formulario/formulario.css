@@ -1,0 +1,15 @@
+main { /*se pone main sin @media para tener un estilo base que sirve para el mobil*/
+    display: grid;
+    gap: 1.5rem;/*es el espacio que hay entre el form y el aside*/
+    grid-template-columns: minmax(0,1fr);/*una sola columna para la pantalla y permite que la columna se achique*/
+}
+main > h1 {
+    font-family: var(--fuente-titulo);/*font-family elige la tipografia del titulo*/
+    color: var(--color-violeta);/*color del titulo*/
+    font-size:1.5rem;/*tamanio de la letra, es relativo al rem que es 16px, seria 24px en este caso*/
+    font-weight: 600;/*el grosor de la letra donde 400 es normal y 700 es negrita. En este caso se considera Semibold*/
+}
+
+main > form > fieldset {
+    
+}

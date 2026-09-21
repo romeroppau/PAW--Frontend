@@ -4,113 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWPrints</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="formulario.css">
 </head>
 <body>
-     <header>
+    <header>
         <img src="../media/logo.png" alt="logo" width="100" height="100">
-        <nav>
-            <a href="../index.html">Home</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../catalogo/catalogo.html">catalogo</a>
-            <a href="../promociones/promociones.html">Promociones</a>
-            <a href="../nosotros/nosotros.html">Nosotros</a>
-            <a href="../contacto/contacto.html">Contacto</a>
-        </nav>
-                <form role="search">
+        <form role="search">
             <label for="buscar">Buscar libro</label>
             <input type="search" id="buscar" name="buscar">
             <button type="submit">Buscar</button>
         </form>
-
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../catalogo/catalogo.html">Catalogo</a>
+            <a href="../promociones/promociones.html">Promociones</a>
+            <a href="../nosotros/nosotros.html">Nosotros</a>
+            <a href="../contacto/contacto.html">Contacto</a>
+        </nav>
     </header>
     <main>
-        <section id="reserva">
-            <h1>Reserva de libro</h1>
-            <p>Completá el formulario para reservar tu ejemplar y retirarlo en el local.</p>
-            <form action="#" method="post">
-                <label for="nombre">Nombre completo:</label>
-                
-                <input type="text"
-                       id="nombre"
-                       name="nombre"
-                       placeholder="Juan Pérez"
-                       required>
-         
-
-                <label for="email">Email:</label>
-             
-                <input type="email"
-                       id="email"
-                       name="email"
-                       placeholder="juan.perez@mail.com"
-                       required>
-               
-
-                <label for="telefono">Teléfono:</label>
-                
-                <input type="tel"
-                       id="telefono"
-                       name="telefono"
-                       placeholder="02323-123456"
-                       required>
-              
-                <label for="libro">Libro a reservar:</label>
-              
-                <select id="libro" name="libro" required>
-                    <option value="" selected disabled>Seleccioná un libro</option>
-                    <option value="monje-ferrari">El monje que vendió su Ferrari</option>
-                    <option value="revolucion-abundancia">La revolución de la abundancia</option>
-                    <option value="sutil-arte">El sutil arte de que casi todo te importe una mierda</option>
-                    <option value="poder-ahora">El poder del ahora</option>
+        <h1>Formulario de pago</h1>
+       <form action="compra-carrito.php" method="post"> 
+        <fieldset>
+            <legend>1. Datos personales</legend>
+            <label for="nombre">Nombre</label>
+            <input type="text" placeholder="Juan" id="nombre" name="nombre">
+            <label for="apellido">Apellido</label>
+            <input type="text" placeholder="Perez" id="apellido" name="apellido">
+            <label for="documento">Documento</label>
+            <input type="text" id="documento" name="documento" inputmode="numeric" pattern="[0-9]{7,8}" maxlength="8">
+        </fieldset>
+        <fieldset>
+            <legend>2. Lugar de envio</legend>
+            <label for="envio-domicilio">Envio a domicilio</label>
+            <input type="radio" id="envio-domicilio" name="envio" value="domicilio">
+            <fieldset>
+                <legend>Datos del envio</legend>
+                <label for="nombre-completo">Nombre completo destinatario</label>
+                <input type="text" id="nombre-completo" name="nombre-completo" placeholder="Juan Jose Perez">
+                <label for="direccion">Direccion</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Av. Siempre Viva 1234">
+                <label for="pais">País</label>
+                <select id="pais" name="pais">
+                    <option value="" selected disabled>Seleccioná un país</option>
+                    <option value="ar">Argentina</option>
                 </select>
-           
-
-                <label for="cantidad">Cantidad de ejemplares:</label>
-            
-                <input type="number"
-                       id="cantidad"
-                       name="cantidad"
-                       min="1"
-                       max="5"
-                       step="1"
-                       value="1"
-                       required>
-               
-                <label for="fecha-retiro">Fecha de retiro:</label>
-                
-                <input type="date"
-                       id="fecha-retiro"
-                       name="fecha-retiro"
-                       min="2026-09-08"
-                       required>
-           
-
-                <fieldset>
-                    <legend>Forma de entrega:</legend>
-                    <input type="radio" id="entrega-local" name="entrega" value="local" checked>
-                    <label for="entrega-local">Retiro en el local</label>
-                  
-                    <input type="radio" id="entrega-domicilio" name="entrega" value="domicilio">
-                    <label for="entrega-domicilio">Envío a domicilio</label>
-                </fieldset>
-              
-
-                <label for="comentarios">Comentarios (opcional):</label>
-          
-                <textarea id="comentarios"
-                          name="comentarios"
-                          rows="4"
-                          cols="40"
-                          maxlength="300"></textarea>
-             
-
-                <input type="checkbox" id="terminos" name="terminos" required>
-                <label for="terminos">Acepto los términos y condiciones de reserva</label>
-               
-
-                <button type="submit">Reservar libro</button>
-            </form>
-        </section>
+                <label for="codigo-postal">Codigo postal</label>
+                <input type="text" id="codigo-postal" name="codigo-postal" inputmode="numeric" autocomplete="postal-code" maxlength="8">
+                <label for="provincia">Provincia</label>
+                <select id="provincia" name="provincia">
+                    <option value="" selected disabled>Seleccioná una provincia</option>
+                    <option value="buenos-aires">Buenos Aires</option>
+                    <option value="caba">Ciudad Autónoma de Buenos Aires</option>
+                    <option value="catamarca">Catamarca</option>
+                    <option value="chaco">Chaco</option>
+                    <option value="chubut">Chubut</option>
+                    <option value="cordoba">Córdoba</option>
+                    <option value="corrientes">Corrientes</option>
+                    <option value="entre-rios">Entre Ríos</option>
+                    <option value="formosa">Formosa</option>
+                    <option value="jujuy">Jujuy</option>
+                    <option value="la-pampa">La Pampa</option>
+                    <option value="la-rioja">La Rioja</option>
+                    <option value="mendoza">Mendoza</option>
+                    <option value="misiones">Misiones</option>
+                    <option value="neuquen">Neuquén</option>
+                    <option value="rio-negro">Río Negro</option>
+                    <option value="salta">Salta</option>
+                    <option value="san-juan">San Juan</option>
+                    <option value="san-luis">San Luis</option>
+                    <option value="santa-cruz">Santa Cruz</option>
+                    <option value="santa-fe">Santa Fe</option>
+                    <option value="santiago-del-estero">Santiago del Estero</option>
+                    <option value="tierra-del-fuego">Tierra del Fuego</option>
+                    <option value="tucuman">Tucumán</option>
+                </select>
+                <label for="ciudad">Ciudad</label>
+                <input type="text" name="ciudad" id="ciudad">
+                <label for="telefono">Telefono</label>
+                <input type="tel" name="telefono" id="telefono">
+            </fieldset>
+            <label for="retiro-sucursal">Retiro en sucursal</label>
+            <input type="radio" id="retiro-sucursal" name="envio" value="retiro-sucursal">
+        </fieldset>
+        <fieldset>
+            <legend>3. Facturacion</legend>
+            <label for="tarjeta-credito">Tarjeta de credito</label>
+            <input type="radio" id="tarjeta-credito" name="pago" value="tarjeta-credito">
+            <fieldset>
+                <legend>Datos de la tarjeta</legend>
+                <label for="numero-tarjeta">Numero de tarjeta</label>
+                <input type="text" id="numero-tarjeta" name="numero-tarjeta" inputmode="numeric" autocomplete="cc-number" pattern="[0-9 ]{13,19}" maxlength="19" placeholder="1234 5678 9012 3456">
+                <label for="nombre-tarjeta">Nombre del titular</label>
+                <input type="text" id="nombre-tarjeta" name="nombre-tarjeta">
+                <label for="vencimiento-tarjeta">Fecha de vencimiento</label>
+                <input type="month" id="vencimiento-tarjeta" name="vencimiento-tarjeta" autocomplete="cc-exp">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" inputmode="numeric" autocomplete="cc-csc" pattern="[0-9]{3,4}" maxlength="4">
+            </fieldset>
+            <label for="mercado-pago">Mercado pago</label>
+            <input type="radio" id="mercado-pago" name="pago" value="mercado-pago">
+        </fieldset>
+        <button type="submit">Finalizar compra</button>
+       </form>
+       <aside>
+            <h2>Resumen de compra</h2>
+            <dl>
+               <dt>Subtotal</dt>
+                <dd>$0</dd>
+                <dt>Envío</dt>
+                <dd>$0</dd>
+                <dt>Total</dt>
+                <dd>$0</dd> 
+            </dl>
+       </aside>
     </main>
     <footer>
         <p>© 2026 PAWprints - La 25</p>
