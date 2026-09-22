@@ -1,5 +1,5 @@
-# PAW--Frontend--TP1
-# PAWPrints — Trabajo Práctico 1 - PAW 2026 - UNLu
+# PAW--Frontend--TP2
+# PAWPrints — Trabajo Práctico 2 - PAW 2026 - UNLu
 
 ## Introducción
 
@@ -7,14 +7,15 @@ Este repositorio contiene el desarrollo del **Trabajo Práctico N.º 1** de la a
 
 El proyecto consiste en el desarrollo incremental de un sitio web para una librería ficticia denominada **PAWPrints**, desarrollado por el grupo **La 25**.
 
-En esta primera etapa se trabajó sobre la estructura y maquetación del sitio utilizando exclusivamente **HTML5**, sin implementar funcionalidades del lado del cliente ni del servidor.
+En la primera etapa se trabajó sobre la estructura y maquetación del sitio utilizando exclusivamente **HTML5**, sin implementar funcionalidades del lado del cliente ni del servidor.
+En esta segunda etapa se trabajó sobre los estilos del mismo.
 
 ---
 
 
 ---
 
-## Objetivos
+## Objetivos TP1
 
 El objetivo principal de este trabajo es aplicar los conceptos fundamentales de **maquetación y estructuración semántica de sitios web mediante HTML5**.
 
@@ -25,6 +26,10 @@ En particular, se buscó:
 * Implementar las páginas utilizando exclusivamente **HTML5**.
 * Utilizar correctamente los **elementos semánticos de HTML5**.
 * Implementar un **formulario de reserva de libros**, utilizando tipos de campos y atributos adecuados para facilitar la validación.
+
+## Objetivos TP2
+Tomando de base las maquetaciones presentadas, el ejercicio consiste en agregar el contenido CSS necesario para lograr que el maquetado se vea tal como se diseñaron los Wireframes. En caso de ser necesario, ajustar las características de los mismos para que se adapten al manual de identidad corporativa..
+Tener en cuenta, asimismo, generar el código necesario para que las pantallas se adapten a las versiones mobile, desktop y de impresión.
 
 ---
 
@@ -45,7 +50,10 @@ El sitio permite a los usuarios:
 * Consultar los medios de contacto y redes sociales.
 * Solicitar la reserva de un libro mediante un formulario.
 
-La funcionalidad de procesamiento de reservas no se encuentra implementada en esta etapa, ya que el objetivo del trabajo se centra exclusivamente en la **maquetación mediante HTML5**.
+La funcionalidad de procesamiento de reservas no se encuentra implementada en esta etapa, ya que el objetivo del trabajo se centra exclusivamente en la **maquetación mediante HTML5 + CSS**.
+
+TP2:
+El proyecto organiza los estilos en tres niveles. El reset.css establece una base común para normalizar los elementos HTML y evitar diferencias entre navegadores. El style.css contiene los estilos generales y compartidos por todo el sitio, como el header, navegación, footer, colores y estética general. Finalmente, cada página cuenta con su propio archivo CSS, como catalogo.css, promociones.css, nosotros.css, contacto.css y formulario.css, donde se definen los estilos específicos de cada sección sin repetir los estilos generales. De esta manera, se mantiene una estructura ordenada, se evita duplicar código y resulta más sencillo modificar o mantener el diseño del sitio. 
 
 ---
 
@@ -151,7 +159,8 @@ PAWPrints/
 │   └── imágenes y recursos multimedia
 │
 ├── css/
-│   └── recursos de estilos para futuras etapas
+│   └── reset.css
+    ├── style.css
 │
 └── js/
     └── recursos de JavaScript para futuras etapas
