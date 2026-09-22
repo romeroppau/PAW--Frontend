@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de compras - PAWPrints</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="carrito.css">
 </head>
 <body>
     <header>
@@ -15,8 +16,6 @@
             <a href="../promociones/promociones.html">Promociones</a>
             <a href="../nosotros/nosotros.html">Nosotros</a>
             <a href="../contacto/contacto.html">Contacto</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
         </nav>
         <form role="search">
             <label for="buscar">Buscar libro</label>
@@ -26,56 +25,58 @@
     </header>
 
     <main>
-        <div class="carrito-wrapper">
-            <section class="seccion-carrito" aria-labelledby="carrito-heading">
-                <h2 id="carrito-heading">Carrito de compras</h2>
-
-                <article>
-                    <figure>
-                        <img src="../media/libros/sutil-arte.jpg" alt="Portada de El sutil arte de que casi todo te importe una mierda">
-                    </figure>
-                    <h3>El sutil arte de que casi todo te importe una mierda — Mark Manson</h3>
-                    <p>Precio: <data value="25000">$25.000</data></p>
-                    <form>
-                        <label for="cantidad-1">Cantidad</label>
-                        <input type="number" id="cantidad-1" name="cantidad-1" value="1" min="1">
-                    </form>
-                    <button type="button">Eliminar</button>
-                </article>
-
-                <article>
-                    <figure>
-                        <img src="../media/libros/revolucion-abundancia.jpg" alt="Portada de La revolución de la abundancia">
-                    </figure>
-                    <h3>La revolución de la abundancia — Ismael Cala</h3>
-                    <p>Precio: <data value="20999">$20.999</data></p>
-                    <form>
-                        <label for="cantidad-2">Cantidad</label>
-                        <input type="number" id="cantidad-2" name="cantidad-2" value="1" min="1">
-                    </form>
-                    <button type="button">Eliminar</button>
-                </article>
-            </section>
-
-            <section class="seccion-resumen" aria-labelledby="resumen-heading">
-                <h2 id="resumen-heading">Resumen de compra</h2>
-                <dl>
-                    <dt>Subtotal</dt>
-                    <dd>$45.999</dd>
-                    <dt>Envio</dt>
-                    <dd>$2.500</dd>
-                    <dt>total</dt>
-                    <dd>$48.499</dd>
-                </dl>
-                <form>
-                    <label for="fecha-entrega">Fecha de entrega estimada</label>
-                    <input type="date" id="fecha-entrega" name="fecha-entrega">
+        <section class="seccion-carrito" aria-labelledby="carrito-heading">
+            <h1 id="carrito-heading">Carrito de compras</h1>
+            <article>
+                <figure>
+                    <img src="../media/libros/sutil-arte.jpg" alt="Portada de 'El sutil arte de que casi todo te importe una mierda'">
+                </figure>
+                <h3>El sutil arte de que casi todo te importe una mierda — Mark Manson</h3>
+                <p>Precio: <data value="25000">$25.000</data></p>
+                <form action="actualizar-carrito.php" method="post">
+                    <input type="hidden" name="libro_id" value="sutil arte">
+                    <label for="cantidad-1">Cantidad</label>
+                    <input type="number" id="cantidad-1" name="cantidad" value="1" min="1">
+                    <button type="submit">Actualizar</button>
                 </form>
-                <button type="submit">Finalizar compra</button>
-            </section>
-        </div>
-    </main>
+                <form action="eliminar-item.php" method="post">
+                    <input type="hidden" name="libro_id" value="sutil-arte">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </article>
 
+            <article>
+                <figure>
+                    <img src="../media/libros/revolucion-abundancia.jpg" alt="Portada de La revolución de la abundancia">
+                </figure>
+                <h3>La revolución de la abundancia — Ismael Cala</h3>
+                <p>Precio: <data value="20999">$20.999</data></p>
+                <form action="actualizar-carrito.php" method="post">
+                    <input type="hidden" name="libro_id" value="revolucion-abundancia">
+                    <label for="cantidad-2">Cantidad</label>
+                    <input type="number" id="cantidad-2" name="cantidad" value="1" min="1">
+                    <button type="submit">Actualizar</button>
+                </form>
+                <form action="eliminar-item.php" method="post">
+                    <input type="hidden" name="libro_id" value="revolucion-abundancia">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="seccion-resumen" aria-labelledby="resumen-heading">
+            <h2 id="resumen-heading">Resumen de compra</h2>
+            <dl>
+                <dt>Subtotal</dt>
+                <dd>$45.999</dd>
+                <dt>Envio</dt>
+                <dd>$2.500</dd>
+                <dt>total</dt>
+                <dd>$48.499</dd>
+            </dl>
+            <a href="../formulario/formulario.html">Finalizar compra</a>
+        </section>
+    </main>
     <footer>
         <p>© 2026 PAWprints - La 25</p>
     </footer>
