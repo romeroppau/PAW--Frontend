@@ -37,7 +37,7 @@
         </fieldset>
         <fieldset>
             <legend>2. Lugar de envio</legend>
-            <label for="envio-domicilio">Envio a domicilio</label>
+            <label class="label-radio" for="envio-domicilio">Envio a domicilio</label>
             <input type="radio" id="envio-domicilio" name="envio" value="domicilio">
             <fieldset>
                 <legend>Datos del envio</legend>
@@ -85,12 +85,12 @@
                 <label for="telefono">Telefono</label>
                 <input type="tel" name="telefono" id="telefono">
             </fieldset>
-            <label for="retiro-sucursal">Retiro en sucursal</label>
+            <label class="label-radio" for="retiro-sucursal">Retiro en sucursal</label>
             <input type="radio" id="retiro-sucursal" name="envio" value="retiro-sucursal">
         </fieldset>
         <fieldset>
             <legend>3. Facturacion</legend>
-            <label for="tarjeta-credito">Tarjeta de credito</label>
+            <label class="label-radio" for="tarjeta-credito">Tarjeta de credito</label>
             <input type="radio" id="tarjeta-credito" name="pago" value="tarjeta-credito">
             <fieldset>
                 <legend>Datos de la tarjeta</legend>
@@ -103,7 +103,7 @@
                 <label for="cvv">CVV</label>
                 <input type="text" id="cvv" name="cvv" inputmode="numeric" autocomplete="cc-csc" pattern="[0-9]{3,4}" maxlength="4">
             </fieldset>
-            <label for="mercado-pago">Mercado pago</label>
+            <label class="label-radio" for="mercado-pago">Mercado pago</label>
             <input type="radio" id="mercado-pago" name="pago" value="mercado-pago">
         </fieldset>
         <button type="submit">Finalizar compra</button>
