@@ -111,7 +111,7 @@ main input[type="radio"] {
     width: 1rem;
     height: 1rem;/*es el alto del input radio, se pone el alto ya que el 
     input radio no tiene padding como los demas.*/
-    margin-right: 0.4rem;/*sin esto el circulo para marcar la opcion queda muy pegado al label*/
+    margin-right: 0.4rem;/*sin esto, el circulo para marcar la opcion queda muy pegado al label*/
     vertical-align: middle;/*alinea verticalmente el circulo para marcar la opcion para que quede alineado al label*/
 }
 
@@ -140,7 +140,7 @@ main > aside {
     border: 2px solid var(--color-borde);
     border-radius: var(--radio);
     padding: 1.5rem;
-    box-shadow: var(--sombra);
+    box-shadow: var(--sombra);/*genera una sombra apenas visible debajo de la caja*/
 }
 
 main > aside h2 {
@@ -173,8 +173,12 @@ main > aside dd {
 /* ── Desktop: form y aside en 2 columnas ── */
 @media (min-width: 768px) {
     main {
-        grid-template-columns: 1fr 300px;
-        align-items: start;
+        grid-template-columns: 2fr 1fr;
+        align-items: start;/*align-items controla como se alinean los hijos del main
+        en el eje vertical. El valor por defecto de align-items (stretch) hace que todos los 
+        hijos tengan el mismo altoa por lo que el form y el aside tendrian el mismo alto.
+        Poniendo el valor "start" se le dice a cada hijo: "ocupá solo el alto de tu propio contenido, 
+        y alineate arriba de tu celda, sin estirarte".*/
     }
 
     main > h1 {
@@ -187,8 +191,11 @@ main > aside dd {
 
     main > aside {
         grid-column: 2;
-        position: sticky;
-        top: 5rem; /* queda fijo mientras scrolleás el form */
-        align-self: start;
+        position: sticky;/*hace que mientras el usuario completa el <form> (que es largo) 
+        y hace scroll hacia abajo, el <aside> con el resumen de compra se queda
+        fijo en pantalla, en vez de desaparecer hacia arriba. Esto es con el 
+        fin de que el usuario mientras completa el formulario pueda ver su resumen
+        de compra*/
+        top: 5rem; /* el aside "queda pegado" a 5rem del borde superior de la ventana */
     }
 }

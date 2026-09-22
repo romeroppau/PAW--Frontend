@@ -1,0 +1,296 @@
+/* ── PÁGINA DE CONTACTO ──────────────────────────────── */
+
+/* main se dejó en su display: block por defecto (el que ya le da el reset):
+como todo va apilado en una sola columna siempre, alcanza con el flujo normal
+del documento, sin necesitar flex ni grid acá. El espacio entre secciones
+pasa a ser, otra vez, el margin-bottom: 3.5rem que ya trae "main > section"
+en style.css (antes lo poníamos en 0 porque el gap de acá se encargaba, pero
+ya no hay gap que lo reemplace) */
+
+/* ── Encabezados de sección (h2) compartidos ── */
+main section h2 {
+    font-family: var(--fuente-titulo);
+    color: var(--color-violeta);
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding-bottom: 0;
+}
+
+/* style.css le agrega a todo h2 dentro de una section un subrayado turquesa
+(::after). El turquesa es de una paleta anterior y no forma parte del manual
+violeta/blanco, así que se lo ocultamos en esta página con display:none */
+main section h2::after {
+    display: none;
+}
+
+/* ── Presentación (hero) ── */
+.contacto-presentacion {
+    background-color: var(--color-violeta); /*el manual permite usar el violeta
+    como color de fondo de una sección completa, no solo como color de texto*/
+    color: var(--color-blanco);
+    text-align: center; /*centra todo el texto de la sección (h1 y p heredan esto)*/
+    padding: 2.5rem 1.5rem;
+    border-radius: var(--radio);
+}
+
+.contacto-presentacion h1 {
+    font-family: var(--fuente-titulo);
+    font-size: 1.8rem;
+    font-weight: 600; /*Semibold, el peso principal para títulos según el manual*/
+    margin-bottom: 0.75rem;
+}
+
+.contacto-presentacion p {
+    font-family: var(--fuente-cuerpo);
+    font-weight: 300; /*Light, el peso principal para texto de cuerpo según el manual*/
+    font-size: 1rem;
+    max-width: 40rem;
+    margin: 0 auto; /*con "auto" en los márgenes izquierdo y derecho, el navegador
+    reparte el espacio sobrante en partes iguales a los costados, y el bloque
+    (que ya tiene un ancho limitado por max-width) queda centrado*/
+}
+
+/* ── Información de contacto (tarjetas) ── */
+/* antes esto estaba en un div.tarjetas-contacto aparte; al sacarlo, la propia
+section pasa a ser el contenedor grid de las tarjetas */
+.informacion-contacto {
+    display: grid;
+    grid-template-columns: 1fr; /*mobile: 1 sola columna*/
+    gap: 1.5rem;
+}
+
+/* desktop: 3 columnas iguales, que entre las 3 siempre suman el 100% del
+ancho disponible (a diferencia de auto-fit, acá no depende de que el
+navegador calcule cuántas columnas "entran": son siempre 3, fijas) */
+@media (min-width: 768px) {
+    .informacion-contacto {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* el h2 "Encontranos" ahora es un ítem más del grid de arriba (junto con los 3
+article), así que sin esto quedaría metido en la primera columna, a la misma
+altura que la primera tarjeta. grid-column: 1 / -1 lo hace ocupar todas las
+columnas (el mismo recurso que usa main > h1 en formulario.css) */
+.informacion-contacto>h2 {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.informacion-contacto article {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /*centra los hijos en el eje horizontal (cross axis)*/
+    text-align: center;
+    gap: 0.5rem;
+    background-color: var(--color-fondo);
+    border: 1.5px solid var(--color-borde);
+    border-radius: var(--radio);
+    padding: 1.5rem;
+    box-shadow: var(--sombra);
+    transition: transform var(--transicion); /*"transition" avisa que, cuando cambie
+    la propiedad "transform", el cambio no sea instantáneo sino animado durante
+    el tiempo que indica --transicion (.22s). Sin esto, el hover de abajo
+    "saltaría" de golpe en vez de deslizarse*/
+}
+
+.informacion-contacto article:hover {
+    transform: translateY(-4px); /*desplaza la tarjeta 4px hacia arriba. A diferencia
+    de un margin, "transform" no empuja a los elementos vecinos: es un efecto
+    puramente visual, y por eso es lo que se usa para animaciones de hover*/
+}
+
+.icono-contacto {
+    display: flex;
+    align-items: center;
+    justify-content: center; /*en flex, align-items centra en el eje cruzado (acá,
+    vertical) y justify-content centra en el eje principal (acá, horizontal).
+    Juntas centran el símbolo perfecto adentro del círculo*/
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%; /*con la misma medida de ancho y alto, un border-radius del
+    50% convierte el cuadrado en un círculo perfecto*/
+    background-color: rgba(92, 6, 140, .08); /*un violeta bien translúcido (8% de
+    opacidad). Se usa rgba() en vez de --color-suave, porque esa variable es un
+    celeste heredado de la paleta anterior y no del manual violeta/blanco*/
+    color: var(--color-violeta);
+    font-size: 1.4rem;
+}
+
+.informacion-contacto article h3 {
+    font-family: var(--fuente-titulo);
+    color: var(--color-texto);
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.informacion-contacto article address {
+    font-style: normal; /*el navegador pone en itálica el contenido de <address>
+    por defecto; con "normal" se cancela ese estilo*/
+    color: var(--color-texto);
+    font-size: 0.9rem;
+}
+
+.informacion-contacto article p {
+    color: var(--color-texto);
+    font-size: 0.9rem;
+}
+
+.informacion-contacto article a {
+    margin-top: 0.25rem;
+    color: var(--color-violeta);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: underline; /*el reset le saca el subrayado a todos los links
+    del sitio; acá se lo devolvemos a propósito, para que se note que es una
+    acción distinta del título*/
+}
+
+.informacion-contacto article a:hover {
+    color: var(--color-acento);
+}
+
+/* ── ¿Tenés alguna consulta? (texto + formulario) ── */
+/* también en su display: block por defecto, por la misma razón que main */
+
+/* el <span class="numero-consulta"> ya no está en el HTML (se sacó el "01"
+decorativo), así que la regla que lo estilizaba se elimina: un CSS que apunta
+a algo que no existe en el HTML no rompe nada, pero es código muerto */
+
+.consulta-contacto>h2 {
+    margin-bottom: 0.75rem;
+}
+
+/* :not(.frase-contacto) excluye a la cita del estilo genérico de párrafo.
+Sin esto, esta regla y la de .frase-contacto (más abajo) compiten por el
+color y el tamaño de letra, y como las dos tienen la misma especificidad
+(una clase), termina ganando la que esté escrita más abajo en el archivo,
+que es justo la que NO queremos que gane */
+.consulta-contacto>p:not(.frase-contacto) {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.frase-contacto {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-violeta);
+    border-left: 3px solid var(--color-violeta); /*a diferencia de "border", que dibuja
+    los 4 lados, border-left dibuja un borde solo del lado izquierdo. Es el
+    recurso típico para marcar visualmente una cita*/
+    padding-left: 1rem;
+    margin-bottom: 1rem; /*antes esta separación la daba la regla genérica de
+    párrafo, pero ahora esta clase queda afuera de esa regla (ver :not() de arriba)*/
+}
+
+/* ya no tiene "gap": con los <div class="campo"> el gap separaba cada grupo
+label+input entre sí, y el margin-bottom del label separaba el label de su
+propio input. Sin el div, gap trataría a CADA hijo por igual (separaría
+también el label de su input), así que la separación entre campos pasa a
+darla el margin-bottom del input/textarea, más abajo */
+.consulta-contacto form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* antes cada label estaba envuelto en un div.campo; al sacarlo, el label
+(que ya es block gracias a la regla de abajo) alcanza para que cada campo
+quede en su propia línea, sin necesitar el div */
+.consulta-contacto form label {
+    display: block;
+    font-family: var(--fuente-titulo);
+    color: var(--color-texto);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+}
+
+.consulta-contacto form input,
+.consulta-contacto form textarea {
+    border: 1.5px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    font-family: var(--fuente-cuerpo);
+    font-size: 0.9rem;
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    margin-bottom: 1rem; /*separa este campo del label que viene después*/
+}
+
+.consulta-contacto form textarea {
+    resize: vertical; /*por defecto un textarea se puede estirar en cualquier
+    dirección, lo que puede romper el layout. "vertical" solo permite agrandarlo
+    hacia abajo, nunca a lo ancho*/
+    min-height: 8rem;
+}
+
+.consulta-contacto form input:focus,
+.consulta-contacto form textarea:focus {
+    outline: none;
+    border-color: var(--color-violeta);
+}
+
+.consulta-contacto form button[type="submit"] {
+    align-self: center; /*.consulta-contacto form es un flex column, y por defecto
+    (align-items: stretch) todos sus hijos se estiran a lo ancho. align-self acá
+    anula ese comportamiento solo para el botón, para que mida lo que necesita su
+    texto y quede centrado, en vez de ocupar todo el ancho*/
+    background-color: var(--color-violeta);
+    color: var(--color-blanco);
+    font-family: var(--fuente-titulo);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radio);
+}
+
+.consulta-contacto form button[type="submit"]:hover {
+    background-color: var(--color-acento);
+}
+
+/* ── Seguinos (redes) ── */
+.redes {
+    text-align: center;
+}
+
+.redes h2 {
+    margin-bottom: 0.5rem;
+}
+
+.redes p {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+/* antes esto vivía en un div.redes-links con flex. Al sacar el div, los dos
+<a> quedan sueltos en el flujo normal de texto dentro de .redes (que ya
+tiene text-align: center), así que ni siquiera hace falta flex para
+centrarlos: alcanza con display: inline-block + margin en el link mismo */
+.red-social {
+    display: inline-block; /*un <a> es inline por defecto. Como inline, el padding
+    y el border se ven pero no reservan bien el espacio vertical entre líneas, lo
+    que puede hacer que la "píldora" se vea recortada si el link llega a envolver
+    a otra línea. inline-block soluciona eso, sin dejar de fluir junto a otros
+    elementos en línea (a diferencia de "block", que ocuparía su propia línea)*/
+    margin: 0.35rem 0.5rem; /*separación entre los dos links, y entre líneas si
+    en una pantalla angosta no entran en una sola fila*/
+    border: 1.5px solid var(--color-violeta);
+    color: var(--color-violeta);
+    font-family: var(--fuente-titulo);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radio);
+    transition: background-color var(--transicion), color var(--transicion);
+}
+
+.red-social:hover {
+    background-color: var(--color-violeta);
+    color: var(--color-blanco);
+}
+
+/* la sección de la consulta quedó apilada en una sola columna siempre (mobile
+y desktop por igual), así que ya no hace falta ningún @media acá */

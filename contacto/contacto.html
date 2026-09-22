@@ -17,13 +17,10 @@
             <a href="../catalogo/catalogo.html">Catálogo</a>
             <a href="../promociones/promociones.html">Promociones</a>
             <a href="../nosotros/nosotros.html">Nosotros</a>
-            <a href="../contacto/contacto.html">Contacto</a>
-            <a href="../formulario/formulario.html">Formulario</a>
+            <a href="../carrito/carrito.html">Carrito</a>
         </nav>
-
     </header>
-    <main class="contacto-main">
-
+    <main>
         <section class="contacto-presentacion">
             <h1>Hablemos</h1>
             <p>
@@ -34,73 +31,61 @@
 
         <section class="informacion-contacto">
             <h2>Encontranos</h2>
-            <div class="tarjetas-contacto">
-                <article class="tarjeta-contacto">
-                    <div class="icono-contacto">⌖</div>
-                    <h3>Visitá nuestra librería</h3>
-                    <address>
-                        Av. Principal 123, Luján
-                    </address>
+            <article>
+                <span class="icono-contacto" aria-hidden="true">⌖</span><!--No hay tags para los iconos
+                lo que mas representa semanticamente a un icono es <span> 
+                que es el contenedor generico para lineas. Se 
+                incluye el atributo aria-hidden="true" para que
+                los lectores de pantalla ignoren el icono 
+                y no lea "signo de posicion" o algo raro-->
+                <h3>Visitá nuestra librería</h3>
+                <address>
+                    Av. Principal 123, Luján
+                </address>
 
-                    <a href="#">
-                        Ver ubicación
-                    </a>
-                </article>
-                <article class="tarjeta-contacto">
-                    <div class="icono-contacto">☎</div>
-                    <h3>Hablemos</h3>
-                    <p>
-                        02323-123456
-                    </p>
-                    <a href="tel:02323123456">
-                        Llamanos
-                    </a>
-                </article>
-                <article class="tarjeta-contacto">
-                    <div class="icono-contacto">@</div>
-                    <h3>Escribinos</h3>
-                    <p>
-                        contacto@pawprints.com
-                    </p>
+                <a href="#">
+                    Ver ubicación
+                </a>
+            </article>
+            <article>
+                <span class="icono-contacto" aria-hidden="true">☎</span>
+                <h3>Hablemos</h3>
+                <p>
+                    02323-123456
+                </p>
+                <a href="tel:02323123456">
+                    Llamanos
+                </a>
+            </article>
+            <article>
+                <span class="icono-contacto" aria-hidden="true">@</span>
+                <h3>Escribinos</h3>
+                <p>
+                    contacto@pawprints.com
+                </p>
 
-                    <a href="mailto:contacto@pawprints.com">
-                        Enviar email
-                    </a>
-                </article>
-            </div>
+                <a href="mailto:contacto@pawprints.com">
+                    Enviar email
+                </a>
+            </article>
         </section>
 
         <section class="consulta-contacto">
-            <div class="texto-consulta">
-                <span class="numero-consulta">01</span>
-                <h2>¿Tenés alguna consulta?</h2>
-                <p>
-                    Completá el formulario y dejanos tu mensaje.
-                    Nos encanta conocer a nuestros lectores.
-                </p>
-
-                <p class="frase-contacto">
-                    “Cada buena historia comienza con una conversación.”
-                </p>
-            </div>
-            <form class="formulario-contacto" action="#" method="post">
-                <div class="campo">
-                    <label for="nombre">Nombre</label>
-
-                    <input type="text" id="nombre" name="nombre" maxlength="15" minlength="2" placeholder="Tu nombre"
-                        required>
-                </div>
-                <div class="campo">
-                    <label for="email">Email</label>
-
-                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
-                </div>
-                <div class="campo">
-                    <label for="mensaje">Mensaje</label>
-
-                    <textarea id="mensaje" name="mensaje" rows="6" placeholder="Escribí tu consulta..."
-                        required></textarea>
-                </div>
+            <h2>¿Tenés alguna consulta?</h2>
+            <p class="frase-contacto">
+                “Cada buena historia comienza con una conversación.”
+            </p>
+            <p>
+                Completá el formulario y dejanos tu mensaje.
+                Nos encanta conocer a nuestros lectores.
+            </p>
+            <form action="#" method="post">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" maxlength="15" minlength="2" placeholder="Tu nombre">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="tu@email.com">
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="6" placeholder="Escribí tu consulta..."></textarea>
                 <button type="submit">
                     Enviar consulta
                 </button>
@@ -112,19 +97,16 @@
             <p>
                 Encontrá nuestras novedades, recomendaciones y próximos lanzamientos.
             </p>
-            <div class="redes-links">
-                <a href="#" class="red-social">
-                    Instagram
-                </a>
-                <a href="#" class="red-social">
-                    Facebook
-                </a>
-            </div>
+            <a href="#" class="red-social">
+                Instagram
+            </a>
+            <a href="#" class="red-social">
+                Facebook
+            </a>
         </section>
     </main>
     <footer>
         <p>© 2026 PAWprints - La 25</p>
     </footer>
 </body>
-
 </html>
