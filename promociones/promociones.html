@@ -12,32 +12,27 @@
 
 <body>
     <header>
-        <h1>PAWPrints</h1>
-        <img src="../media/logo.png" alt="logo" width="100" height="100">
-
-        <nav>
-            <a href="../index.html">Home</a>
-            <a href="../catalogo/catalogo.html">Catálogo</a>
-            <a href="../promociones/promociones.html">Promociones</a>
-            <a href="../nosotros/nosotros.html">Nosotros</a>
-            <a href="../contacto/contacto.html">Contacto</a>
-            <a href="../formulario/formulario.html">Formulario</a>
-            <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
-
-        </nav>
-
-    </header>
-
-    <section class="busqueda">
-        <form class="buscador">
-            <label for="buscar-libro">Buscar libro:</label>
-
-            <div class="buscador-control">
-                <input type="search" id="buscar-libro" name="buscar-libro" placeholder="Inserte el nombre">
-                <button type="submit">Buscar</button>
+        <a href="../index.html"><img src="../media/logo.png" alt="PAWprints - Inicio" width="100" height="100"></a>
+        <nav class="nav-principal">
+            <div class="nav-grupo-izq">
+                <a href="../index.html">Inicio</a>
+                <a href="../catalogo/catalogo.html">Catálogo</a>
+                <a href="promociones.html">Promociones</a>
+                <a href="../nosotros/nosotros.html">Nosotros</a>
+                <a href="../contacto/contacto.html">Contacto</a>
             </div>
-        </form>
-    </section>
+            <form action="../catalogo/catalogo.html" method="GET" role="search">
+                <label for="buscar">Buscar</label>
+                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
+                <button type="submit">Buscar</button>
+            </form>
+            <div class="nav-grupo-der">
+                <a href="../inicioSesion/iniciarSesion.html">Iniciar sesión</a>
+                <a href="../registrarse/registrarse.html">Registrarse</a>
+                <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
+            </div>
+        </nav>
+    </header>
     <main class="promociones-main">
         <aside class="filtros" aria-label="Filtros de promociones">
             <form>

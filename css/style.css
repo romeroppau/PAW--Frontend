@@ -104,9 +104,18 @@ body > header > h1 {
 body > header nav {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
     gap: 1rem;
     flex-wrap: nowrap;
-    margin: 0 auto;
+    margin-left: 1.5rem;
+}
+
+.nav-grupo-izq,
+.nav-grupo-der {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 body > header nav a {
