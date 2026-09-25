@@ -4,11 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAWPrints - Venta de libros en línea</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="media/logo.png" alt="PAWprints - Inicio" width="100" height="100"></a>
+        <a href="index.html"><img src="../media/logo.png" alt="PAWprints - Inicio" width="100" height="100"></a>
+        <nav class="nav-principal">
+            <div class="nav-grupo-izq">
+                <a href="index.html">Inicio</a>
+                <a href="../catalogo/catalogo.html">Catálogo</a>
+                <a href="../promociones/promociones.html">Promociones</a>
+                <a href="../nosotros/nosotros.html">Nosotros</a>
+                <a href="../contacto/contacto.html">Contacto</a>
+            </div>
+            <form action="../catalogo/catalogo.html" method="GET" role="search">
+                <label for="buscar">Buscar</label>
+                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
+                <button type="submit">Buscar</button>
+            </form>
+            <div class="nav-grupo-der">
+                <a href="../inicioSesion/iniciarSesion.html">Iniciar sesión</a>
+                <a href="../registrarse/registrarse.html">Registrarse</a>
+                <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
+            </div>
+        </nav>
     </header>
     <main>
         <div class="hero-banner">
@@ -27,15 +47,15 @@
             <h2>Nuestros libros más vendidos del mes</h2>
             <div class="grid-mas-vendidos">
                 <article>
-                    <img src="media/librosmasvendidos/libro1.png" alt="Portada de La psicología del dinero" width="100" height="100">
+                    <img src="../media/librosmasvendidos/libro1.png" alt="Portada de La psicología del dinero" width="100" height="100">
                     <p>La psicología del dinero - Morgan Housel</p>
                 </article>
                 <article>
-                    <img src="media/librosmasvendidos/libro2.png" alt="Portada de La paciente silenciosa" width="100" height="100">
+                    <img src="../media/librosmasvendidos/libro2.png" alt="Portada de La paciente silenciosa" width="100" height="100">
                     <p>La paciente silenciosa - Alex Michaelides</p>
                 </article>    
                 <article>
-                    <img src="media/librosmasvendidos/libro3.png" alt="Portada de El principito" width="100" height="100">
+                    <img src="../media/librosmasvendidos/libro3.png" alt="Portada de El principito" width="100" height="100">
                     <p>El principito - Antoine de Saint-Exupéry</p>
                 </article>
             </div>
