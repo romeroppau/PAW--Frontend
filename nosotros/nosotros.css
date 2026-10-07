@@ -98,7 +98,7 @@
 
     border-radius: 50%;
 
-    background-color: #7200a8;
+    background-color: var(--color-violeta);
     color: white;
 
     font-weight: bold;
@@ -170,7 +170,7 @@
 
     width: 3px;
 
-    background-color: #7200a8;
+    background-color: var(--color-violeta);
 
     transform: translateX(-50%);
 }
@@ -321,7 +321,7 @@
     align-items: center;
     justify-content: center;
 
-    border: 3px solid #7200a8;
+    border: 3px solid var(--color-violeta);
 
     background-color: #18292e;
 

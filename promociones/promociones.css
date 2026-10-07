@@ -55,13 +55,13 @@
     width: 350px;
     padding: 10px 15px;
     border-radius: 20px;
-    border: 2px solid #7200a8;
+    border: 2px solid var(--color-violeta);
 }
 
 .buscador button {
     padding: 10px 20px;
     border-radius: 20px;
-    background-color: #7200a8;
+    background-color: var(--color-violeta);
     color: white;
     font-weight: bold;
 }
