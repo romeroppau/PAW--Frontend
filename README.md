@@ -82,9 +82,6 @@ Para el desarrollo de este Trabajo Práctico se utilizaron:
 * **HTML5** — estructura y maquetación del sitio.
 * **Figma** — diseño de wireframes low-fi.
 * **Git / GitHub** — control de versiones y trabajo colaborativo.
-
-No se utilizaron tecnologías de estilos ni funcionalidades de programación del lado del cliente o servidor, de acuerdo con los objetivos establecidos para esta etapa.
-
 ---
 
 
@@ -136,34 +133,80 @@ El formulario tiene carácter demostrativo y **no realiza el procesamiento efect
 La estructura general del proyecto se encuentra organizada de la siguiente manera:
 
 ```text
-PAWPrints/
+PAW--Frontend--TP1/
 │
-├── index.html
+├── .vscode/
+│
+├── carrito/
+│   ├── carrito.css
+│   └── carrito.html
 │
 ├── catalogo/
+│   ├── catalogo.css
 │   └── catalogo.html
 │
-├── libros/
-│   ├── monje-ferrari.html
-│   ├── revolucion-abundancia.html
-│   ├── sutil-arte.html
-│   └── poder-ahora.html
-│
-├── nosotros/
-│   └── nosotros.html
-│
 ├── contacto/
+│   ├── contacto.css
 │   └── contacto.html
 │
-├── media/
-│   └── imágenes y recursos multimedia
-│
 ├── css/
-│   └── reset.css
-    ├── style.css
+│   ├── reset.css
+│   └── style.css
 │
-└── js/
-    └── recursos de JavaScript para futuras etapas
+├── docs/
+│   └── wireframes/
+│       └── TP1 - PAW.png
+│   └── Sitemap-Libreria.png
+│   └── autores.txt
+│
+├── formulario/
+│   ├── formulario.css
+│   └── formulario.html
+│
+├── index/
+│   ├── index.css
+│   └── index.html
+│
+├── inicioSesion/
+│   ├── iniciarSesion.css
+│   └── iniciarSesion.html
+│
+├── libros/
+│   ├── libros.css
+│   ├── monje-ferrari.html
+│   ├── poder-ahora.html
+│   ├── revolucion-abundancia.html
+│   └── sutil-arte.html
+│
+├── media/
+│   ├── libros/
+│   │   ├── monje-ferrari.jpg
+│   │   ├── poder-ahora.jpg
+│   │   ├── revolucion-abundancia.jpg
+│   │   └── sutil-arte.jpg
+│   │
+│   ├── librosmasvendidos/
+│   │   ├── libro1.png
+│   │   ├── libro2.png
+│   │   └── libro3.png
+│   │
+│   ├── logo.png
+│   └── sinfoto.png
+│
+├── nosotros/
+│   ├── nosotros.css
+│   └── nosotros.html
+│
+├── promociones/
+│   ├── promociones.css
+│   └── promociones.html
+│
+├── registrarse/
+│   ├── registrarse.css
+│   └── registrarse.html
+│
+├── README.md
+└── VERSION
 ```
 
 La estructura se plantea de manera modular para facilitar la incorporación de nuevas funcionalidades en los próximos trabajos prácticos.
