@@ -13,7 +13,7 @@ main {
 
 main h1 {
     font-family: var(--fuente-titulo);
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 1.5rem;

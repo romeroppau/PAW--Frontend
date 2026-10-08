@@ -10,7 +10,7 @@ ya no hay gap que lo reemplace) */
 /* ── Encabezados de sección (h2) compartidos ── */
 main section h2 {
     font-family: var(--fuente-titulo);
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-size: 1.4rem;
     font-weight: 600;
     padding-bottom: 0;
@@ -114,7 +114,7 @@ columnas (el mismo recurso que usa main > h1 en formulario.css) */
     background-color: rgba(92, 6, 140, .08); /*un violeta bien translúcido (8% de
     opacidad). Se usa rgba() en vez de --color-suave, porque esa variable es un
     celeste heredado de la paleta anterior y no del manual violeta/blanco*/
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-size: 1.4rem;
 }
 
@@ -139,7 +139,7 @@ columnas (el mismo recurso que usa main > h1 en formulario.css) */
 
 .informacion-contacto article a {
     margin-top: 0.25rem;
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-weight: 600;
     font-size: 0.85rem;
     text-decoration: underline; /*el reset le saca el subrayado a todos los links
@@ -168,7 +168,7 @@ color y el tamaño de letra, y como las dos tienen la misma especificidad
 (una clase), termina ganando la que esté escrita más abajo en el archivo,
 que es justo la que NO queremos que gane */
 .consulta-contacto>p:not(.frase-contacto) {
-    color: var(--color-texto);
+    color: var(--color-morado);
     font-size: 0.95rem;
     margin-bottom: 0.75rem;
 }
@@ -176,7 +176,7 @@ que es justo la que NO queremos que gane */
 .frase-contacto {
     font-style: italic;
     font-weight: 300;
-    color: var(--color-violeta);
+    color: var(--color-blanco);
     border-left: 3px solid var(--color-violeta); /*a diferencia de "border", que dibuja
     los 4 lados, border-left dibuja un borde solo del lado izquierdo. Es el
     recurso típico para marcar visualmente una cita*/

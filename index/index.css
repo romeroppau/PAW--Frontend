@@ -74,7 +74,7 @@ main > section {
 main > section h2 {
     font-family: var(--fuente-titulo);
     font-size: 1.5rem;
-    color: var(--color-violeta);
+    color: var(--color-morado);
     margin-bottom: 1.5rem;
     position: relative;
     padding-bottom: 0.5rem;
@@ -122,7 +122,7 @@ main > section h2::after {
 }
 
 .info-callout strong {
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-weight: 700;
 }
 .reserva-callout {

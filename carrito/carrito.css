@@ -19,7 +19,7 @@ main {
 .seccion-carrito>h1 {
     font-family: var(--fuente-titulo); /*tipografía del manual (Argentum
     Sans / Montserrat como equivalente)*/
-    color: var(--color-violeta); /*color principal del manual*/
+    color: var(--color-morado); /*color principal del manual*/
     font-size: 1.6rem; /*tamaño del título de página*/
     font-weight: 600; /*Semibold: el peso que el manual define para títulos*/
     margin-bottom: 1.5rem; /*separación entre el título y la lista de libros*/
@@ -105,7 +105,7 @@ main {
 }
 
 .seccion-carrito article p data {
-    color: var(--color-violeta); /*el número del precio en el color de marca,
+    color: var(--color-morado); /*el número del precio en el color de marca,
     como acento sobre el texto "Precio:" que lo precede*/
 }
 
@@ -151,7 +151,7 @@ main {
 .seccion-carrito article form[action="actualizar-carrito.php"] button {
     background-color: transparent; /*sin relleno, para que no compita
     visualmente con el botón "Eliminar" ni con "Finalizar compra"*/
-    color: var(--color-violeta); /*texto en violeta, como único acento*/
+    color: var(--color-morado); /*texto en violeta, como único acento*/
     border: 1.5px solid var(--color-violeta); /*borde del mismo color, para
     que siga leyéndose como un botón*/
     border-radius: var(--radio); /*esquinas redondeadas del manual*/
@@ -212,7 +212,7 @@ main {
 
 .seccion-resumen h2 {
     font-family: var(--fuente-titulo); /*tipografía de títulos*/
-    color: var(--color-violeta); /*color de marca*/
+    color: var(--color-morado); /*color de marca*/
     font-size: 1.2rem; /*un poco más chico que el h1 de la página*/
     font-weight: 600; /*Semibold*/
     margin-bottom: 1.25rem; /*separación con la lista de precios de abajo*/
@@ -251,7 +251,7 @@ main {
 .seccion-resumen dt:last-of-type {
     font-size: 1.05rem; /*más grande que los otros dt*/
     font-weight: 700; /*Bold, para que "total" pese más visualmente*/
-    color: var(--color-violeta); /*color de marca, porque es el dato más
+    color: var(--color-morado); /*color de marca, porque es el dato más
     importante de todo el resumen*/
     padding-top: 0.75rem; /*separa este par de los anteriores*/
     border-top: 1px dashed var(--color-borde); /*línea punteada que marca
@@ -261,7 +261,7 @@ main {
 .seccion-resumen dd:last-of-type {
     font-size: 1.3rem; /*el monto más grande de toda la tarjeta*/
     font-weight: 700; /*Bold*/
-    color: var(--color-violeta); /*color de marca*/
+    color: var(--color-morado); /*color de marca*/
     padding-top: 0.75rem; /*alinea verticalmente con el dt de al lado, que
     también tiene padding-top*/
     border-top: 1px dashed var(--color-borde); /*misma línea punteada, para

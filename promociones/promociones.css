@@ -22,7 +22,7 @@
 
 .filtro {
     padding: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-suave);
     border-radius: 8px;
 }
 
@@ -62,7 +62,7 @@
     padding: 10px 20px;
     border-radius: 20px;
     background-color: var(--color-violeta);
-    color: white;
+    color: var(--color-blanco);
     font-weight: bold;
 }
 /* Rangos de descuento y precio */
@@ -131,7 +131,7 @@
 
 .promocion {
     padding: 25px;
-    border: 1px solid #777;
+    border: 1px solid var(--color-suave);
     border-radius: 12px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;

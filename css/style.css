@@ -376,7 +376,7 @@ main > section {
 main > section h2 {
     font-family: var(--fuente-titulo);
     font-size: 1.5rem;
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     margin-bottom: 1.5rem;
 
@@ -437,7 +437,7 @@ main > section h2::after {
 }
 
 .info-callout strong {
-    color: var(--color-violeta);
+    color: var(--color-morado);
     font-weight: 700;
 }
 
@@ -498,7 +498,7 @@ main > section h2::after {
     font-family: var(--fuente-titulo);
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--color-texto);
+    color: var(--color-morado);
 }
 
 
@@ -519,7 +519,7 @@ main > section h2::after {
     font-weight: 800;
 
     text-transform: uppercase;
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     text-align: center;
     margin-bottom: 1rem;
@@ -592,7 +592,7 @@ main > section h2::after {
 #catalogo article h2 {
     font-family: var(--fuente-titulo);
     font-size: 1.15rem;
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -623,7 +623,7 @@ main > section h2::after {
     font-size: 1.2rem;
     font-weight: 700;
 
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     margin: 0.5rem 0;
     opacity: 1;
@@ -676,7 +676,7 @@ main > section h2::after {
 .seccion-carrito h2 {
     font-family: var(--fuente-titulo);
     font-size: 1.6rem;
-    color: var(--color-violeta);
+    color: var(--color-morado);
     margin-bottom: 0.5rem;
 }
 
@@ -725,7 +725,7 @@ main > section h2::after {
     font-size: 1.1rem;
     font-weight: 700;
 
-    color: var(--color-violeta);
+    color: var(--color-morado);
     flex-grow: 1;
 }
 
@@ -781,7 +781,7 @@ main > section h2::after {
 
 .seccion-carrito article button[type="button"] {
     background-color: transparent;
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     border: 1px solid var(--color-violeta);
 
@@ -840,7 +840,7 @@ main > section h2::after {
     font-family: var(--fuente-titulo);
     font-size: 1.35rem;
 
-    color: var(--color-violeta);
+    color: var(--color-morado);
     margin-bottom: 1.5rem;
 
     font-weight: 700;
@@ -882,7 +882,7 @@ main > section h2::after {
     font-size: 1.25rem;
     font-weight: 800;
 
-    color: var(--color-violeta);
+    color: var(--color-morado);
 
     border-top: 2px dashed var(--color-borde);
 

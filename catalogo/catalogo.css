@@ -53,7 +53,7 @@ aside {
 
 aside>h2 {
     font-family: var(--fuente-titulo); /*tipografía de títulos del manual*/
-    color: var(--color-violeta); /*color principal del manual*/
+    color: var(--color-morado); /*color principal del manual*/
     font-size: 1.2rem; /*tamaño de título de sección*/
     font-weight: 600; /*Semibold, el peso que el manual define para títulos*/
     margin-bottom: 1.25rem; /*separación con el form de abajo*/
@@ -79,7 +79,7 @@ aside fieldset {
 
 aside legend {
     font-family: var(--fuente-titulo); /*tipografía de títulos*/
-    color: var(--color-violeta); /*color de marca*/
+    color: var(--color-morado); /*color de marca*/
     font-size: 0.95rem; /*chico, porque es un subtítulo de filtro, no un
     título de sección*/
     font-weight: 600; /*Semibold*/
@@ -98,7 +98,7 @@ aside fieldset label {
 }
 
 aside fieldset input[type="checkbox"] {
-    accent-color: var(--color-violeta); /*colorea el tilde del checkbox en
+    accent-color: var(--color-morado); /*colorea el tilde del checkbox en
     violeta cuando está marcado, en vez del azul por defecto del navegador*/
     width: 1rem; /*ancho del cuadradito*/
     height: 1rem; /*alto del cuadradito, para que sea parejo con el ancho*/
@@ -162,7 +162,7 @@ main>h1 {
     /*el "grid-area: titulo" que ya le pusimos arriba es lo que lo posiciona;
     acá solo faltan sus estilos de texto*/
     font-family: var(--fuente-titulo); /*tipografía de títulos del manual*/
-    color: var(--color-violeta); /*color principal del manual*/
+    color: var(--color-morado); /*color principal del manual*/
     font-size: 1.6rem; /*tamaño de título de página*/
     font-weight: 600; /*Semibold*/
     text-transform: none; /*style.css lo pone en mayúsculas (uppercase); acá
@@ -235,7 +235,7 @@ main>h1::after {
 
 #catalogo article h2 {
     font-family: var(--fuente-titulo); /*tipografía de títulos*/
-    color: var(--color-violeta); /*color de marca, para el título del libro*/
+    color: var(--color-morado); /*color de marca, para el título del libro*/
     font-size: 1.05rem; /*tamaño legible sin competir con el h1 de la página*/
     font-weight: 600; /*Semibold*/
     line-height: 1.3; /*interlineado más ajustado que el del body (1.6),
@@ -253,7 +253,7 @@ main>h1::after {
 
 /* el precio: segundo <p> del article */
 #catalogo article p:nth-of-type(2) {
-    color: var(--color-violeta); /*color de marca, para que el precio
+    color: var(--color-morado); /*color de marca, para que el precio
     resalte sobre el resto del texto de la tarjeta*/
     font-size: 1.05rem; /*más grande que el texto normal*/
     font-weight: 700; /*Bold, para que se note a simple vista*/
