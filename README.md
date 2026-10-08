@@ -238,5 +238,5 @@ cd PAW--Frontend
 3. Abrir el archivo index/index.html en tu navegador web.
 También puede utilizarse un servidor local para visualizar el sitio.
 
-RECOMENDACIón: para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
+RECOMENDACIÓN: para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
 
