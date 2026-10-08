@@ -1,38 +1,59 @@
 # PAW--Frontend--TP2
+
 # PAWPrints — Trabajo Práctico 2 - PAW 2026 - UNLu
 
 ## Introducción
 
-Este repositorio contiene el desarrollo del **Trabajo Práctico N.º 1** de la asignatura **Programación de Aplicaciones Web (PAW)**.
+Este repositorio contiene el desarrollo del **Trabajo Práctico N.º 2** de la asignatura **Programación de Aplicaciones Web (PAW)**.
 
 El proyecto consiste en el desarrollo incremental de un sitio web para una librería ficticia denominada **PAWPrints**, desarrollado por el grupo **La 25**.
 
-En la primera etapa se trabajó sobre la estructura y maquetación del sitio utilizando exclusivamente **HTML5**, sin implementar funcionalidades del lado del cliente ni del servidor.
-En esta segunda etapa se trabajó sobre los estilos del mismo.
-
----
-
+En la primera etapa se trabajó sobre la estructura y maquetación del sitio utilizando exclusivamente **HTML5**. En esta segunda etapa se incorporaron los estilos **CSS** necesarios para adaptar las páginas a los wireframes y al manual de identidad visual seleccionado.
 
 ---
 
 ## Objetivos TP1
 
-El objetivo principal de este trabajo es aplicar los conceptos fundamentales de **maquetación y estructuración semántica de sitios web mediante HTML5**.
+Como base para este trabajo se tomó la estructura desarrollada durante el Trabajo Práctico N.º 1.
 
-En particular, se buscó:
+En dicha etapa se buscó:
 
 * Definir la estructura y jerarquía del sitio mediante un **Sitemap**.
 * Diseñar los **wireframes low-fi** de las principales páginas.
-* Implementar las páginas utilizando exclusivamente **HTML5**.
+* Implementar las páginas utilizando **HTML5**.
 * Utilizar correctamente los **elementos semánticos de HTML5**.
 * Implementar un **formulario de reserva de libros**, utilizando tipos de campos y atributos adecuados para facilitar la validación.
 
+---
+
 ## Objetivos TP2
-Tomando de base las maquetaciones presentadas, el ejercicio consiste en agregar el contenido CSS necesario para lograr que el maquetado se vea tal como se diseñaron los Wireframes. En caso de ser necesario, ajustar las características de los mismos para que se adapten al manual de identidad corporativa..
-Tener en cuenta, asimismo, generar el código necesario para que las pantallas se adapten a las versiones mobile, desktop y de impresión.
+
+Tomando como base las maquetaciones presentadas en el TP1, el objetivo de este trabajo es incorporar los estilos **CSS** necesarios para lograr que el sitio se adapte visualmente a los wireframes diseñados.
+
+Además, se busca:
+
+* Aplicar el **Manual de Identidad Corporativa — Opción Violeta**.
+* Definir una guía de estilos común para todo el sitio.
+* Utilizar variables CSS para mantener la consistencia visual.
+* Adaptar las diferentes páginas a distintas resoluciones.
+* Generar versiones responsive para dispositivos móviles y desktop.
+* Adaptar las páginas para su correcta visualización en impresión.
+* Mantener una estructura de estilos ordenada y reutilizable.
 
 ---
 
+## Manual de identidad visual
+
+Para el desarrollo del sitio se seleccionó la **Opción Violeta** del manual de identidad corporativa.
+
+Los principales elementos utilizados son:
+
+* **Color principal:** `#5c068c`.
+* **Tipografía:** Argentum Sans.
+* **Color de apoyo:** tonos derivados del violeta y colores neutros.
+* **Variables CSS:** utilizadas para centralizar colores, tipografías, bordes, sombras y otros elementos visuales.
+
+La guía de estilos se encuentra principalmente definida en `style.css`, mientras que cada página cuenta con su propio archivo CSS para los estilos específicos.
 
 ---
 
@@ -50,13 +71,21 @@ El sitio permite a los usuarios:
 * Consultar los medios de contacto y redes sociales.
 * Solicitar la reserva de un libro mediante un formulario.
 
-La funcionalidad de procesamiento de reservas no se encuentra implementada en esta etapa, ya que el objetivo del trabajo se centra exclusivamente en la **maquetación mediante HTML5 + CSS**.
-
-TP2:
-El proyecto organiza los estilos en tres niveles. El reset.css establece una base común para normalizar los elementos HTML y evitar diferencias entre navegadores. El style.css contiene los estilos generales y compartidos por todo el sitio, como el header, navegación, footer, colores y estética general. Finalmente, cada página cuenta con su propio archivo CSS, como catalogo.css, promociones.css, nosotros.css, contacto.css y formulario.css, donde se definen los estilos específicos de cada sección sin repetir los estilos generales. De esta manera, se mantiene una estructura ordenada, se evita duplicar código y resulta más sencillo modificar o mantener el diseño del sitio. 
+La funcionalidad de procesamiento de reservas no se encuentra implementada en esta etapa, ya que el objetivo del trabajo se centra en la **maquetación y presentación visual mediante HTML5 y CSS**.
 
 ---
 
+## Organización de los estilos
+
+El proyecto organiza los estilos en diferentes niveles.
+
+El archivo `reset.css` establece una base común para normalizar los elementos HTML y reducir diferencias entre navegadores.
+
+El archivo `style.css` contiene los estilos generales y compartidos por todo el sitio, como el header, navegación, footer, colores, tipografías y estética general.
+
+Finalmente, cada página cuenta con su propio archivo CSS, como `catalogo.css`, `promociones.css`, `nosotros.css`, `contacto.css` y `formulario.css`, donde se definen los estilos específicos de cada sección sin repetir los estilos generales.
+
+De esta manera, se mantiene una estructura ordenada, se evita duplicar código y resulta más sencillo modificar y mantener el diseño del sitio.
 
 ---
 
@@ -72,18 +101,14 @@ El sitio se encuentra organizado en diferentes secciones y páginas, siguiendo l
 
 ---
 
-
----
-
 ## Tecnologías utilizadas
 
 Para el desarrollo de este Trabajo Práctico se utilizaron:
 
 * **HTML5** — estructura y maquetación del sitio.
+* **CSS3** — estilos, diseño visual, responsive y adaptación para impresión.
 * **Figma** — diseño de wireframes low-fi.
 * **Git / GitHub** — control de versiones y trabajo colaborativo.
----
-
 
 ---
 
@@ -101,9 +126,6 @@ Entre ellos:
 * `<footer>` para información complementaria y de contacto.
 * `<form>` para el formulario de reserva.
 * `<label>`, `<input>`, `<select>`, `<textarea>` y `<button>` para la construcción del formulario.
-
----
-
 
 ---
 
@@ -125,15 +147,12 @@ El formulario tiene carácter demostrativo y **no realiza el procesamiento efect
 
 ---
 
-
----
-
 ## Organización del proyecto
 
 La estructura general del proyecto se encuentra organizada de la siguiente manera:
 
 ```text
-PAW--Frontend--TP1/
+PAW--Frontend--TP2/
 │
 ├── .vscode/
 │
@@ -156,8 +175,6 @@ PAW--Frontend--TP1/
 ├── docs/
 │   └── wireframes/
 │       └── TP1 - PAW.png
-│   └── Sitemap-Libreria.png
-│   └── autores.txt
 │
 ├── formulario/
 │   ├── formulario.css
@@ -205,48 +222,21 @@ PAW--Frontend--TP1/
 │   ├── registrarse.css
 │   └── registrarse.html
 │
+├── autores.txt
 ├── README.md
+├── Sitemap-Libreria.png
 └── VERSION
 ```
-
-La estructura se plantea de manera modular para facilitar la incorporación de nuevas funcionalidades en los próximos trabajos prácticos.
-
----
-
-
----
-
-## WireFrames
-
-https://www.figma.com/design/bes5asi7LB9SEXOv93DPJ7/TP1---PAW?node-id=4-63&t=TVVFWESKudebklfp-0
-
----
-
-
----
-
-## Equipo
-
-**Grupo: La 25**
-
-**Proyecto: PAWPrints — Librería**
-
-Trabajo realizado en el marco de la asignatura **Programación de Aplicaciones Web (PAW)**.
-
----
-
-## Instalación y ejecución
-
+Instalación y ejecución
 Para visualizar el sitio:
+1. Clonar el repositorio:
+git clone https://github.com/romeroppau/PAW--Frontend.git
 
-1. Cloná el repositorio:
-   ```bash
-   git clone https://github.com/romeroppau/PAW--Frontend--TP1.git
-   cd PAW--Frontend--TP1
-   ```
+2. Ingresar a la carpeta del proyecto:
+cd PAW--Frontend
 
-2. Abrí el archivo `index.html` directamente en tu navegador web.
+3. Abrir el archivo index/index.html en tu navegador web.
+También puede utilizarse un servidor local para visualizar el sitio.
 
-*Recomendación:* Para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
+RECOMENDACIón: para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
 
----
