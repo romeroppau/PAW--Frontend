@@ -175,6 +175,7 @@ PAW--Frontend--TP2/
 ├── docs/
 │   └── wireframes/
 │       └── TP1 - PAW.png
+│   └── Sitemap-Libreria.png
 │
 ├── formulario/
 │   ├── formulario.css
@@ -224,7 +225,6 @@ PAW--Frontend--TP2/
 │
 ├── autores.txt
 ├── README.md
-├── Sitemap-Libreria.png
 └── VERSION
 ```
 Instalación y ejecución
