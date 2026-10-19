@@ -16,8 +16,9 @@ export class ApiError extends Error {
 /**
  * Hace una petición a la API y devuelve el JSON de la respuesta.
  *
- * - credentials: 'include' envía la cookie de sesión (la API está en otro origen).
- * - body se envía como JSON.
+ * - credentials: 'include' envía las cookies (en desarrollo la API está en otro origen).
+ * - body se envía como JSON. En POST y PATCH siempre se envía un cuerpo JSON (aunque sea {}):
+ *   la API rechaza esos métodos sin Content-Type: application/json (protección CSRF).
  * - Si la respuesta no es 2xx, lanza ApiError con el mensaje que manda la API
  *   ({"error": {"message": "...", "fields": {...}}}).
  *
@@ -26,6 +27,9 @@ export class ApiError extends Error {
  */
 export async function api(ruta, { method = 'GET', body } = {}) {
     const opciones = { method, credentials: 'include', headers: { Accept: 'application/json' } };
+    if (body === undefined && ['POST', 'PATCH'].includes(method)) {
+        body = {};
+    }
     if (body !== undefined) {
         opciones.headers['Content-Type'] = 'application/json';
         opciones.body = JSON.stringify(body);

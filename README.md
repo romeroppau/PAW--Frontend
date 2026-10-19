@@ -184,6 +184,7 @@ Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://lo
 PAW--Frontend--TP1/
 │
 ├── index.html               ← única página: header, menú, <main id="app"> y footer
+├── vercel.json              ← despliegue: reenvía /api/* a la API en Render
 │
 ├── css/
 │   ├── reset.css
@@ -232,3 +233,15 @@ Abrir siempre con `localhost` (no `127.0.0.1`). El frontend pide la API al mismo
 (así el navegador envía la cookie de sesión del carrito), y `php -S localhost:8000` en Windows escucha solo en
 `localhost` (IPv6): desde `127.0.0.1` la API no responde y el sitio muestra "No pudimos conectar con el servidor".
 Live Server ya está configurado para abrir en `localhost`.
+
+## Despliegue (previsto)
+
+El sitio todavía no está publicado. El plan es: frontend en **Vercel**, API en **Render** y base de datos en **Aiven**.
+
+* `js/config.js` elige la URL de la API: `http://localhost:8000/api` en desarrollo y `/api` en producción.
+* `vercel.json` hace que Vercel reenvíe `/api/*` a la API en Render. Para el navegador todo está en el mismo
+  dominio (el de Vercel), así las cookies de sesión son propias del sitio y no "de terceros"
+  (que Safari, el modo incógnito y otros navegadores bloquean).
+* Al publicar: reemplazar `REEMPLAZAR-CON-LA-URL-DE-RENDER` en `vercel.json` por la URL real de la API y
+  agregar el dominio de Vercel a `CORS_ORIGINS` en las variables de entorno de Render.
+
