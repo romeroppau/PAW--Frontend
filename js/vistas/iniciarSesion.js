@@ -1,36 +1,66 @@
 import { html } from '../html.js';
-import { mostrarAlerta } from '../formularios.js';
+import { conBotonDeshabilitado, limpiarErrores, mostrarAlerta, mostrarErrores } from '../formularios.js';
+import { Redireccion } from '../router.js';
+import { iniciarSesion, rutaDeVuelta, sesionInicial, usuario } from '../sesion.js';
+import { USUARIO as R } from '../validaciones.js';
 
 /**
- * Iniciar sesión (#/iniciar-sesion).
- * Formulario migrado del TP2. Falta conectarlo con la API (rama feat/auth-jwt).
+ * Iniciar sesión (#/iniciar-sesion?volver=/ruta). POST /api/auth/login: si los datos son
+ * correctos, la API deja la cookie HttpOnly con el token y el menú pasa a "Hola, usuario".
+ * Si ya hay sesión, lleva directamente a la ruta de vuelta (o al inicio).
  */
 export default {
     titulo: 'Iniciar sesión',
     estilos: ['css/paginas/iniciarSesion.css'],
 
-    render: () => html`
+    cargar: async ({ query }) => {
+        await sesionInicial();
+        if (usuario()) {
+            throw new Redireccion(rutaDeVuelta(query));
+        }
+    },
+
+    render: (datos, { query }) => html`
         <h1>Iniciar sesión</h1>
         <section>
             <form data-login>
-                <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" autocomplete="username" required>
+                <p class="alerta-error" role="alert" hidden data-alerta></p>
+
+                <label for="username">Usuario o email</label>
+                <input type="text" id="username" name="username" autocomplete="username" required maxlength="${R.EMAIL_MAX}">
 
                 <label for="contrasenia">Contraseña</label>
                 <input type="password" id="contrasenia" name="contrasenia" autocomplete="current-password" required>
 
                 <button type="submit">Iniciar sesión</button>
-                <p class="alerta-error" role="alert" hidden data-alerta></p>
             </form>
         </section>
+        <p class="cambiar-formulario">
+            ¿No tenés cuenta? <a href="#/registrarse?${new URLSearchParams({ volver: rutaDeVuelta(query) })}">Registrate</a>
+        </p>
     `,
 
-    montar(main) {
+    montar(main, datos, { navegar, query }) {
         const form = main.querySelector('[data-login]');
-        form.addEventListener('submit', (evento) => {
+        const alerta = main.querySelector('[data-alerta]');
+
+        form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
-            // TODO (feat/auth-jwt): enviar a la API y guardar la sesión.
-            mostrarAlerta(form.querySelector('[data-alerta]'), 'El inicio de sesión todavía no está disponible.');
+            limpiarErrores(form);
+            mostrarAlerta(alerta, '');
+
+            try {
+                await conBotonDeshabilitado(form.querySelector('button'), () => iniciarSesion({
+                    username: form.elements.username.value.trim(),
+                    contrasenia: form.elements.contrasenia.value, // sin quitar espacios
+                }));
+                navegar(rutaDeVuelta(query));
+            } catch (error) {
+                // 401: "Usuario o contraseña incorrectos" (la API no dice cuál de los dos, a propósito).
+                mostrarAlerta(alerta, error.message);
+                mostrarErrores(form, error.campos ?? {});
+                form.elements.contrasenia.value = '';
+            }
         });
     },
 };

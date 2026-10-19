@@ -2,6 +2,7 @@ import { Router } from './router.js';
 import { rutas } from './rutas.js';
 import { noEncontrada, error } from './vistas/errores.js';
 import { obtenerCarrito } from './carrito.js';
+import { cerrarSesion, sesionInicial } from './sesion.js';
 
 /**
  * Punto de entrada del SPA.
@@ -16,6 +17,28 @@ document.addEventListener('carrito:cambio', ({ detail: carrito }) => {
 });
 obtenerCarrito().catch(() => {
     // Si la API no responde, el menú queda sin contador; la vista actual muestra el error si lo necesita.
+});
+
+// Menú según la sesión: "Iniciar sesión / Registrarse" o "Hola, usuario / Cerrar sesión".
+document.addEventListener('sesion:cambio', ({ detail: usuario }) => {
+    document.querySelectorAll('[data-solo-invitado]').forEach((el) => { el.hidden = usuario !== null; });
+    document.querySelectorAll('[data-solo-usuario]').forEach((el) => { el.hidden = usuario === null; });
+    // textContent: el nombre nunca se interpreta como HTML.
+    document.querySelector('[data-nombre-usuario]').textContent = usuario?.username ?? '';
+});
+sesionInicial();
+
+document.querySelector('[data-cerrar-sesion]').addEventListener('click', async (evento) => {
+    const boton = evento.currentTarget;
+    boton.disabled = true;
+    try {
+        await cerrarSesion();
+        router.navegar('/');
+    } catch (error) {
+        window.alert(error.message); // ej. la API no responde: la sesión sigue abierta
+    } finally {
+        boton.disabled = false;
+    }
 });
 
 // Buscador del menú: lleva al catálogo con la búsqueda en la URL.

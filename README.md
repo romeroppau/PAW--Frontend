@@ -175,8 +175,19 @@ Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://lo
 | `#/compra` | `vistas/compra.js` | `POST /api/compra` |
 | `#/compra/confirmada` | `vistas/compraConfirmada.js` | — |
 | `#/nosotros`, `#/contacto`, `#/promociones` | estáticas | — |
-| `#/iniciar-sesion`, `#/registrarse` | formularios (sin conectar todavía) | — |
+| `#/iniciar-sesion?volver=` | `vistas/iniciarSesion.js` | `POST /api/auth/login` |
+| `#/registrarse?volver=` | `vistas/registrarse.js` | `POST /api/auth/registro` |
 | cualquier otra | `vistas/errores.js` (404) | — |
+
+### Sesión de usuario
+
+* Al registrarse o iniciar sesión, la API guarda un **JWT** en una cookie **`HttpOnly`** (`auth_token`).
+  JavaScript no puede leerla: el navegador la envía sola en cada petición (`credentials: 'include'`).
+* Para saber si hay sesión, `js/sesion.js` consulta `GET /api/auth/yo` al abrir el sitio. El menú muestra
+  *Iniciar sesión / Registrarse* o *Hola, usuario / Cerrar sesión*.
+* Las reglas de los formularios (`js/validaciones.js`, `USUARIO`) son las mismas que valida el backend
+  (`App\Models\User`). La coincidencia de contraseñas se controla con `setCustomValidity`.
+* `?volver=/ruta` en el login o el registro lleva a esa ruta después de entrar (solo rutas del sitio).
 
 ## Organización del proyecto
 
@@ -184,6 +195,7 @@ Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://lo
 PAW--Frontend--TP1/
 │
 ├── index.html               ← única página: header, menú, <main id="app"> y footer
+├── vercel.json              ← despliegue: reenvía /api/* a la API en Render
 │
 ├── css/
 │   ├── reset.css
@@ -201,6 +213,7 @@ PAW--Frontend--TP1/
 │   ├── api.js               ← fetch a la API (JSON, cookies, errores)
 │   ├── html.js              ← plantillas html`` con escape automático (previene XSS), formato de precios
 │   ├── carrito.js           ← operaciones del carrito (avisa al menú con el evento 'carrito:cambio')
+│   ├── sesion.js            ← sesión del usuario: login, registro, logout (avisa al menú con 'sesion:cambio')
 │   ├── formularios.js       ← errores por campo, avisos, botones mientras se envía
 │   ├── validaciones.js      ← reglas de validación (las mismas que el backend)
 │   └── vistas/              ← una vista por página
@@ -232,3 +245,15 @@ Abrir siempre con `localhost` (no `127.0.0.1`). El frontend pide la API al mismo
 (así el navegador envía la cookie de sesión del carrito), y `php -S localhost:8000` en Windows escucha solo en
 `localhost` (IPv6): desde `127.0.0.1` la API no responde y el sitio muestra "No pudimos conectar con el servidor".
 Live Server ya está configurado para abrir en `localhost`.
+
+## Despliegue (previsto)
+
+El sitio todavía no está publicado. El plan es: frontend en **Vercel**, API en **Render** y base de datos en **Aiven**.
+
+* `js/config.js` elige la URL de la API: `http://localhost:8000/api` en desarrollo y `/api` en producción.
+* `vercel.json` hace que Vercel reenvíe `/api/*` a la API en Render. Para el navegador todo está en el mismo
+  dominio (el de Vercel), así las cookies de sesión son propias del sitio y no "de terceros"
+  (que Safari, el modo incógnito y otros navegadores bloquean).
+* Al publicar: reemplazar `REEMPLAZAR-CON-LA-URL-DE-RENDER` en `vercel.json` por la URL real de la API y
+  agregar el dominio de Vercel a `CORS_ORIGINS` en las variables de entorno de Render.
+

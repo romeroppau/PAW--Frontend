@@ -73,3 +73,31 @@ main form button[type="submit"]:hover {
     background-color: var(--color-acento);
     transform: translateY(-2px);
 }
+
+/* ── SPA: validación y ayuda ─────────────────────────── */
+
+/* Texto de ayuda debajo de un campo (reglas del usuario y la contraseña) */
+main form .ayuda-campo {
+    font-size: 0.8rem;
+    color: var(--color-texto);
+    opacity: 0.75;
+    margin-top: -0.5rem;
+}
+
+/* Campo inválido: después de que el usuario lo tocó (:user-invalid) o rechazado por la API */
+main form input:user-invalid,
+main form input[aria-invalid="true"] {
+    border-color: #b3261e;
+}
+
+/* Enlace para pasar de "Iniciar sesión" a "Registrarse" y viceversa */
+.cambiar-formulario {
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.cambiar-formulario a {
+    color: var(--color-morado);
+    font-weight: 600;
+    text-decoration: underline;
+}
