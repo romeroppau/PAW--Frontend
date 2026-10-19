@@ -107,6 +107,7 @@ Para el desarrollo de este Trabajo Práctico se utilizaron:
 
 * **HTML5** — estructura y maquetación del sitio.
 * **CSS3** — estilos, diseño visual, responsive y adaptación para impresión.
+* **JavaScript (ES modules)** — SPA: router, vistas y comunicación con la API.
 * **Figma** — diseño de wireframes low-fi.
 * **Git / GitHub** — control de versiones y trabajo colaborativo.
 
@@ -147,96 +148,87 @@ El formulario tiene carácter demostrativo y **no realiza el procesamiento efect
 
 ---
 
+## SPA (Entrega 3)
+
+Desde la entrega 3 el sitio es una **SPA (Single Page Application)**:
+
+* Hay un único `index.html` con el header, el menú y el footer.
+* El contenido de `<main>` lo arma JavaScript según la ruta, que va después del `#` en la URL
+  (ej. `index.html#/catalogo?q=borges`). Cambiar el hash no recarga la página.
+* Los datos (libros, carrito, compra) se piden con `fetch` a la **API del backend** (`PAW--Backend`), que responde JSON.
+* Cada vista carga su propio CSS (`css/paginas/*.css`) y quita el de la vista anterior, porque cada uno da estilos distintos a `<main>`.
+
+```
+Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://localhost:8000/api) ──▶ JSON
+                    │
+                    └── router.js elige la vista ──▶ vista.render(datos) ──▶ HTML en <main>
+```
+
+### Rutas
+
+| URL | Vista | Datos de la API |
+|---|---|---|
+| `#/` | `vistas/inicio.js` | — |
+| `#/catalogo?q=&orden=&page=` | `vistas/catalogo.js` | `GET /api/libros` |
+| `#/catalogo/{slug}` | `vistas/libro.js` | `GET /api/libros/{slug}` |
+| `#/carrito` | `vistas/carrito.js` | `GET/PATCH/DELETE /api/carrito...` |
+| `#/compra` | `vistas/compra.js` | `POST /api/compra` |
+| `#/compra/confirmada` | `vistas/compraConfirmada.js` | — |
+| `#/nosotros`, `#/contacto`, `#/promociones` | estáticas | — |
+| `#/iniciar-sesion`, `#/registrarse` | formularios (sin conectar todavía) | — |
+| cualquier otra | `vistas/errores.js` (404) | — |
+
 ## Organización del proyecto
 
-La estructura general del proyecto se encuentra organizada de la siguiente manera:
-
 ```text
-PAW--Frontend--TP2/
+PAW--Frontend--TP1/
 │
-├── .vscode/
-│
-├── carrito/
-│   ├── carrito.css
-│   └── carrito.html
-│
-├── catalogo/
-│   ├── catalogo.css
-│   └── catalogo.html
-│
-├── contacto/
-│   ├── contacto.css
-│   └── contacto.html
+├── index.html               ← única página: header, menú, <main id="app"> y footer
 │
 ├── css/
 │   ├── reset.css
-│   └── style.css
+│   ├── style.css            ← estilos globales (header, menú, footer, variables)
+│   └── paginas/             ← CSS propio de cada vista (lo carga el router)
+│       ├── index.css, catalogo.css, catalogo-paginado.css, libros.css
+│       ├── carrito.css, formulario.css, compra.css
+│       └── nosotros.css, contacto.css, promociones.css, iniciarSesion.css, registrarse.css
 │
-├── docs/
-│   └── wireframes/
-│       └── TP1 - PAW.png
-│   └── Sitemap-Libreria.png
+├── js/
+│   ├── app.js               ← punto de entrada: crea el router, buscador y contador del carrito
+│   ├── config.js            ← URL de la API
+│   ├── router.js            ← router por hash, CSS por vista, títulos, vistas de error
+│   ├── rutas.js             ← mapa ruta → vista
+│   ├── api.js               ← fetch a la API (JSON, cookies, errores)
+│   ├── html.js              ← plantillas html`` con escape automático (previene XSS), formato de precios
+│   ├── carrito.js           ← operaciones del carrito (avisa al menú con el evento 'carrito:cambio')
+│   ├── formularios.js       ← errores por campo, avisos, botones mientras se envía
+│   ├── validaciones.js      ← reglas de validación (las mismas que el backend)
+│   └── vistas/              ← una vista por página
 │
-├── formulario/
-│   ├── formulario.css
-│   └── formulario.html
-│
-├── index/
-│   ├── index.css
-│   └── index.html
-│
-├── inicioSesion/
-│   ├── iniciarSesion.css
-│   └── iniciarSesion.html
-│
-├── libros/
-│   ├── libros.css
-│   ├── monje-ferrari.html
-│   ├── poder-ahora.html
-│   ├── revolucion-abundancia.html
-│   └── sutil-arte.html
-│
-├── media/
-│   ├── libros/
-│   │   ├── monje-ferrari.jpg
-│   │   ├── poder-ahora.jpg
-│   │   ├── revolucion-abundancia.jpg
-│   │   └── sutil-arte.jpg
-│   │
-│   ├── librosmasvendidos/
-│   │   ├── libro1.png
-│   │   ├── libro2.png
-│   │   └── libro3.png
-│   │
-│   ├── logo.png
-│   └── sinfoto.png
-│
-├── nosotros/
-│   ├── nosotros.css
-│   └── nosotros.html
-│
-├── promociones/
-│   ├── promociones.css
-│   └── promociones.html
-│
-├── registrarse/
-│   ├── registrarse.css
-│   └── registrarse.html
-│
+├── media/                   ← imágenes (tapas, logo)
+├── docs/                    ← sitemap y wireframes
 ├── autores.txt
 ├── README.md
 └── VERSION
 ```
-Instalación y ejecución
-Para visualizar el sitio:
-1. Clonar el repositorio:
-git clone https://github.com/romeroppau/PAW--Frontend.git
 
-2. Ingresar a la carpeta del proyecto:
-cd PAW--Frontend
+## Instalación y ejecución
 
-3. Abrir el archivo index/index.html en tu navegador web.
-También puede utilizarse un servidor local para visualizar el sitio.
+El sitio necesita la API funcionando:
 
-RECOMENDACIÓN: para una mejor experiencia de desarrollo, podés utilizar la extensión **Live Server** en VS Code para servir los archivos estáticos automáticamente.
+1. Backend (repositorio `PAW--Backend`):
+   ```bash
+   composer install
+   cp .env.example .env          # CORS_ORIGINS debe incluir la URL del frontend
+   php -S localhost:8000 -t public public/index.php
+   ```
+2. Frontend (este repositorio), servido por HTTP en el puerto 5501
+   (los módulos de JavaScript no funcionan abriendo el archivo con doble clic):
+   * Con la extensión **Live Server** de VS Code (ya configurada en `.vscode/settings.json`): *Open with Live Server*.
+   * O desde la terminal: `php -S localhost:5501` (o `npx serve -l 5501`).
+3. Abrir `http://localhost:5501`.
 
+Abrir siempre con `localhost` (no `127.0.0.1`). El frontend pide la API al mismo host con el que se abrió
+(así el navegador envía la cookie de sesión del carrito), y `php -S localhost:8000` en Windows escucha solo en
+`localhost` (IPv6): desde `127.0.0.1` la API no responde y el sitio muestra "No pudimos conectar con el servidor".
+Live Server ya está configurado para abrir en `localhost`.

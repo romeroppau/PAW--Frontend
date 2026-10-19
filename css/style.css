@@ -1094,3 +1094,29 @@ body > footer p {
         margin: 1.5cm;
     }
 }
+
+
+/* ─── SPA: AVISOS Y FOCO ─── */
+
+/* Aviso de error general (ej. la API rechazó una operación). */
+.alerta-error {
+    background-color: #fdecea;
+    color: #8c1d18;
+    border: 1.5px solid #f5c2c0;
+    border-radius: var(--radio);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Error de un campo de formulario, debajo del campo. */
+.error-campo {
+    color: #b3261e;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+/* El router le pasa el foco a <main> al cambiar de vista (lectores de pantalla):
+   no hace falta mostrar el recuadro de foco en todo el contenido. */
+main:focus {
+    outline: none;
+}

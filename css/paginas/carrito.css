@@ -110,7 +110,7 @@ main {
 }
 
 /* ── Form de cantidad ── */
-.seccion-carrito article form[action="actualizar-carrito.php"] {
+.seccion-carrito article form.form-cantidad {
     grid-area: cantidad; /*conecta con la celda "cantidad"*/
     display: flex; /*acomoda label, input y botón en una fila*/
     flex-wrap: wrap; /*si en una pantalla muy angosta no entran los 3 (label,
@@ -122,7 +122,7 @@ main {
     margin-top: 0.5rem; /*separa este form del precio de arriba*/
 }
 
-.seccion-carrito article form[action="actualizar-carrito.php"] label {
+.seccion-carrito article form.form-cantidad label {
     font-family: var(--fuente-cuerpo); /*tipografía de texto del manual*/
     color: var(--color-texto); /*gris de texto*/
     font-size: 0.85rem; /*chico, porque es una etiqueta de apoyo, no un
@@ -148,7 +148,7 @@ main {
     para que se note en qué campo está parado el usuario*/
 }
 
-.seccion-carrito article form[action="actualizar-carrito.php"] button {
+.seccion-carrito article form.form-cantidad button {
     background-color: transparent; /*sin relleno, para que no compita
     visualmente con el botón "Eliminar" ni con "Finalizar compra"*/
     color: var(--color-morado); /*texto en violeta, como único acento*/
@@ -162,7 +162,7 @@ main {
     transition: background-color var(--transicion), color var(--transicion); /*anima el cambio de color al pasar el mouse, en vez de que sea instantáneo*/
 }
 
-.seccion-carrito article form[action="actualizar-carrito.php"] button:hover {
+.seccion-carrito article form.form-cantidad button:hover {
     background-color: var(--color-violeta); /*al pasar el mouse, se rellena
     de violeta*/
     color: var(--color-blanco); /*y el texto pasa a blanco, para mantener
@@ -170,14 +170,14 @@ main {
 }
 
 /* ── Form de eliminar (ícono en la esquina) ── */
-.seccion-carrito article form[action="eliminar-item.php"] {
+.seccion-carrito article form.form-eliminar {
     grid-area: eliminar; /*conecta con la celda "eliminar" del mapa de arriba,
     en su propia columna, a la derecha del título*/
     justify-self: end; /*dentro de su celda (que puede ser más ancha que el
     propio botón), lo empuja contra el borde derecho*/
 }
 
-.seccion-carrito article form[action="eliminar-item.php"] button {
+.seccion-carrito article form.form-eliminar button {
     background-color: transparent; /*sin relleno: solo se ve el texto/ícono*/
     color: var(--color-rojo); /*rojo, el color que el sitio ya usa para
     acciones destructivas (ver el botón "Eliminar" del carrito en style.css)*/
@@ -190,7 +190,7 @@ main {
     de vuelta acá para remarcar que es una acción, no solo texto suelto*/
 }
 
-.seccion-carrito article form[action="eliminar-item.php"] button:hover {
+.seccion-carrito article form.form-eliminar button:hover {
     color: var(--color-blanco); /*invierte a texto blanco...*/
     background-color: var(--color-rojo); /*...sobre fondo rojo, marcando con
     fuerza que es una acción irreversible*/

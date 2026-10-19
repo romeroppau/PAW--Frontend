@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título lo actualiza el router según la vista. -->
+    <title>PAWPrints</title>
+
+    <!-- CSS global (importa reset.css). El CSS propio de cada vista lo agrega el router. -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- type="module": permite import/export entre archivos JS. Se ejecuta después de leer el HTML. -->
+    <script type="module" src="js/app.js"></script>
+</head>
+<body>
+    <header>
+        <!-- Enlace vacío: el logo lo aporta el CSS. -->
+        <a href="#/" aria-label="Inicio"></a>
+
+        <nav class="nav-principal">
+            <div class="nav-grupo-izq">
+                <a href="#/">Inicio</a>
+                <a href="#/catalogo">Catalogo</a>
+                <a href="#/promociones">Promociones</a>
+                <a href="#/nosotros">Nosotros</a>
+                <a href="#/contacto">Contacto</a>
+            </div>
+
+            <!-- La búsqueda la maneja js/app.js: navega a #/catalogo?q=... -->
+            <form role="search" data-buscador>
+                <label for="buscar">Buscar</label>
+                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
+                <button type="submit">Buscar</button>
+            </form>
+
+            <div class="nav-grupo-der">
+                <a href="#/iniciar-sesion">Iniciar sesión</a>
+                <a href="#/registrarse">Registrarse</a>
+                <a href="#/carrito" class="nav-carrito">Carrito 🛒<span data-carrito-cantidad></span></a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido de la vista actual. tabindex="-1": el router le pasa el foco al cambiar de vista. -->
+    <main id="app" tabindex="-1">
+        <noscript>Este sitio necesita JavaScript para funcionar.</noscript>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span data-anio>2026</span> PAWprints - La 25</p>
+        </div>
+    </footer>
+</body>
+</html>
