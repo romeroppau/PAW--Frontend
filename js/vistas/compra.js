@@ -1,13 +1,15 @@
 import { api } from '../api.js';
-import { obtenerCarrito } from '../carrito.js';
+import { exigirSesion, obtenerCarrito, rutaDeLogin } from '../carrito.js';
 import { conBotonDeshabilitado, datosDelFormulario, limpiarErrores, mostrarAlerta, mostrarErrores } from '../formularios.js';
 import { dinero, html } from '../html.js';
 import { Redireccion } from '../router.js';
+import { sesionVencida, usuario } from '../sesion.js';
 import { COMPRA as R } from '../validaciones.js';
 
 /**
  * Finalizar compra (#/compra): datos del cliente y resumen del carrito.
- * Al enviar: POST /api/compra con JSON. La API valida de nuevo y manda el pedido por mail.
+ * Al enviar: POST /api/compra con JSON. La API valida de nuevo y manda el pedido por mail
+ * al personal de la librería. Requiere la sesión iniciada (sin sesión, lleva al login).
  *
  * Los atributos de validación (required, minlength, pattern...) salen de js/validaciones.js,
  * que replica las reglas del backend (App\Models\Order).
@@ -16,13 +18,13 @@ export default {
     titulo: 'Finalizar compra',
     estilos: ['css/paginas/formulario.css', 'css/paginas/compra.css'],
 
-    cargar: async () => {
+    cargar: () => exigirSesion('/compra', async () => {
         const carrito = await obtenerCarrito();
         if (carrito.items.length === 0) {
             throw new Redireccion('/carrito'); // no se puede comprar con el carrito vacío
         }
         return carrito;
-    },
+    }),
 
     render: (carrito) => html`
         <h1>Finalizar compra</h1>
@@ -52,14 +54,15 @@ export default {
             <fieldset>
                 <legend>2. Contacto</legend>
                 <label for="email">Email</label>
+                <!-- Email y teléfono se precargan con los datos de la cuenta (se pueden cambiar). -->
                 <input type="email" id="email" name="email" required autocomplete="email"
-                       maxlength="${R.EMAIL_MAX}" placeholder="tu@email.com">
+                       maxlength="${R.EMAIL_MAX}" placeholder="tu@email.com" value="${usuario()?.email ?? ''}">
 
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" name="telefono" required autocomplete="tel"
                        minlength="${R.TELEFONO_MIN}" maxlength="${R.TELEFONO_MAX}"
                        pattern="${R.TELEFONO_PATRON}" title="Solo números y espacios, con + inicial opcional"
-                       placeholder="2323 123456">
+                       placeholder="2323 123456" value="${usuario()?.phone ?? ''}">
             </fieldset>
 
             <fieldset>
@@ -67,11 +70,7 @@ export default {
                 <p>El pago se realiza con <strong>${R.MEDIO_DE_PAGO}</strong>.</p>
             </fieldset>
 
-            <!-- Compra desactivada por ahora: el botón no envía el formulario.
-                 Para activarla: volver a type="submit", quitar "disabled" y descomentar
-                 la ruta POST /api/compra en config/routes.php del backend. -->
-            <button type="button" disabled aria-describedby="compra-no-disponible">Finalizar compra</button>
-            <p id="compra-no-disponible">La compra online estará disponible próximamente.</p>
+            <button type="submit">Finalizar compra</button>
         </form>
 
         <aside>
@@ -101,10 +100,20 @@ export default {
             try {
                 await conBotonDeshabilitado(form.querySelector('button'), () =>
                     api('/compra', { method: 'POST', body: datosDelFormulario(form) }));
+                // La API vació el carrito: se actualiza el contador del menú.
+                obtenerCarrito().catch(() => {});
                 navegar('/compra/confirmada');
             } catch (error) {
+                if (error.status === 401) {
+                    // La sesión venció mientras completaba el formulario.
+                    sesionVencida();
+                    navegar(rutaDeLogin('/compra'));
+                    return;
+                }
+                // 422: errores de cada campo. 503: no se pudo enviar el mail (el carrito sigue igual,
+                // se puede reintentar). 409: el carrito quedó vacío.
                 mostrarAlerta(alerta, error.message);
-                mostrarErrores(form, error.campos ?? {}); // 422: errores de cada campo
+                mostrarErrores(form, error.campos ?? {});
             }
         });
     },
