@@ -35,6 +35,15 @@ export function sesionInicial() {
     return cargaInicial;
 }
 
+/**
+ * Ruta a la que volver después de iniciar sesión o registrarse: #/iniciar-sesion?volver=/compra
+ * Solo se aceptan rutas internas del sitio ("/algo"); cualquier otra cosa lleva al inicio.
+ */
+export function rutaDeVuelta(query) {
+    const volver = query.get('volver') ?? '';
+    return volver.startsWith('/') && !volver.startsWith('//') ? volver : '/';
+}
+
 /** POST /api/auth/login {username, contrasenia}. La API deja la cookie; acá se guarda el usuario. */
 export const iniciarSesion = async (datos) =>
     avisar((await api('/auth/login', { method: 'POST', body: datos })).data);
