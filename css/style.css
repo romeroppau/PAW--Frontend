@@ -162,6 +162,41 @@ body > header nav a.nav-carrito:hover {
 }
 
 
+/* Sesión iniciada: saludo y botón "Cerrar sesión" (mismo aspecto que los enlaces) */
+
+.nav-usuario {
+    font-family: var(--fuente-titulo);
+    color: var(--color-blanco);
+    font-size: .9rem;
+    white-space: nowrap;
+    padding: .4rem .2rem;
+}
+
+body > header nav button.nav-cerrar-sesion {
+    font-family: var(--fuente-titulo);
+    color: var(--color-blanco);
+    font-weight: 600;
+    letter-spacing: .05em;
+    padding: .4rem .8rem;
+    border-radius: var(--radio);
+    font-size: .9rem;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: background-color var(--transicion);
+}
+
+body > header nav button.nav-cerrar-sesion:hover {
+    background-color: var(--color-acento);
+}
+
+/* "hidden" siempre oculta, aunque otra regla le ponga display al elemento. */
+[hidden] {
+    display: none !important;
+}
+
+
 /* Formulario de búsqueda */
 
 body > header form {
@@ -242,7 +277,9 @@ body > header form button:hover {
         gap: 0.3rem;
     }
 
-    body > header nav a {
+    body > header nav a,
+    body > header nav button.nav-cerrar-sesion,
+    .nav-usuario {
         font-size: 0.75rem;
         padding: 0.35rem 0.55rem;
     }

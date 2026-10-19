@@ -33,9 +33,12 @@
                 <button type="submit">Buscar</button>
             </form>
 
+            <!-- js/app.js muestra un grupo u otro según haya sesión (data-solo-invitado / data-solo-usuario). -->
             <div class="nav-grupo-der">
-                <a href="#/iniciar-sesion">Iniciar sesión</a>
-                <a href="#/registrarse">Registrarse</a>
+                <a href="#/iniciar-sesion" data-solo-invitado>Iniciar sesión</a>
+                <a href="#/registrarse" data-solo-invitado>Registrarse</a>
+                <span class="nav-usuario" data-solo-usuario hidden>Hola, <strong data-nombre-usuario></strong></span>
+                <button type="button" class="nav-cerrar-sesion" data-solo-usuario data-cerrar-sesion hidden>Cerrar sesión</button>
                 <a href="#/carrito" class="nav-carrito">Carrito 🛒<span data-carrito-cantidad></span></a>
             </div>
         </nav>
