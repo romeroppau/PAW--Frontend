@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { agregarAlCarrito } from '../carrito.js';
+import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
 
@@ -47,8 +47,8 @@ export default {
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
             try {
-                await conBotonDeshabilitado(form.querySelector('button'), () => agregarAlCarrito(libro.slug));
-                navegar('/carrito');
+                // Sin sesión, primero lleva a iniciar sesión y después agrega el libro.
+                await conBotonDeshabilitado(form.querySelector('button'), () => agregarOIniciarSesion(libro.slug, navegar));
             } catch (error) {
                 mostrarAlerta(main.querySelector('[data-alerta]'), error.message);
             }

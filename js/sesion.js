@@ -52,6 +52,14 @@ export const iniciarSesion = async (datos) =>
 export const registrarse = async (datos) =>
     avisar((await api('/auth/registro', { method: 'POST', body: datos })).data);
 
+/**
+ * La API respondió 401 en medio del uso (el token venció o se borró la cookie):
+ * el frontend pasa a "sin sesión" para que el menú y las vistas se actualicen.
+ */
+export function sesionVencida() {
+    if (usuarioActual !== null) avisar(null);
+}
+
 /** POST /api/auth/logout: la API borra la cookie. */
 export async function cerrarSesion() {
     await api('/auth/logout', { method: 'POST' });

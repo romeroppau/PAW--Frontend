@@ -1,16 +1,32 @@
-import { actualizarCantidad, obtenerCarrito, quitarDelCarrito } from '../carrito.js';
+import {
+    actualizarCantidad, agregarAlCarrito, exigirSesion, obtenerCarrito, quitarDelCarrito, rutaDeLogin, tomarLibroPendiente,
+} from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
+import { sesionVencida } from '../sesion.js';
 
 /**
- * Carrito (#/carrito). Datos de GET /api/carrito.
+ * Carrito (#/carrito). Datos de GET /api/carrito. Requiere la sesión iniciada:
+ * sin sesión, lleva al login y después vuelve acá.
+ * Si alguien tocó "Añadir al carrito" antes de iniciar sesión, ese libro se agrega al llegar.
  * Al cambiar una cantidad o eliminar un libro se vuelve a mostrar la vista con el carrito actualizado.
  */
 export default {
     titulo: 'Carrito',
     estilos: ['css/paginas/carrito.css'],
 
-    cargar: () => obtenerCarrito(),
+    cargar: () => exigirSesion('/carrito', async () => {
+        const pendiente = tomarLibroPendiente();
+        if (pendiente) {
+            try {
+                return await agregarAlCarrito(pendiente);
+            } catch (error) {
+                if (error.status === 401) throw error;
+                // El libro ya no existe (404): se muestra el carrito igual.
+            }
+        }
+        return obtenerCarrito();
+    }),
 
     render: (carrito) => html`
         <section class="seccion-carrito" aria-labelledby="carrito-heading">
@@ -58,7 +74,7 @@ export default {
         `}
     `,
 
-    montar(main, carrito, { recargar }) {
+    montar(main, carrito, { recargar, navegar }) {
         const alerta = main.querySelector('[data-alerta]');
 
         // Envía la operación a la API; si sale bien, vuelve a mostrar el carrito; si no, el mensaje de error.
@@ -69,6 +85,12 @@ export default {
                     await conBotonDeshabilitado(form.querySelector('button'), operacion);
                     recargar();
                 } catch (error) {
+                    if (error.status === 401) {
+                        // La sesión venció mientras estaba en el carrito.
+                        sesionVencida();
+                        navegar(rutaDeLogin('/carrito'));
+                        return;
+                    }
                     mostrarAlerta(alerta, error.campos?.cantidad ?? error.message);
                 }
             });
