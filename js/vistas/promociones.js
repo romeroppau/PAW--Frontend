@@ -1,53 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
+import { html } from '../html.js';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAWPrints</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="promociones.css">
+/**
+ * Promociones (#/promociones). Maqueta estática del TP2: los filtros y los botones
+ * todavía no tienen funcionalidad (no hay promociones en la API).
+ */
+export default {
+    titulo: 'Promociones',
+    estilos: ['css/paginas/promociones.css'],
+    claseMain: 'promociones-main',
 
-</head>
-
-<body>
-    <header>
-        <a href="../index/index.html"></a>
-        <nav class="nav-principal">
-            <div class="nav-grupo-izq">
-                <a href="../index/index.html">Inicio</a>
-                <a href="../catalogo/catalogo.html">Catalogo</a>
-                <a href="promociones.html">Promociones</a>
-                <a href="../nosotros/nosotros.html">Nosotros</a>
-                <a href="../contacto/contacto.html">Contacto</a>
-            </div>
-            <form action="../catalogo/catalogo.html" method="GET" role="search">
-                <label for="buscar">Buscar</label>
-                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
-                <button type="submit">Buscar</button>
-            </form>
-            <div class="nav-grupo-der">
-                <a href="../inicioSesion/iniciarSesion.html">Iniciar sesión</a>
-                <a href="../registrarse/registrarse.html">Registrarse</a>
-                <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
-            </div>
-        </nav>
-    </header>
-    <main class="promociones-main">
+    render: () => html`
         <aside class="filtros" aria-label="Filtros de promociones">
             <form>
                 <fieldset class="filtro">
                     <legend>% Descuento</legend>
                     <div class="rango">
                         <label for="desc-min">Mínimo</label>
-
                         <div class="rango-control">
                             <input type="range" id="desc-min" name="desc-min" min="0" max="100" value="0">
                             <output id="desc-min-value">0%</output>
                         </div>
 
                         <label for="desc-max">Máximo</label>
-
                         <div class="rango-control">
                             <input type="range" id="desc-max" name="desc-max" min="0" max="100" value="100">
                             <output id="desc-max-value">100%</output>
@@ -99,12 +73,10 @@
         <section class="lista-promociones" aria-labelledby="promociones-heading">
             <h2 id="promociones-heading">Promociones</h2>
             <div class="productos-promocion">
-                <!-- PROMOCIÓN 1 -->
                 <article class="promocion">
                     <h3>El monje que vendió su Ferrari</h3>
                     <figure>
-                        <img src="../media/libros/monje-ferrari.jpg" alt="Portada de El monje que vendió su Ferrari"
-                            width="150">
+                        <img src="media/libros/monje-ferrari.jpg" alt="Portada de El monje que vendió su Ferrari" width="150">
                     </figure>
                     <p class="descuento">
                         <mark>-20%</mark>
@@ -117,11 +89,10 @@
                         Añadir al carrito
                     </button>
                 </article>
-                <!-- PROMOCIÓN 2 -->
                 <article class="promocion">
                     <h3>El poder del ahora</h3>
                     <figure>
-                        <img src="../media/libros/poder-ahora.jpg" alt="Portada de El poder del ahora" width="150">
+                        <img src="media/libros/poder-ahora.jpg" alt="Portada de El poder del ahora" width="150">
                     </figure>
                     <p class="descuento">
                         <mark>-15%</mark>
@@ -134,12 +105,7 @@
                         Añadir al carrito
                     </button>
                 </article>
+            </div>
         </section>
-    </main>
-
-    <footer>
-        <p>© 2026 PAWprints - La 25</p>
-    </footer>
-</body>
-
-</html>
+    `,
+};

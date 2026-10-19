@@ -1,38 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
+import { html } from '../html.js';
+import { mostrarAlerta } from '../formularios.js';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAWPrints</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="contacto.css">
-</head>
+/**
+ * Contacto (#/contacto). Contenido estático.
+ * El formulario de consulta todavía no tiene endpoint en la API.
+ */
+export default {
+    titulo: 'Contacto',
+    estilos: ['css/paginas/contacto.css'],
 
-<body>
-    <header>
-        <a href="../index/index.html"></a>
-        <nav class="nav-principal">
-            <div class="nav-grupo-izq">
-                <a href="../index/index.html">Inicio</a>
-                <a href="../catalogo/catalogo.html">Catalogo</a>
-                <a href="../promociones/promociones.html">Promociones</a>
-                <a href="../nosotros/nosotros.html">Nosotros</a>
-                <a href="contacto.html">Contacto</a>
-            </div>
-            <form action="../catalogo/catalogo.html" method="GET" role="search">
-                <label for="buscar">Buscar</label>
-                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
-                <button type="submit">Buscar</button>
-            </form>
-            <div class="nav-grupo-der">
-                <a href="../inicioSesion/iniciarSesion.html">Iniciar sesión</a>
-                <a href="../registrarse/registrarse.html">Registrarse</a>
-                <a href="../carrito/carrito.html" class="nav-carrito">Carrito 🛒</a>
-            </div>
-        </nav>
-    </header>
-    <main>
+    render: () => html`
         <section class="contacto-presentacion">
             <h1>Hablemos</h1>
             <p>
@@ -44,18 +21,14 @@
         <section class="informacion-contacto">
             <h2>Encontranos</h2>
             <article>
-                <span class="icono-contacto" aria-hidden="true">⌖</span><!--No hay tags para los iconos
-                lo que mas representa semanticamente a un icono es <span> 
-                que es el contenedor generico para lineas. Se 
-                incluye el atributo aria-hidden="true" para que
-                los lectores de pantalla ignoren el icono 
-                y no lea "signo de posicion" o algo raro-->
+                <!-- Los íconos son decorativos: aria-hidden evita que el lector de pantalla los lea. -->
+                <span class="icono-contacto" aria-hidden="true">⌖</span>
                 <h3>Visitá nuestra librería</h3>
                 <address>
                     Av. Principal 123, Luján
                 </address>
-
-                <a href="#">
+                <!-- Enlaces de relleno (en el TP2 eran href="#", que en el SPA llevaría al inicio). -->
+                <a href="#/contacto">
                     Ver ubicación
                 </a>
             </article>
@@ -75,7 +48,6 @@
                 <p>
                     contacto@pawprints.com
                 </p>
-
                 <a href="mailto:contacto@pawprints.com">
                     Enviar email
                 </a>
@@ -91,7 +63,7 @@
                 Completá el formulario y dejanos tu mensaje.
                 Nos encanta conocer a nuestros lectores.
             </p>
-            <form action="#" method="post">
+            <form data-consulta>
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" maxlength="15" minlength="2" placeholder="Tu nombre">
                 <label for="email">Email</label>
@@ -101,6 +73,7 @@
                 <button type="submit">
                     Enviar consulta
                 </button>
+                <p role="status" hidden data-aviso></p>
             </form>
         </section>
 
@@ -109,16 +82,21 @@
             <p>
                 Encontrá nuestras novedades, recomendaciones y próximos lanzamientos.
             </p>
-            <a href="#" class="red-social">
+            <a href="#/contacto" class="red-social">
                 Instagram
             </a>
-            <a href="#" class="red-social">
+            <a href="#/contacto" class="red-social">
                 Facebook
             </a>
         </section>
-    </main>
-    <footer>
-        <p>© 2026 PAWprints - La 25</p>
-    </footer>
-</body>
-</html>
+    `,
+
+    montar(main) {
+        const form = main.querySelector('[data-consulta]');
+        form.addEventListener('submit', (evento) => {
+            evento.preventDefault();
+            mostrarAlerta(form.querySelector('[data-aviso]'),
+                'El envío de consultas todavía no está disponible. Escribinos a contacto@pawprints.com.');
+        });
+    },
+};

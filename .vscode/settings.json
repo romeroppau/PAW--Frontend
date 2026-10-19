@@ -1,3 +1,6 @@
 {
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    // Abrir en localhost (no 127.0.0.1): la API se levanta con "php -S localhost:8000",
+    // que en Windows escucha solo en localhost (IPv6), y el front pide la API al mismo host.
+    "liveServer.settings.host": "localhost"
 }
