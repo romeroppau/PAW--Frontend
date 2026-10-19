@@ -15,9 +15,6 @@ const contador = document.querySelector('[data-carrito-cantidad]');
 document.addEventListener('carrito:cambio', ({ detail: carrito }) => {
     contador.textContent = carrito.count > 0 ? ` (${carrito.count})` : '';
 });
-obtenerCarrito().catch(() => {
-    // Si la API no responde, el menú queda sin contador; la vista actual muestra el error si lo necesita.
-});
 
 // Menú según la sesión: "Iniciar sesión / Registrarse" o "Hola, usuario / Cerrar sesión".
 document.addEventListener('sesion:cambio', ({ detail: usuario }) => {
@@ -25,6 +22,14 @@ document.addEventListener('sesion:cambio', ({ detail: usuario }) => {
     document.querySelectorAll('[data-solo-usuario]').forEach((el) => { el.hidden = usuario === null; });
     // textContent: el nombre nunca se interpreta como HTML.
     document.querySelector('[data-nombre-usuario]').textContent = usuario?.username ?? '';
+
+    // El carrito es de cada usuario: con sesión se muestra su cantidad; sin sesión, nada.
+    contador.textContent = '';
+    if (usuario) {
+        obtenerCarrito().catch(() => {
+            // Si la API no responde, el menú queda sin contador; la vista actual muestra el error si lo necesita.
+        });
+    }
 });
 sesionInicial();
 

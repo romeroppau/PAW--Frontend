@@ -171,8 +171,8 @@ Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://lo
 | `#/` | `vistas/inicio.js` | — |
 | `#/catalogo?q=&orden=&page=` | `vistas/catalogo.js` | `GET /api/libros` |
 | `#/catalogo/{slug}` | `vistas/libro.js` | `GET /api/libros/{slug}` |
-| `#/carrito` | `vistas/carrito.js` | `GET/PATCH/DELETE /api/carrito...` |
-| `#/compra` | `vistas/compra.js` | `POST /api/compra` |
+| `#/carrito` (requiere sesión) | `vistas/carrito.js` | `GET/POST/PATCH/DELETE /api/carrito...` |
+| `#/compra` (requiere sesión) | `vistas/compra.js` | `POST /api/compra` (envía el mail al personal) |
 | `#/compra/confirmada` | `vistas/compraConfirmada.js` | — |
 | `#/nosotros`, `#/contacto`, `#/promociones` | estáticas | — |
 | `#/iniciar-sesion?volver=` | `vistas/iniciarSesion.js` | `POST /api/auth/login` |
@@ -188,6 +188,10 @@ Usuario ──▶ index.html + js/app.js ──fetch──▶ API PHP (http://lo
 * Las reglas de los formularios (`js/validaciones.js`, `USUARIO`) son las mismas que valida el backend
   (`App\Models\User`). La coincidencia de contraseñas se controla con `setCustomValidity`.
 * `?volver=/ruta` en el login o el registro lleva a esa ruta después de entrar (solo rutas del sitio).
+* **El carrito y la compra requieren la sesión iniciada.** "Añadir al carrito" sin sesión guarda el libro en
+  `sessionStorage`, lleva al login (con un aviso) y, al volver al carrito, lo agrega solo. `#/carrito` y `#/compra`
+  sin sesión (o con la sesión vencida) llevan al login y después vuelven. Cada usuario tiene su propio carrito.
+* En la compra, el email y el teléfono se precargan con los datos de la cuenta.
 
 ## Organización del proyecto
 
@@ -212,7 +216,7 @@ PAW--Frontend--TP1/
 │   ├── rutas.js             ← mapa ruta → vista
 │   ├── api.js               ← fetch a la API (JSON, cookies, errores)
 │   ├── html.js              ← plantillas html`` con escape automático (previene XSS), formato de precios
-│   ├── carrito.js           ← operaciones del carrito (avisa al menú con el evento 'carrito:cambio')
+│   ├── carrito.js           ← operaciones del carrito, libro pendiente y exigirSesion() (avisa al menú con 'carrito:cambio')
 │   ├── sesion.js            ← sesión del usuario: login, registro, logout (avisa al menú con 'sesion:cambio')
 │   ├── formularios.js       ← errores por campo, avisos, botones mientras se envía
 │   ├── validaciones.js      ← reglas de validación (las mismas que el backend)

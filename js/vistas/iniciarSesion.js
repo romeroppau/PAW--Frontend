@@ -1,3 +1,4 @@
+import { hayLibroPendiente } from '../carrito.js';
 import { html } from '../html.js';
 import { conBotonDeshabilitado, limpiarErrores, mostrarAlerta, mostrarErrores } from '../formularios.js';
 import { Redireccion } from '../router.js';
@@ -22,6 +23,9 @@ export default {
 
     render: (datos, { query }) => html`
         <h1>Iniciar sesión</h1>
+        ${hayLibroPendiente() && html`
+            <p class="aviso-sesion" role="status">Iniciá sesión (o registrate) para agregar el libro al carrito.</p>
+        `}
         <section>
             <form data-login>
                 <p class="alerta-error" role="alert" hidden data-alerta></p>

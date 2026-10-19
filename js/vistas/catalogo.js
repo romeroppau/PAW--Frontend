@@ -1,5 +1,5 @@
 import { api, urlApi } from '../api.js';
-import { agregarAlCarrito } from '../carrito.js';
+import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
 
@@ -124,13 +124,13 @@ export default {
             navegar(`/catalogo?${new URLSearchParams(filtros)}`);
         });
 
-        // Añadir al carrito y llevar al usuario al carrito.
+        // Añadir al carrito y llevar al carrito (sin sesión, primero lleva a iniciar sesión).
         main.querySelectorAll('[data-agregar]').forEach((form) => {
             form.addEventListener('submit', async (evento) => {
                 evento.preventDefault();
                 try {
-                    await conBotonDeshabilitado(form.querySelector('button'), () => agregarAlCarrito(form.elements.libro.value));
-                    navegar('/carrito');
+                    await conBotonDeshabilitado(form.querySelector('button'),
+                        () => agregarOIniciarSesion(form.elements.libro.value, navegar));
                 } catch (error) {
                     mostrarAlerta(main.querySelector('[data-alerta]'), error.message);
                 }
