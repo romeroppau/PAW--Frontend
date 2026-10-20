@@ -3,7 +3,7 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://REEMPLAZAR-CON-LA-URL-DE-RENDER.onrender.com/api/:path*"
+            "destination": "https://pawprints-api-ehd1.onrender.com/api/:path*"
         }
     ]
 }
