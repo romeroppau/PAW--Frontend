@@ -250,14 +250,18 @@ Abrir siempre con `localhost` (no `127.0.0.1`). El frontend pide la API al mismo
 `localhost` (IPv6): desde `127.0.0.1` la API no responde y el sitio muestra "No pudimos conectar con el servidor".
 Live Server ya está configurado para abrir en `localhost`.
 
-## Despliegue (previsto)
+## Despliegue
 
-El sitio todavía no está publicado. El plan es: frontend en **Vercel**, API en **Render** y base de datos en **Aiven**.
+Frontend en **Vercel**, API en **Render** (`https://pawprints-api-ehd1.onrender.com`); la base de datos (**Aiven**)
+llega en la próxima entrega.
 
 * `js/config.js` elige la URL de la API: `http://localhost:8000/api` en desarrollo y `/api` en producción.
 * `vercel.json` hace que Vercel reenvíe `/api/*` a la API en Render. Para el navegador todo está en el mismo
   dominio (el de Vercel), así las cookies de sesión son propias del sitio y no "de terceros"
   (que Safari, el modo incógnito y otros navegadores bloquean).
-* Al publicar: reemplazar `REEMPLAZAR-CON-LA-URL-DE-RENDER` en `vercel.json` por la URL real de la API y
-  agregar el dominio de Vercel a `CORS_ORIGINS` en las variables de entorno de Render.
+* En Vercel: proyecto importado desde este repositorio, *Framework Preset* **Other**, sin comando de build
+  (es un sitio estático).
+* El dominio de Vercel tiene que estar en `CORS_ORIGINS` (variables de entorno de Render): la API rechaza con 403
+  los POST cuyo `Origin` no esté en esa lista (protección CSRF).
+* El plan gratis de Render se duerme tras 15 minutos sin uso: la primera petición puede tardar entre 30 y 60 segundos.
 
