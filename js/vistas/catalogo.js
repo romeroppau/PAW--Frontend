@@ -3,37 +3,19 @@ import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
 
-// Búsqueda y orden actuales, sin los vacíos: se conservan al paginar y al exportar.
-function filtrosDe(meta) {
-    const filtros = {};
-    if (meta.query) filtros.q = meta.query;
-    if (meta.sort) filtros.orden = meta.sort;
-    return filtros;
-}
-
-const urlPagina = (filtros, pagina) => `#/catalogo?${new URLSearchParams({ ...filtros, page: pagina })}`;
-
 /**
- * Listado del catálogo (#/catalogo?q=texto&orden=precio-asc&page=2).
- * Los datos vienen de GET /api/libros con los mismos parámetros.
+ * Listado del catálogo (#/catalogo).
+ * Se piden TODOS los libros una sola vez (GET /api/libros/todos): la búsqueda,
+ * el orden, el rango de precio y el paginado se van a resolver acá, en JS.
  */
 export default {
-    titulo: ({ meta }) => (meta.query ? `Resultados para "${meta.query}"` : 'Catálogo'),
+    titulo: 'Catálogo',
     estilos: ['css/paginas/catalogo.css', 'css/paginas/catalogo-paginado.css'],
 
-    // ?page=99 o ?page=abc: la API responde 404 y el router muestra la vista "no encontrada".
-    cargar: ({ query }) => {
-        const parametros = new URLSearchParams();
-        for (const clave of ['q', 'orden', 'page']) {
-            if (query.get(clave)) parametros.set(clave, query.get(clave));
-        }
-        return api(`/libros?${parametros}`);
-    },
+    cargar: () => api('/libros/todos'),
 
-    render: ({ data: libros, meta, sorts }) => {
-        const filtros = filtrosDe(meta);
-        const exportar = urlApi('/libros/export.csv') + (Object.keys(filtros).length ? `?${new URLSearchParams(filtros)}` : '');
-        const paginas = Array.from({ length: meta.total_pages }, (_, i) => i + 1);
+    render: ({ data: libros, sorts }) => {
+        const exportar = urlApi('/libros/export.csv');
 
         return html`
             <h1>Catálogo</h1>
@@ -45,7 +27,7 @@ export default {
                     <fieldset>
                         <legend>Búsqueda</legend>
                         <label for="q-catalogo">Título o autor</label>
-                        <input type="search" id="q-catalogo" name="q" value="${meta.query}" maxlength="100">
+                        <input type="search" id="q-catalogo" name="q" maxlength="100">
                     </fieldset>
                     <fieldset>
                         <legend>Orden</legend>
@@ -53,7 +35,7 @@ export default {
                         <select id="orden" name="orden">
                             <option value="">Predeterminado</option>
                             ${Object.entries(sorts).map(([valor, texto]) => html`
-                                <option value="${valor}" ${valor === meta.sort && 'selected'}>${texto}</option>
+                                <option value="${valor}">${texto}</option>
                             `)}
                         </select>
                     </fieldset>
@@ -62,11 +44,7 @@ export default {
             </aside>
 
             <div class="catalogo-info">
-                <p>
-                    ${meta.query
-                        ? html`${meta.total} resultado(s) para "<strong>${meta.query}</strong>" · <a href="#/catalogo">Ver todos</a>`
-                        : html`${meta.total} libros en el catálogo`}
-                </p>
+                <p>${libros.length} libros en el catálogo</p>
                 <a href="${exportar}" download>Descargar CSV</a>
             </div>
 
@@ -93,22 +71,6 @@ export default {
                         `)}
                     </section>
                 `}
-
-            ${meta.total_pages > 1 && html`
-                <nav class="paginacion" aria-label="Páginas del catálogo">
-                    <ul>
-                        ${meta.page > 1 && html`<li><a href="${urlPagina(filtros, meta.page - 1)}" rel="prev">Anterior</a></li>`}
-                        ${paginas.map((pagina) => html`
-                            <li>
-                                ${pagina === meta.page
-                                    ? html`<span aria-current="page">${pagina}</span>`
-                                    : html`<a href="${urlPagina(filtros, pagina)}">${pagina}</a>`}
-                            </li>
-                        `)}
-                        ${meta.page < meta.total_pages && html`<li><a href="${urlPagina(filtros, meta.page + 1)}" rel="next">Siguiente</a></li>`}
-                    </ul>
-                </nav>
-            `}
         `;
     },
 
