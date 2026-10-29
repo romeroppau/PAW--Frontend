@@ -24,28 +24,88 @@ main {
     grid-area: paginacion;
 }
 
+/* Celular: "‹ Anterior   Página 3 de 5   Siguiente ›" en una sola línea, con los
+botones siempre en los extremos (los números no entran en el ancho de la pantalla) */
 .paginacion ul {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
 }
 
-.paginacion a,
-.paginacion span,
-.catalogo-info a {
+.paginacion .numero {
+    display: none;
+}
+
+.paginacion .resumen {
+    color: var(--color-texto);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Tablet y desktop: hay lugar para los números de página */
+@media (min-width: 600px) {
+    .paginacion ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .paginacion .numero {
+        display: list-item;
+    }
+
+    .paginacion .resumen {
+        display: none;
+    }
+}
+
+/* "Descargar CSV" (ahora un botón: arma el archivo en JS) */
+.catalogo-info button {
     display: inline-block;
+    min-height: 44px;
     padding: 0.5rem 0.9rem;
     border: 1.5px solid var(--color-borde);
     border-radius: var(--radio);
     color: var(--color-morado);
-    text-decoration: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
 }
 
-.paginacion a:hover,
-.catalogo-info a:hover {
+.catalogo-info button:hover {
     background-color: var(--color-morado);
     color: #fff;
+}
+
+/* botones de página (la paginación se arma en JS): mismo aspecto que los enlaces,
+con al menos 44px de lado para tocarlos cómodos con el dedo */
+.paginacion button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    border: 1.5px solid var(--color-borde);
+    border-radius: var(--radio);
+    color: var(--color-morado);
+    background: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.paginacion button:hover:not(:disabled) {
+    background-color: var(--color-morado);
+    color: #fff;
+}
+
+/* Anterior en la primera página y Siguiente en la última */
+.paginacion button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* páginas salteadas */
+.paginacion .puntos {
+    color: var(--color-morado);
+    padding-inline: 0.25rem;
 }
 
 /* página actual */
@@ -53,6 +113,78 @@ main {
     background-color: var(--color-morado);
     color: #fff;
     font-weight: 600;
+}
+
+/* ── Panel de filtros plegable (<details>) ── */
+/* barra "Filtros y orden ▾": siempre visible, al tocarla abre o cierra el panel */
+.panel-filtros summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px; /*zona cómoda para tocar con el dedo*/
+    cursor: pointer;
+    list-style: none; /*saca el triángulo que el navegador pone por defecto*/
+}
+
+.panel-filtros summary::-webkit-details-marker {
+    display: none; /*lo mismo para Safari, que lo dibuja de otra forma*/
+}
+
+/* flechita propia, que gira al abrir el panel */
+.panel-filtros summary::after {
+    content: "▾";
+    color: var(--color-morado);
+    font-size: 1.2rem;
+    transition: transform var(--transicion);
+}
+
+.panel-filtros[open] summary::after {
+    transform: rotate(180deg);
+}
+
+/* el título ahora está dentro del summary: mismos estilos que tenía "aside>h2" en catalogo.css */
+.panel-filtros summary h2 {
+    font-family: var(--fuente-titulo);
+    color: var(--color-morado);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* cantidad de filtros activos, ej. "(2)" */
+.panel-filtros summary h2 span {
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+/* abierto: línea que separa el título de los filtros, como antes */
+.panel-filtros[open] summary {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+/* "Limpiar filtros": acción secundaria, con borde en vez de fondo lleno para no competir con "Ver resultados" */
+aside form .limpiar-filtros {
+    width: 100%;
+    min-height: 44px;
+    border: 1.5px solid var(--color-borde);
+    border-radius: var(--radio);
+    color: var(--color-morado);
+    background: none;
+    font-family: var(--fuente-titulo);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+aside form .limpiar-filtros:hover {
+    border-color: var(--color-morado);
+}
+
+/* en desktop los filtros se aplican solos y el panel queda a la vista: "Ver resultados" sobra */
+@media (min-width: 1000px) {
+    aside form button[type="submit"] {
+        display: none;
+    }
 }
 
 /* buscador y selector de orden dentro del aside de filtros */

@@ -10,6 +10,13 @@ import { cerrarSesion, sesionInicial } from './sesion.js';
  */
 const router = new Router(document.querySelector('#app'), rutas, { noEncontrada, error });
 
+// Alto del header fijo, en la variable CSS --alto-header (la usa scroll-padding-top en style.css).
+// Se mide acá porque cambia según el ancho de pantalla: el menú ocupa más o menos líneas.
+const header = document.querySelector('body > header');
+new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--alto-header', `${header.offsetHeight}px`);
+}).observe(header);
+
 // Cantidad de ejemplares en el carrito, junto al enlace del menú.
 const contador = document.querySelector('[data-carrito-cantidad]');
 document.addEventListener('carrito:cambio', ({ detail: carrito }) => {
