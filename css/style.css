@@ -88,6 +88,13 @@ body > header {
     padding: 0.5rem 1.5rem;
 }
 
+/* Cuando el navegador mueve la página para mostrar algo (pasar de campo con Tab o con las
+flechas del teclado del celular, ir a un ancla), deja libre arriba el alto del header fijo
+para que no lo tape. --alto-header lo calcula app.js: el header mide distinto según el ancho. */
+html {
+    scroll-padding-top: calc(var(--alto-header, 0px) + 1rem);
+}
+
 
 /* Logo oculto en mobile por defecto */
 body > header > img {
