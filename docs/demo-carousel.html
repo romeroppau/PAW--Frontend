@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo del carousel | PAWPrints</title>
+    <link rel="stylesheet" href="../css/lib/carousel.css">
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 1rem; line-height: 1.5; }
+        label { font-weight: 600; }
+        select { font: inherit; padding: .3rem .5rem; }
+        .demo { margin-block: 1.5rem 2.5rem; }
+    </style>
+</head>
+<body>
+    <h1>Demo del carousel</h1>
+    <p>
+        La librería (<code>js/lib/carousel.js</code>) recibe solo el contenedor. Las flechas del teclado, los botones,
+        las miniaturas y el swipe pasan las diapositivas; el botón ⛶ la muestra en pantalla completa.
+        Para ver la barra de progreso: DevTools → Network → <em>Slow 3G</em>, y recargar.
+    </p>
+
+    <p>
+        <label for="efecto">Efecto de transición:</label>
+        <select id="efecto">
+            <option value="slide">slide (deslizar)</option>
+            <option value="fade">fade (fundido)</option>
+            <option value="zoom">zoom</option>
+            <option value="flip">flip (giro)</option>
+            <option value="aleatorio">aleatorio</option>
+        </select>
+    </p>
+
+    <!-- Cada hijo es una diapositiva. Los enlaces llevan al detalle del libro dentro de la aplicación. -->
+    <div class="demo" id="demo" data-efecto="slide" data-intervalo="3500" data-ratio="16/9" data-etiqueta="Libros destacados">
+        <figure><a href="../index.html#/catalogo/1984"><img src="../media/libros/1984.jpg" alt="Tapa de 1984"></a><figcaption>1984 — George Orwell</figcaption></figure>
+        <figure><a href="../index.html#/catalogo/cien-anos-de-soledad"><img src="../media/libros/cien-anos-de-soledad.jpg" alt="Tapa de Cien años de soledad"></a><figcaption>Cien años de soledad — Gabriel García Márquez</figcaption></figure>
+        <figure><a href="../index.html#/catalogo/el-aleph"><img src="../media/libros/el-aleph.jpg" alt="Tapa de El Aleph"></a><figcaption>El Aleph — Jorge Luis Borges</figcaption></figure>
+        <figure><a href="../index.html#/catalogo/el-principito"><img src="../media/libros/el-principito.jpg" alt="Tapa de El principito"></a><figcaption>El principito — Antoine de Saint-Exupéry</figcaption></figure>
+        <figure><a href="../index.html#/catalogo/ficciones"><img src="../media/libros/ficciones.jpg" alt="Tapa de Ficciones"></a><figcaption>Ficciones — Jorge Luis Borges</figcaption></figure>
+        <figure><a href="../index.html#/catalogo/sapiens"><img src="../media/libros/sapiens.jpg" alt="Tapa de Sapiens"></a><figcaption>Sapiens — Yuval Noah Harari</figcaption></figure>
+    </div>
+
+    <script type="module">
+        import { Carousel } from '../js/lib/carousel.js';
+
+        const demo = document.querySelector('#demo');
+        new Carousel(demo);
+
+        // La librería lee data-efecto en cada transición, así que se puede cambiar en cualquier momento.
+        document.querySelector('#efecto').addEventListener('change', (e) => {
+            demo.dataset.efecto = e.target.value;
+        });
+    </script>
+</body>
+</html>

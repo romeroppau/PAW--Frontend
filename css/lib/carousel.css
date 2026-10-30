@@ -1,0 +1,329 @@
+/* carousel.css — Estilos de js/lib/carousel.js. Todas las clases empiezan con "cr". */
+
+.cr {
+    --cr-acento: var(--color-primario, #5c068c);
+    --cr-acento-claro: var(--color-borde, #d8c6e5);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--radio, 16px);
+}
+
+.cr:focus-visible {
+    outline: 3px solid var(--cr-acento);
+    outline-offset: 3px;
+}
+
+/* ─── Marco y escenario (donde se apilan las diapositivas) ─── */
+
+.cr__marco {
+    position: relative;
+    border-radius: inherit;
+}
+
+.cr__escenario {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--cr-ratio, 16 / 9);
+    max-height: 75vh;
+    border-radius: inherit;
+    background: #140b1a;
+    perspective: 1200px;          /* para el efecto de giro */
+    touch-action: pan-y;          /* el scroll vertical sigue andando; el horizontal es del swipe */
+    user-select: none;
+}
+
+/* ─── Diapositivas ─── */
+
+.cr__slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: .75rem;
+    overflow: hidden;
+    isolation: isolate;
+    backface-visibility: hidden;
+}
+
+.cr__slide.is-activa,
+.cr__slide.is-saliendo {
+    display: flex;
+}
+
+.cr__slide.is-activa { z-index: 2; }
+.cr__slide.is-saliendo { z-index: 1; }
+
+/* Fondo difuminado con la misma imagen: las tapas verticales no dejan bandas vacías a los costados. */
+.cr__slide::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    z-index: -1;
+    background: var(--cr-img, none) center / cover no-repeat;
+    filter: blur(22px) brightness(.55);
+}
+
+.cr__slide > a,
+.cr__slide > img {
+    flex: 1 1 0;
+    min-height: 0;
+    max-width: 100%;
+}
+
+.cr__slide > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* La imagen se redimensiona para entrar completa en el espacio disponible (también en pantalla completa). */
+.cr__slide img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgb(0 0 0 / .45);
+    -webkit-user-drag: none;
+}
+
+.cr__slide figcaption {
+    flex: none;
+    max-width: 100%;
+    padding: .6rem .75rem .25rem;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 1px 3px rgb(0 0 0 / .75);
+}
+
+/* ─── Pantalla de carga con la barra de progreso ─── */
+
+.cr__carga {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: .75rem;
+    padding: 1rem;
+    border-radius: inherit;
+    background: #140b1a;
+    color: #fff;
+    text-align: center;
+}
+
+.cr__carga p { margin: 0; }
+
+.cr__barra {
+    width: min(300px, 70vw);
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgb(255 255 255 / .2);
+}
+
+.cr__barra-relleno {
+    display: block;
+    width: var(--cr-progreso, 0%);
+    height: 100%;
+    border-radius: inherit;
+    background: var(--cr-acento-claro);
+    transition: width .2s ease;
+}
+
+.cr__porcentaje {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+/* Al terminar la descarga, la pantalla de carga se desvanece y empieza la muestra. */
+.cr--lista .cr__carga {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+}
+
+/* ─── Botones, herramientas y contador ─── */
+
+.cr--cargando .cr__btn,
+.cr--cargando .cr__herramientas,
+.cr--cargando .cr__contador {
+    display: none;
+}
+
+.cr__btn,
+.cr__herr {
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 0 0 / .55);
+    color: #fff;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .2s ease;
+}
+
+.cr__btn:hover,
+.cr__herr:hover {
+    background: var(--cr-acento);
+}
+
+.cr__btn:focus-visible,
+.cr__herr:focus-visible,
+.cr__mini:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px var(--cr-acento);
+}
+
+.cr__btn {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    inline-size: 44px;
+    block-size: 44px;
+    translate: 0 -50%;
+    font-size: 1.8rem;
+}
+
+.cr__btn--ant { left: .5rem; }
+.cr__btn--sig { right: .5rem; }
+
+.cr__herramientas {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 3;
+    display: flex;
+    gap: .4rem;
+}
+
+.cr__herr {
+    inline-size: 40px;
+    block-size: 40px;
+    font-size: 1.1rem;
+}
+
+.cr__contador {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    z-index: 3;
+    margin: 0;
+    padding: .2rem .7rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / .55);
+    color: #fff;
+    font-size: .8rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ─── Miniaturas ─── */
+
+.cr__miniaturas {
+    position: relative;               /* el script calcula el desplazamiento respecto de este contenedor */
+    display: flex;
+    gap: .5rem;
+    padding: .25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.cr__mini {
+    flex: 0 0 auto;
+    inline-size: clamp(46px, 9vw, 72px);
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: #140b1a;
+    opacity: .65;
+    cursor: pointer;
+    transition: opacity .2s ease, border-color .2s ease;
+}
+
+.cr__mini:hover { opacity: 1; }
+
+.cr__mini[aria-current="true"] {
+    border-color: var(--cr-acento);
+    opacity: 1;
+}
+
+.cr__mini img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ─── Pantalla completa: ocupa todo el viewport y las imágenes se redimensionan ─── */
+
+html.cr-bloqueado { overflow: hidden; }
+
+.cr--pantalla {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    max-width: none;
+    margin: 0;
+    padding: .5rem;
+    border-radius: 0;
+    background: #000;
+}
+
+.cr--pantalla .cr__marco {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.cr--pantalla .cr__escenario {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    border-radius: 0;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 600px) {
+    .cr__btn {
+        inline-size: 38px;
+        block-size: 38px;
+        font-size: 1.5rem;
+    }
+
+    .cr__herr {
+        inline-size: 36px;
+        block-size: 36px;
+    }
+
+    .cr__slide { padding: .5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cr--lista .cr__carga,
+    .cr__barra-relleno,
+    .cr__btn,
+    .cr__herr,
+    .cr__mini {
+        transition: none;
+    }
+}

@@ -1,7 +1,11 @@
-import { html } from '../html.js';
+import { api } from '../api.js';
+import { html, urlTapa } from '../html.js';
+import { Carousel } from '../lib/carousel.js';
 
 /**
- * Página de inicio (#/). Contenido estático.
+ * Página de inicio (#/).
+ * Destacados: carousel con libros de la API (se oculta si la API no responde).
+ * Más vendidos: contenido estático.
  */
 export default {
     titulo: 'Inicio',
@@ -18,6 +22,12 @@ export default {
             <p>
                 Nuestra tienda online está disponible las 24 horas para que explores el catálogo completo y compres tus próximas lecturas sin salir de casa.
             </p>
+        </section>
+
+        <!-- Oculta hasta que la API responda. -->
+        <section hidden data-destacados-seccion>
+            <h2>Destacados</h2>
+            <div data-destacados data-efecto="aleatorio" data-ratio="16/9" data-etiqueta="Libros destacados"></div>
         </section>
 
         <section>
@@ -54,4 +64,31 @@ export default {
             </section>
         </div>
     `,
+
+    // Se ejecuta con el HTML ya insertado en <main>.
+    montar: async (main) => {
+        const seccion = main.querySelector('[data-destacados-seccion]');
+        const contenedor = main.querySelector('[data-destacados]');
+        try {
+            const { data: libros } = await api('/libros');
+            // El usuario pudo cambiar de vista mientras se pedían los libros.
+            if (!contenedor.isConnected) return;
+
+            const conTapa = libros.filter((libro) => libro.cover);
+            if (conTapa.length === 0) return;
+
+            contenedor.innerHTML = String(html`${conTapa.map((libro) => html`
+                <figure>
+                    <a href="#/catalogo/${encodeURIComponent(libro.slug)}">
+                        <img src="${urlTapa(libro)}" alt="Portada de ${libro.title}">
+                    </a>
+                    <figcaption>${libro.title} — ${libro.author}</figcaption>
+                </figure>
+            `)}`);
+            seccion.hidden = false;
+            new Carousel(contenedor);
+        } catch {
+            // Sin API, el inicio se ve igual, sin la sección de destacados.
+        }
+    },
 };
