@@ -6,6 +6,7 @@ import { dinero, html, urlTapa } from '../html.js';
 /**
  * Detalle de un libro (#/catalogo/{slug}). Datos de GET /api/libros/{slug}.
  * Si el libro no existe, la API responde 404 y el router muestra la vista "no encontrada".
+ * Con ?cargado=1 (al venir de "Cargar un libro") avisa que el libro se cargó.
  */
 export default {
     titulo: ({ data: libro }) => libro.title,
@@ -13,7 +14,10 @@ export default {
 
     cargar: ({ params }) => api(`/libros/${encodeURIComponent(params.slug)}`),
 
-    render: ({ data: libro }) => html`
+    render: ({ data: libro }, { query }) => html`
+        ${query.get('cargado') === '1' && html`
+            <p class="alerta-exito" role="status">El libro se cargó correctamente y ya está en el catálogo.</p>
+        `}
         <article>
             <section>
                 <img src="${urlTapa(libro)}" alt="Portada de ${libro.title}" width="300">
@@ -42,7 +46,13 @@ export default {
         </article>
     `,
 
-    montar(main, { data: libro }, { navegar }) {
+    montar(main, { data: libro }, { navegar, ruta, query }) {
+        // El aviso se muestra una sola vez: se saca ?cargado de la URL (replaceState no recarga la vista),
+        // así al recargar la página o compartir el enlace no vuelve a aparecer.
+        if (query.has('cargado')) {
+            history.replaceState(null, '', '#' + ruta);
+        }
+
         const form = main.querySelector('[data-agregar]');
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();

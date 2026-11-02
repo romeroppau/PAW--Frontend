@@ -34,3 +34,23 @@ export const USUARIO = {
     CONTRASENIA_MAX: 72,
     CONTRASENIA_PATRON: '(?=.*\\p{L})(?=.*\\d).+', // al menos una letra y un número
 };
+
+/**
+ * Carga de libros nuevos (solo el dueño). Deben coincidir con las constantes de App\Models\Book del backend.
+ */
+export const LIBRO = {
+    TITULO_MIN: 2,
+    TITULO_MAX: 120,
+    AUTOR_MIN: 2,
+    AUTOR_MAX: 80,
+    AUTOR_PATRON: "[\\p{L} .'\\-]+",     // letras (con acentos), espacios, punto, apóstrofo y guion
+    GENERO_MIN: 3,
+    GENERO_MAX: 60,
+    GENERO_PATRON: '[\\p{L} \\/\\-]+',   // letras, espacios, "/" (ej. "Novela / Suspenso") y guion
+    PRECIO_MIN: 100,                     // pesos, entero
+    PRECIO_MAX: 1000000,
+    RESUMEN_MIN: 10,
+    RESUMEN_MAX: 200,
+    SINOPSIS_MIN: 20,
+    SINOPSIS_MAX: 2000,
+};

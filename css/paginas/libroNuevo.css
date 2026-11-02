@@ -1,0 +1,148 @@
+/* ── CARGAR UN LIBRO (solo el dueño) ─────────────────────
+   Los estilos de la validación (campo inválido, contador) están en css/lib/validador.css. */
+
+main {
+    width: 100%;
+    max-width: 720px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    flex: 1;
+}
+
+main h1 {
+    font-family: var(--fuente-titulo);
+    color: var(--color-violeta);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+main > p {
+    margin-bottom: 1.5rem;
+}
+
+main > p a {
+    color: var(--color-morado);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+main form {
+    background-color: var(--color-fondo);
+    border: 1.5px solid var(--color-borde);
+    border-radius: var(--radio);
+    padding: 2rem;
+    box-shadow: var(--sombra);
+}
+
+/* Cada grupo de campos: una columna, con los elementos separados por igual */
+main fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border: none;
+    padding: 0;
+    margin: 0 0 2rem;
+}
+
+main legend {
+    font-family: var(--fuente-titulo);
+    color: var(--color-violeta);
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0 0 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-borde);
+    width: 100%;
+}
+
+main label {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+main input,
+main textarea {
+    font-family: var(--fuente-cuerpo);
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--color-borde);
+    border-radius: calc(var(--radio) / 2);
+    background-color: var(--color-suave);
+    color: var(--color-texto);
+    transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+main textarea {
+    resize: vertical;
+    line-height: 1.5;
+}
+
+main input:focus,
+main textarea:focus {
+    outline: none;
+    border-color: var(--color-violeta);
+    box-shadow: 0 0 0 3px rgba(92, 6, 140, 0.15);
+}
+
+/* El precio sin las flechitas de subir/bajar: cada navegador las dibuja distinto (y en Firefox
+   la rueda del mouse puede cambiar el valor sin querer). Se escribe el número directamente. */
+main input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+main input[type="number"]::-webkit-inner-spin-button,
+main input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Texto de ayuda debajo de un campo (reglas del campo) */
+main .ayuda-campo {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    margin-top: -0.3rem;
+}
+
+main .error-campo {
+    margin-top: -0.3rem;
+}
+
+main button[type="submit"] {
+    font-family: var(--fuente-titulo);
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    background-color: var(--color-violeta);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: calc(var(--radio) / 2);
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    transition: background-color var(--transicion), transform var(--transicion);
+}
+
+main button[type="submit"]:hover {
+    background-color: var(--color-acento);
+    transform: translateY(-2px);
+}
+
+main button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: progress;
+    transform: none;
+}
+
+@media (max-width: 600px) {
+    main {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    main form {
+        padding: 1.25rem;
+    }
+}
