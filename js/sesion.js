@@ -8,7 +8,7 @@ import { api } from './api.js';
  * guarda acá para que el menú y las vistas sepan quién está conectado sin volver a preguntar.
  *
  * Cada cambio (iniciar o cerrar sesión, registrarse) dispara el evento 'sesion:cambio' en
- * document con el usuario ({id, username, email, phone}) o null; el menú lo escucha.
+ * document con el usuario ({id, username, email, phone, role}) o null; el menú lo escucha.
  */
 
 let usuarioActual = null;

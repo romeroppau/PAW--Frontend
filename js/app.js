@@ -27,6 +27,8 @@ document.addEventListener('carrito:cambio', ({ detail: carrito }) => {
 document.addEventListener('sesion:cambio', ({ detail: usuario }) => {
     document.querySelectorAll('[data-solo-invitado]').forEach((el) => { el.hidden = usuario !== null; });
     document.querySelectorAll('[data-solo-usuario]').forEach((el) => { el.hidden = usuario === null; });
+    // Solo para no ofrecerle a un cliente algo que no puede usar: la API rechaza la carga con 403 igual.
+    document.querySelectorAll('[data-solo-duenio]').forEach((el) => { el.hidden = usuario?.role !== 'duenio'; });
     // textContent: el nombre nunca se interpreta como HTML.
     document.querySelector('[data-nombre-usuario]').textContent = usuario?.username ?? '';
 
