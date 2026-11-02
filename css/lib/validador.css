@@ -1,0 +1,39 @@
+/**
+ * Estilos de js/lib/validador.js: campo inválido, mensaje de error y contador de caracteres.
+ *
+ * Solo se usa aria-invalid (lo pone el componente) para marcar los campos: las pseudoclases
+ * :invalid / :user-invalid las aplica cada navegador en momentos distintos.
+ */
+
+/* Campo inválido */
+form[novalidate] [aria-invalid="true"] {
+    border-color: #b3261e;
+    box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.12);
+}
+
+/* Firefox marca por su cuenta los campos inválidos (borde rojo): se anula para que se vea igual en todos.
+   Va en una regla aparte porque los otros navegadores descartan la regla entera si no conocen el selector. */
+form[novalidate] :-moz-ui-invalid:not([aria-invalid="true"]) {
+    box-shadow: none;
+}
+
+/* El mensaje de error (.error-campo) está en css/style.css: también lo usan otros formularios.
+   Oculto cuando está vacío, para que no ocupe lugar. */
+form[novalidate] .error-campo[hidden] {
+    display: none;
+}
+
+/* Contador de caracteres "12 / 200 caracteres" */
+.contador-campo {
+    font-size: 0.8rem;
+    text-align: end;
+    opacity: 0.75;
+    margin-top: -0.5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Cerca del límite */
+.contador-campo--limite {
+    color: #b3261e;
+    opacity: 1;
+}
