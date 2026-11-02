@@ -119,13 +119,17 @@ body > header > h1 {
 
 /* ─── NAV ─── */
 
+/* El menú ocupa el espacio que deja el logo (flex: 1; con width: 100% más el margen se salía de la
+   pantalla). Si los enlaces no entran en una línea (pantallas medianas, o con la sesión iniciada,
+   que suma enlaces), pasan a la siguiente en lugar de generar scroll horizontal. */
 body > header nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    gap: 1rem;
-    flex-wrap: nowrap;
+    flex: 1;
+    min-width: 0;
+    gap: 0.5rem 1rem;
+    flex-wrap: wrap;
     margin-left: 1.5rem;
 }
 
@@ -133,7 +137,14 @@ body > header nav {
 .nav-grupo-der {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
+}
+
+/* El grupo de la cuenta queda siempre a la derecha, también cuando baja a otra línea. */
+.nav-grupo-der {
+    margin-left: auto;
+    justify-content: flex-end;
 }
 
 body > header nav a {
@@ -1147,6 +1158,16 @@ body > footer p {
     background-color: #fdecea;
     color: #8c1d18;
     border: 1.5px solid #f5c2c0;
+    border-radius: var(--radio);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Aviso de que una operación salió bien (ej. libro cargado). */
+.alerta-exito {
+    background-color: #e7f4ea;
+    color: #1d5b2b;
+    border: 1.5px solid #b9dfc2;
     border-radius: var(--radio);
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
