@@ -282,7 +282,8 @@ main>h1::after {
 
 /* ── Botón "Añadir al carrito" ── */
 #catalogo article form button[type="submit"],
-#catalogo article>a:last-child {
+#catalogo article>a:last-child,
+#catalogo article .btn-editar { /* "Editar" (solo el dueño, en lugar de "Añadir al carrito") */
     /* esta 2ª parte del selector alcanza al 4to libro, que todavía usa un
     <a> en vez de un form (ver el aviso al principio del chat) */
     display: block; /*ocupa toda su propia línea*/
@@ -301,7 +302,8 @@ main>h1::after {
 }
 
 #catalogo article form button[type="submit"]:hover,
-#catalogo article>a:last-child:hover {
+#catalogo article>a:last-child:hover,
+#catalogo article .btn-editar:hover {
     background-color: var(--color-acento); /*color de hover ya definido en
     las variables del sitio para todos los botones violetas*/
 }

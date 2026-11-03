@@ -10,10 +10,15 @@
  *   <button type="button" data-quitar-imagen hidden>Quitar imagen</button>
  *   <p class="solo-lectores" role="status" data-estado-imagen></p>
  *
- *   const zona = new ZonaImagen(input, { tipos, maxBytes, minLado, maxLado, alCambiar });
+ *   const zona = new ZonaImagen(input, { tipos, maxBytes, minLado, maxLado, actual, alCambiar });
  *   zona.error          // mensaje de error de la imagen elegida, o null
  *   await zona.listo    // termina cuando se revisó la última imagen elegida
  *   await zona.dataUrl()  // la imagen como "data:image/...;base64,..." (null si no hay)
+ *   zona.cambio()       // 'nueva' (se eligió una), 'quitada' (se quitó la actual) o 'sin-cambios'
+ *
+ * actual (opcional): { url, descripcion } de la imagen que ya existe (ej. al editar un libro, su tapa).
+ * Se muestra en la vista previa. "Quitar imagen" descarta la imagen nueva elegida (vuelve a la actual)
+ * o, si se está viendo la actual, la quita.
  *
  * - La zona es el <label> del campo: hacer clic (o tocarla en el celular) abre el selector de
  *   archivos del sistema, y con el teclado se llega al campo con Tab y se abre con Enter o Espacio.
@@ -34,11 +39,14 @@ const NOMBRES_TIPOS = { 'image/jpeg': 'JPG', 'image/png': 'PNG', 'image/webp': '
 export class ZonaImagen {
     /**
      * @param {HTMLInputElement} input  el <input type="file">
-     * @param {{tipos: string[], maxBytes: number, minLado: number, maxLado: number, alCambiar?: () => void}} opciones
+     * @param {{tipos: string[], maxBytes: number, minLado: number, maxLado: number,
+     *          actual?: {url: string, descripcion: string}|null, alCambiar?: () => void}} opciones
      */
-    constructor(input, { tipos, maxBytes, minLado, maxLado, alCambiar = () => {} }) {
+    constructor(input, { tipos, maxBytes, minLado, maxLado, actual = null, alCambiar = () => {} }) {
         this.input = input;
         this.opciones = { tipos, maxBytes, minLado, maxLado };
+        this.actual = actual;
+        this.quitada = false; // true si se quitó la imagen actual
         this.alCambiar = alCambiar;
         this.error = null;
         this.listo = Promise.resolve();
@@ -53,9 +61,8 @@ export class ZonaImagen {
 
         input.addEventListener('change', () => this.elegir(input.files[0] ?? null));
         this.botonQuitar.addEventListener('click', () => {
-            this.quitar();
-            this.anunciar('Se quitó la imagen.');
-            input.focus(); // el botón se oculta: el foco vuelve a la zona
+            this.anunciar(this.quitar());
+            input.focus(); // el botón puede ocultarse: el foco vuelve a la zona
         });
 
         // Arrastrar y soltar sobre la zona.
@@ -81,6 +88,7 @@ export class ZonaImagen {
         });
 
         protegerPagina();
+        if (actual) this.mostrarActual();
     }
 
     /** La imagen elegida como data URL (lo que recibe la API), o null si no hay una. */
@@ -95,10 +103,25 @@ export class ZonaImagen {
         });
     }
 
-    /** Vuelve al estado inicial: sin imagen. */
+    /** Qué hacer con la imagen al guardar: 'nueva', 'quitada' (se quitó la actual) o 'sin-cambios'. */
+    cambio() {
+        if (this.input.files.length > 0) return 'nueva';
+        return this.quitada ? 'quitada' : 'sin-cambios';
+    }
+
+    /**
+     * Descarta la imagen nueva elegida (vuelve a la actual, si hay) o, si no hay una nueva, quita la actual.
+     * @returns {string} qué pasó, en palabras (para anunciarlo)
+     */
     quitar() {
-        this.input.value = '';
+        if (this.input.files.length > 0) {
+            this.input.value = '';
+            this.elegir(null);
+            return this.actual && !this.quitada ? 'Se descartó la imagen nueva: queda la actual.' : 'Se quitó la imagen.';
+        }
+        this.quitada = true;
         this.elegir(null);
+        return 'Se quitó la imagen actual: al guardar, queda sin imagen.';
     }
 
     // ─── Internos ─────────────────────────────────────────────────────────────────────────────
@@ -116,6 +139,7 @@ export class ZonaImagen {
         this.error = null;
 
         if (!archivo) {
+            if (this.actual && !this.quitada) this.mostrarActual(); // sin imagen nueva, vuelve a verse la actual
             this.listo = Promise.resolve();
             this.alCambiar();
             return;
@@ -169,8 +193,14 @@ export class ZonaImagen {
         return { error: null, ancho, alto, url };
     }
 
+    mostrarActual() {
+        this.mostrarVistaPrevia(this.actual.url, this.actual.descripcion);
+        this.botonQuitar.hidden = false;
+    }
+
     mostrarVistaPrevia(url, descripcion = '') {
-        if (this.urlVistaPrevia) URL.revokeObjectURL(this.urlVistaPrevia); // libera la imagen anterior de la memoria
+        // Libera de la memoria la imagen elegida anterior (solo las URL "blob:" que creó este componente).
+        if (this.urlVistaPrevia?.startsWith('blob:')) URL.revokeObjectURL(this.urlVistaPrevia);
         this.urlVistaPrevia = url;
         this.vistaPrevia.hidden = url === null;
         this.vistaPrevia.querySelector('img').src = url ?? '';

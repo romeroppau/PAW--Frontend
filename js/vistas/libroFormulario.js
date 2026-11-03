@@ -1,46 +1,58 @@
 import { api } from '../api.js';
 import { exigirSesion, rutaDeLogin } from '../carrito.js';
 import { conBotonDeshabilitado, datosDelFormulario, mostrarAlerta } from '../formularios.js';
-import { dinero, html } from '../html.js';
+import { dinero, html, urlTapa } from '../html.js';
 import { Validador } from '../lib/validador.js';
 import { ZonaImagen } from '../lib/zonaImagen.js';
 import { esDuenio, sesionVencida } from '../sesion.js';
 import { LIBRO as R, TAPA } from '../validaciones.js';
 
 /**
- * Cargar un libro nuevo (#/libros/nuevo). Solo el dueño de la librería.
+ * Formulario de un libro, para cargarlo o editarlo. Solo el dueño de la librería.
+ * - #/libros/nuevo            -> carga un libro nuevo   (POST /api/libros)
+ * - #/libros/{slug}/editar    -> edita uno que ya existe (PATCH /api/libros/{slug}), con los datos actuales
+ *
  * - Sin sesión: lleva a iniciar sesión (y después vuelve acá).
  * - Cliente: muestra que no tiene permiso (la API también lo rechaza con 403: ocultar el formulario
  *   es solo para no ofrecer algo que no puede usar).
- * - Dueño: formulario -> POST /api/libros -> detalle del libro nuevo.
+ * - Dueño: formulario -> detalle del libro, con un aviso de que se guardó.
  *
  * Validación en línea con js/lib/validador.js (igual en todos los navegadores). Las reglas salen
  * de js/validaciones.js, que replica las de App\Models\Book. La API valida todo de nuevo.
  *
  * Tapa (opcional): se arrastra y suelta, o se elige con el selector de archivos (js/lib/zonaImagen.js).
  * Viaja dentro del mismo JSON, como data URL: la API solo acepta JSON (protección CSRF).
+ * Al editar: si no se toca, se mantiene; se puede reemplazar o quitar.
  */
 export default {
-    titulo: ({ permitido }) => (permitido ? 'Cargar un libro' : 'Sin permiso'),
-    estilos: ['css/lib/validador.css', 'css/lib/zonaImagen.css', 'css/paginas/libroNuevo.css'],
+    titulo: ({ permitido, libro }) => {
+        if (!permitido) return 'Sin permiso';
+        return libro ? `Editar «${libro.title}»` : 'Cargar un libro';
+    },
+    estilos: ['css/lib/validador.css', 'css/lib/zonaImagen.css', 'css/paginas/libroFormulario.css'],
 
-    cargar: () => exigirSesion('/libros/nuevo', async () => {
+    cargar: ({ params }) => exigirSesion(rutaDelFormulario(params.slug), async () => {
         if (!esDuenio()) {
-            return { permitido: false };
+            return { permitido: false, editando: params.slug !== undefined };
         }
-        // Géneros que ya usa el catálogo, como sugerencias. Si la API no responde, el formulario
-        // se puede usar igual (sin sugerencias).
-        const catalogo = await api('/libros/todos').catch(() => ({ data: [] }));
-        const generos = [...new Set(catalogo.data.map((libro) => libro.genre))].sort((a, b) => a.localeCompare(b, 'es'));
-        return { permitido: true, generos };
+        // Géneros que ya usa el catálogo, como sugerencias (si la API no responde, el formulario se usa
+        // igual, sin sugerencias). Al editar, además, el libro: si no existe, la API responde 404 y el
+        // router muestra "Página no encontrada".
+        const [catalogo, libro] = await Promise.all([
+            api('/libros/todos').catch(() => ({ data: [] })),
+            params.slug ? api(`/libros/${encodeURIComponent(params.slug)}`).then((r) => r.data) : null,
+        ]);
+        const generos = [...new Set(catalogo.data.map((l) => l.genre))].sort((a, b) => a.localeCompare(b, 'es'));
+        return { permitido: true, generos, libro };
     }),
 
-    render: ({ permitido, generos }) => (permitido ? formulario(generos) : sinPermiso()),
+    render: ({ permitido, editando, generos, libro }) =>
+        (permitido ? formulario(generos, libro) : sinPermiso(editando)),
 
-    montar(main, { permitido }, { navegar, recargar }) {
+    montar(main, { permitido, libro }, { navegar, recargar }) {
         if (!permitido) return;
 
-        const form = main.querySelector('[data-libro-nuevo]');
+        const form = main.querySelector('[data-libro]');
         const alerta = main.querySelector('[data-alerta]');
         const validador = new Validador(form);
 
@@ -51,6 +63,8 @@ export default {
             maxBytes: TAPA.MAX_BYTES,
             minLado: TAPA.MIN_LADO,
             maxLado: TAPA.MAX_LADO,
+            // Al editar, la tapa que ya tiene el libro (si tiene).
+            actual: libro?.cover ? { url: urlTapa(libro), descripcion: 'Tapa actual' } : null,
             alCambiar: () => validador.revisar('tapa'),
         });
         validador.regla('tapa', () => tapa.error);
@@ -63,28 +77,31 @@ export default {
 
             // FormData trae la tapa como archivo (File), que no se puede pasar a JSON: va aparte, como data URL.
             const { tapa: _archivo, ...datos } = datosDelFormulario(form);
+            const cuerpo = { ...datos, precio: Number(datos.precio) };
             try {
-                const { data: libro } = await conBotonDeshabilitado(form.querySelector('button[type="submit"]'), async () => {
-                    const imagen = await tapa.dataUrl();
-                    return api('/libros', {
-                        method: 'POST',
-                        body: { ...datos, precio: Number(datos.precio), ...(imagen && { tapa: imagen }) },
-                    });
+                const { data: guardado } = await conBotonDeshabilitado(form.querySelector('button[type="submit"]'), async () => {
+                    // La tapa: una nueva va como data URL; al editar, null la quita y sin el campo se mantiene.
+                    if (tapa.cambio() === 'nueva') cuerpo.tapa = await tapa.dataUrl();
+                    if (tapa.cambio() === 'quitada') cuerpo.tapa = null;
+
+                    return libro
+                        ? api(`/libros/${encodeURIComponent(libro.slug)}`, { method: 'PATCH', body: cuerpo })
+                        : api('/libros', { method: 'POST', body: cuerpo });
                 });
-                navegar(`/catalogo/${encodeURIComponent(libro.slug)}?cargado=1`);
+                navegar(`/catalogo/${encodeURIComponent(guardado.slug)}?${libro ? 'editado' : 'cargado'}=1`);
             } catch (error) {
                 if (error.status === 401) {
                     // La sesión venció mientras completaba el formulario.
                     sesionVencida();
-                    navegar(rutaDeLogin('/libros/nuevo'));
+                    navegar(rutaDeLogin(rutaDelFormulario(libro?.slug)));
                     return;
                 }
-                if (error.status === 403) {
-                    recargar(); // ya no es el dueño: muestra la vista "sin permiso"
+                if (error.status === 403 || error.status === 404) {
+                    recargar(); // ya no es el dueño ("sin permiso"), o el libro ya no existe ("no encontrada")
                     return;
                 }
                 // 422: errores de cada campo (ej. "Ya existe un libro con ese título y autor", o la tapa).
-                // 503: no se pudo guardar la tapa (el libro no se creó: se puede volver a intentar).
+                // 503: no se pudo guardar la tapa (el libro no se guardó: se puede volver a intentar).
                 const sinCampo = validador.mostrarErrores(error.campos ?? {});
                 mostrarAlerta(alerta, [error.message, ...sinCampo].join(' '));
             }
@@ -92,20 +109,36 @@ export default {
     },
 };
 
-function sinPermiso() {
+// Ruta de este formulario (para volver después de iniciar sesión).
+function rutaDelFormulario(slug) {
+    return slug ? `/libros/${slug}/editar` : '/libros/nuevo';
+}
+
+function sinPermiso(editando) {
     return html`
-        <h1>No tenés permiso para cargar libros</h1>
-        <p>Solo el dueño de la librería puede cargar libros nuevos en el catálogo.</p>
+        <h1>No tenés permiso para ${editando ? 'editar' : 'cargar'} libros</h1>
+        <p>Solo el dueño de la librería puede cargar y editar los libros del catálogo.</p>
         <p><a href="#/catalogo">Volver al catálogo</a></p>
     `;
 }
 
-function formulario(generos) {
+/** @param {object|null} libro  al editar, el libro con sus datos actuales; al cargar, null */
+function formulario(generos, libro) {
+    // Precio: el catálogo base puede tener centavos (ej. 30499.0); el formulario pide un entero.
+    const precio = libro ? Math.round(libro.price) : '';
     return html`
-        <h1>Cargar un libro</h1>
-        <p>Todos los campos son obligatorios, salvo la tapa. El libro aparece en el catálogo apenas lo cargás.</p>
+        ${libro ? html`
+            <h1>Editar libro</h1>
+            <p>
+                Estás editando <a href="#/catalogo/${encodeURIComponent(libro.slug)}">«${libro.title}»</a>.
+                Todos los campos son obligatorios, salvo la tapa. Los cambios se ven en el catálogo apenas los guardás.
+            </p>
+        ` : html`
+            <h1>Cargar un libro</h1>
+            <p>Todos los campos son obligatorios, salvo la tapa. El libro aparece en el catálogo apenas lo cargás.</p>
+        `}
 
-        <form data-libro-nuevo>
+        <form data-libro>
             <p class="alerta-error" role="alert" hidden data-alerta></p>
 
             <fieldset>
@@ -113,20 +146,20 @@ function formulario(generos) {
 
                 <label for="titulo">Título</label>
                 <input type="text" id="titulo" name="titulo" required autocomplete="off"
-                       minlength="${R.TITULO_MIN}" maxlength="${R.TITULO_MAX}">
+                       minlength="${R.TITULO_MIN}" maxlength="${R.TITULO_MAX}" value="${libro?.title ?? ''}">
 
                 <label for="autor">Autor</label>
                 <input type="text" id="autor" name="autor" required autocomplete="off"
                        minlength="${R.AUTOR_MIN}" maxlength="${R.AUTOR_MAX}" pattern="${R.AUTOR_PATRON}"
                        data-mensaje-patron="Usá solo letras, espacios, punto, apóstrofo y guion."
-                       aria-describedby="ayuda-autor">
+                       aria-describedby="ayuda-autor" value="${libro?.author ?? ''}">
                 <p class="ayuda-campo" id="ayuda-autor">Nombre y apellido. Solo letras, espacios, punto, apóstrofo y guion.</p>
 
                 <label for="genero">Género</label>
                 <input type="text" id="genero" name="genero" required autocomplete="off" list="generos"
                        minlength="${R.GENERO_MIN}" maxlength="${R.GENERO_MAX}" pattern="${R.GENERO_PATRON}"
                        data-mensaje-patron='Usá solo letras, espacios, "/" y guion.'
-                       aria-describedby="ayuda-genero">
+                       aria-describedby="ayuda-genero" value="${libro?.genre ?? ''}">
                 <datalist id="generos">
                     ${generos.map((genero) => html`<option value="${genero}"></option>`)}
                 </datalist>
@@ -135,7 +168,7 @@ function formulario(generos) {
                 <label for="precio">Precio en pesos</label>
                 <input type="number" id="precio" name="precio" required inputmode="numeric"
                        min="${R.PRECIO_MIN}" max="${R.PRECIO_MAX}" step="1"
-                       aria-describedby="ayuda-precio">
+                       aria-describedby="ayuda-precio" value="${precio}">
                 <p class="ayuda-campo" id="ayuda-precio">Número entero, sin puntos: entre ${dinero(R.PRECIO_MIN)} y ${dinero(R.PRECIO_MAX)}.</p>
             </fieldset>
 
@@ -145,12 +178,12 @@ function formulario(generos) {
                 <label for="resumen">Resumen</label>
                 <textarea id="resumen" name="resumen" rows="3" required data-contador
                           minlength="${R.RESUMEN_MIN}" maxlength="${R.RESUMEN_MAX}"
-                          aria-describedby="ayuda-resumen"></textarea>
+                          aria-describedby="ayuda-resumen">${libro?.summary ?? ''}</textarea>
                 <p class="ayuda-campo" id="ayuda-resumen">Una o dos oraciones. Se muestra debajo del título, en la página del libro.</p>
 
                 <label for="sinopsis">Sinopsis</label>
                 <textarea id="sinopsis" name="sinopsis" rows="8" required data-contador
-                          minlength="${R.SINOPSIS_MIN}" maxlength="${R.SINOPSIS_MAX}"></textarea>
+                          minlength="${R.SINOPSIS_MIN}" maxlength="${R.SINOPSIS_MAX}">${libro?.synopsis ?? ''}</textarea>
             </fieldset>
 
             <fieldset>
@@ -166,19 +199,20 @@ function formulario(generos) {
                 <input type="file" id="tapa" name="tapa" class="zona-imagen__campo"
                        accept="${TAPA.TIPOS.join(',')}" aria-describedby="ayuda-tapa">
                 <label for="tapa" class="zona-imagen" data-junto-al-campo>
-                    <span class="zona-imagen__puntero">Arrastrá la imagen acá o <span class="zona-imagen__accion">elegí un archivo</span></span>
+                    <span class="zona-imagen__puntero">Arrastrá ${libro ? 'una imagen nueva' : 'la imagen'} acá o <span class="zona-imagen__accion">elegí un archivo</span></span>
                     <span class="zona-imagen__tactil"><span class="zona-imagen__accion">Tocá para elegir una imagen</span></span>
                 </label>
 
                 <figure class="vista-previa" hidden data-vista-previa>
-                    <img src="" alt="Vista previa de la tapa elegida">
+                    <img src="" alt="Vista previa de la tapa">
                     <figcaption></figcaption>
                 </figure>
                 <button type="button" class="quitar-imagen" hidden data-quitar-imagen>Quitar imagen</button>
                 <p class="solo-lectores" role="status" data-estado-imagen></p>
             </fieldset>
 
-            <button type="submit">Cargar libro</button>
+            <button type="submit">${libro ? 'Guardar cambios' : 'Cargar libro'}</button>
+            ${libro && html`<p class="cancelar"><a href="#/catalogo/${encodeURIComponent(libro.slug)}">Cancelar y volver al libro</a></p>`}
         </form>
     `;
 }
