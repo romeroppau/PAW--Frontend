@@ -45,6 +45,13 @@ export function html(partes, ...valores) {
 /** Precio en pesos: 30499 -> "$30.499". */
 export const dinero = (monto) => '$' + Math.round(monto).toLocaleString('es-AR');
 
-/** URL de la tapa de un libro (las imágenes están en media/); si no tiene, la genérica. */
-export const urlTapa = (libro) =>
-    libro.cover ? `media/libros/${encodeURIComponent(libro.cover)}` : 'media/sinfoto.png';
+/**
+ * URL de la tapa de un libro:
+ * - los del catálogo base traen el nombre del archivo, que está en media/libros/;
+ * - los que cargó el dueño traen la URL completa (Cloudinary, o la API en desarrollo);
+ * - sin tapa, la imagen genérica.
+ */
+export function urlTapa(libro) {
+    if (!libro.cover) return 'media/sinfoto.png';
+    return /^https?:\/\//.test(libro.cover) ? libro.cover : `media/libros/${encodeURIComponent(libro.cover)}`;
+}
