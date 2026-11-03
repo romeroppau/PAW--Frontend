@@ -26,8 +26,12 @@
  *   data-mensaje-patron   mensaje cuando no cumple el pattern (por defecto: "El formato no es válido.")
  *   data-contador         muestra debajo del campo "caracteres escritos / maxlength"
  *   data-sin-recortar     no quitar los espacios extremos al validar (ej. contraseñas)
+ *   data-junto-al-campo   (en un hermano que sigue al campo) es parte del campo: el error va después
+ *                         (ej. la zona para soltar un archivo)
  * Para reglas que no se pueden escribir en HTML (ej. "las contraseñas coinciden"):
  *   validador.regla('confirmar', (valor, form) => valor === form.elements.clave.value ? null : 'No coinciden.');
+ * Si la regla depende de algo que se averigua después (ej. las medidas de una imagen, que se leen
+ * de forma asíncrona), al tenerlo se vuelve a validar el campo con validador.revisar('nombre').
  *
  * Cuándo valida cada campo:
  *   - al salir del campo (así no marca errores mientras la persona recién empieza a escribir);
@@ -108,6 +112,18 @@ export class Validador {
     }
 
     /**
+     * Valida un campo ahora y muestra (o quita) su error, sin moverle el foco.
+     * @param {string} nombre  name del campo
+     * @returns {boolean} true si es válido
+     */
+    revisar(nombre) {
+        const campo = this.campoDe(this.form.elements.namedItem(nombre));
+        if (!campo) return true;
+        this.tocados.add(campo.name);
+        return this.validarCampo(campo);
+    }
+
+    /**
      * Valida todos los campos, muestra los errores y enfoca el primero que tenga uno.
      * @returns {boolean} true si el formulario es válido
      */
@@ -181,9 +197,10 @@ export class Validador {
             this.actualizarContador(campo);
         }
 
-        // El error va después de la ayuda, del contador y de las sugerencias (<datalist>) del campo, si tiene.
+        // El error va después de la ayuda, del contador, de las sugerencias (<datalist>) y de lo marcado
+        // como parte del campo (data-junto-al-campo), si tiene.
         let ancla = campo;
-        while (ancla.nextElementSibling?.matches('.ayuda-campo, .contador-campo, datalist')) {
+        while (ancla.nextElementSibling?.matches('.ayuda-campo, .contador-campo, datalist, [data-junto-al-campo]')) {
             ancla = ancla.nextElementSibling;
         }
         const error = document.createElement('p');

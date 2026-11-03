@@ -54,3 +54,13 @@ export const LIBRO = {
     SINOPSIS_MIN: 20,
     SINOPSIS_MAX: 2000,
 };
+
+/**
+ * Tapa del libro (opcional). Deben coincidir con las constantes de App\Services\Covers\CoverImage.
+ */
+export const TAPA = {
+    TIPOS: ['image/jpeg', 'image/png', 'image/webp'],
+    MAX_BYTES: 2 * 1024 * 1024,   // 2 MB
+    MIN_LADO: 200,                // píxeles, ancho y alto
+    MAX_LADO: 5000,
+};

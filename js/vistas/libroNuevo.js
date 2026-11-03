@@ -3,8 +3,9 @@ import { exigirSesion, rutaDeLogin } from '../carrito.js';
 import { conBotonDeshabilitado, datosDelFormulario, mostrarAlerta } from '../formularios.js';
 import { dinero, html } from '../html.js';
 import { Validador } from '../lib/validador.js';
+import { ZonaImagen } from '../lib/zonaImagen.js';
 import { esDuenio, sesionVencida } from '../sesion.js';
-import { LIBRO as R } from '../validaciones.js';
+import { LIBRO as R, TAPA } from '../validaciones.js';
 
 /**
  * Cargar un libro nuevo (#/libros/nuevo). Solo el dueño de la librería.
@@ -15,10 +16,13 @@ import { LIBRO as R } from '../validaciones.js';
  *
  * Validación en línea con js/lib/validador.js (igual en todos los navegadores). Las reglas salen
  * de js/validaciones.js, que replica las de App\Models\Book. La API valida todo de nuevo.
+ *
+ * Tapa (opcional): se arrastra y suelta, o se elige con el selector de archivos (js/lib/zonaImagen.js).
+ * Viaja dentro del mismo JSON, como data URL: la API solo acepta JSON (protección CSRF).
  */
 export default {
     titulo: ({ permitido }) => (permitido ? 'Cargar un libro' : 'Sin permiso'),
-    estilos: ['css/lib/validador.css', 'css/paginas/libroNuevo.css'],
+    estilos: ['css/lib/validador.css', 'css/lib/zonaImagen.css', 'css/paginas/libroNuevo.css'],
 
     cargar: () => exigirSesion('/libros/nuevo', async () => {
         if (!esDuenio()) {
@@ -40,15 +44,33 @@ export default {
         const alerta = main.querySelector('[data-alerta]');
         const validador = new Validador(form);
 
+        // La revisión de la imagen (tipo, peso, medidas) es asíncrona: cuando termina, el validador
+        // muestra o quita el error en el campo, como con los demás.
+        const tapa = new ZonaImagen(form.elements.tapa, {
+            tipos: TAPA.TIPOS,
+            maxBytes: TAPA.MAX_BYTES,
+            minLado: TAPA.MIN_LADO,
+            maxLado: TAPA.MAX_LADO,
+            alCambiar: () => validador.revisar('tapa'),
+        });
+        validador.regla('tapa', () => tapa.error);
+
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
             mostrarAlerta(alerta, '');
+            await tapa.listo; // si se acaba de elegir la imagen, que termine de revisarse
             if (!validador.validar()) return; // muestra los errores y enfoca el primero
 
-            const datos = datosDelFormulario(form);
+            // FormData trae la tapa como archivo (File), que no se puede pasar a JSON: va aparte, como data URL.
+            const { tapa: _archivo, ...datos } = datosDelFormulario(form);
             try {
-                const { data: libro } = await conBotonDeshabilitado(form.querySelector('button[type="submit"]'), () =>
-                    api('/libros', { method: 'POST', body: { ...datos, precio: Number(datos.precio) } }));
+                const { data: libro } = await conBotonDeshabilitado(form.querySelector('button[type="submit"]'), async () => {
+                    const imagen = await tapa.dataUrl();
+                    return api('/libros', {
+                        method: 'POST',
+                        body: { ...datos, precio: Number(datos.precio), ...(imagen && { tapa: imagen }) },
+                    });
+                });
                 navegar(`/catalogo/${encodeURIComponent(libro.slug)}?cargado=1`);
             } catch (error) {
                 if (error.status === 401) {
@@ -61,7 +83,8 @@ export default {
                     recargar(); // ya no es el dueño: muestra la vista "sin permiso"
                     return;
                 }
-                // 422: errores de cada campo (ej. "Ya existe un libro con ese título y autor").
+                // 422: errores de cada campo (ej. "Ya existe un libro con ese título y autor", o la tapa).
+                // 503: no se pudo guardar la tapa (el libro no se creó: se puede volver a intentar).
                 const sinCampo = validador.mostrarErrores(error.campos ?? {});
                 mostrarAlerta(alerta, [error.message, ...sinCampo].join(' '));
             }
@@ -80,7 +103,7 @@ function sinPermiso() {
 function formulario(generos) {
     return html`
         <h1>Cargar un libro</h1>
-        <p>Todos los campos son obligatorios. El libro aparece en el catálogo apenas lo cargás.</p>
+        <p>Todos los campos son obligatorios, salvo la tapa. El libro aparece en el catálogo apenas lo cargás.</p>
 
         <form data-libro-nuevo>
             <p class="alerta-error" role="alert" hidden data-alerta></p>
@@ -128,6 +151,31 @@ function formulario(generos) {
                 <label for="sinopsis">Sinopsis</label>
                 <textarea id="sinopsis" name="sinopsis" rows="8" required data-contador
                           minlength="${R.SINOPSIS_MIN}" maxlength="${R.SINOPSIS_MAX}"></textarea>
+            </fieldset>
+
+            <fieldset>
+                <legend>Tapa (opcional)</legend>
+                <p class="ayuda-campo" id="ayuda-tapa">
+                    JPG, PNG o WebP, de hasta ${TAPA.MAX_BYTES / 1024 / 1024} MB y de al menos ${TAPA.MIN_LADO} × ${TAPA.MIN_LADO} píxeles.
+                    Sin tapa, el libro se muestra con una imagen genérica.
+                </p>
+
+                <!-- La zona es el label del campo: se suelta la imagen ahí, o se hace clic (o Enter con el
+                     teclado) para abrir el selector de archivos. El campo queda oculto a la vista, pero no
+                     para el teclado ni para los lectores de pantalla. -->
+                <input type="file" id="tapa" name="tapa" class="zona-imagen__campo"
+                       accept="${TAPA.TIPOS.join(',')}" aria-describedby="ayuda-tapa">
+                <label for="tapa" class="zona-imagen" data-junto-al-campo>
+                    <span class="zona-imagen__puntero">Arrastrá la imagen acá o <span class="zona-imagen__accion">elegí un archivo</span></span>
+                    <span class="zona-imagen__tactil"><span class="zona-imagen__accion">Tocá para elegir una imagen</span></span>
+                </label>
+
+                <figure class="vista-previa" hidden data-vista-previa>
+                    <img src="" alt="Vista previa de la tapa elegida">
+                    <figcaption></figcaption>
+                </figure>
+                <button type="button" class="quitar-imagen" hidden data-quitar-imagen>Quitar imagen</button>
+                <p class="solo-lectores" role="status" data-estado-imagen></p>
             </fieldset>
 
             <button type="submit">Cargar libro</button>
