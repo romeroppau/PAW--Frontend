@@ -2,7 +2,7 @@ import { Router } from './router.js';
 import { rutas } from './rutas.js';
 import { noEncontrada, error } from './vistas/errores.js';
 import { obtenerCarrito } from './carrito.js';
-import { cerrarSesion, sesionInicial } from './sesion.js';
+import { cerrarSesion, esDuenio, sesionInicial } from './sesion.js';
 
 /**
  * Punto de entrada del SPA.
@@ -27,14 +27,16 @@ document.addEventListener('carrito:cambio', ({ detail: carrito }) => {
 document.addEventListener('sesion:cambio', ({ detail: usuario }) => {
     document.querySelectorAll('[data-solo-invitado]').forEach((el) => { el.hidden = usuario !== null; });
     document.querySelectorAll('[data-solo-usuario]').forEach((el) => { el.hidden = usuario === null; });
-    // Solo para no ofrecerle a un cliente algo que no puede usar: la API rechaza la carga con 403 igual.
-    document.querySelectorAll('[data-solo-duenio]').forEach((el) => { el.hidden = usuario?.role !== 'duenio'; });
+    // El dueño ve "Cargar libro" y no ve el carrito (no compra). Es solo para no ofrecer algo que
+    // no se puede usar: la API responde 403 igual (carga de libros para un cliente, carrito para el dueño).
+    document.querySelectorAll('[data-solo-duenio]').forEach((el) => { el.hidden = !esDuenio(); });
+    document.querySelectorAll('[data-oculto-duenio]').forEach((el) => { el.hidden = esDuenio(); });
     // textContent: el nombre nunca se interpreta como HTML.
     document.querySelector('[data-nombre-usuario]').textContent = usuario?.username ?? '';
 
-    // El carrito es de cada usuario: con sesión se muestra su cantidad; sin sesión, nada.
+    // El carrito es de cada cliente: con sesión se muestra su cantidad; sin sesión (o el dueño), nada.
     contador.textContent = '';
-    if (usuario) {
+    if (usuario && !esDuenio()) {
         obtenerCarrito().catch(() => {
             // Si la API no responde, el menú queda sin contador; la vista actual muestra el error si lo necesita.
         });

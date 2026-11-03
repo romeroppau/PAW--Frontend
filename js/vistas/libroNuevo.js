@@ -3,7 +3,7 @@ import { exigirSesion, rutaDeLogin } from '../carrito.js';
 import { conBotonDeshabilitado, datosDelFormulario, mostrarAlerta } from '../formularios.js';
 import { dinero, html } from '../html.js';
 import { Validador } from '../lib/validador.js';
-import { sesionVencida, usuario } from '../sesion.js';
+import { esDuenio, sesionVencida } from '../sesion.js';
 import { LIBRO as R } from '../validaciones.js';
 
 /**
@@ -21,7 +21,7 @@ export default {
     estilos: ['css/lib/validador.css', 'css/paginas/libroNuevo.css'],
 
     cargar: () => exigirSesion('/libros/nuevo', async () => {
-        if (usuario().role !== 'duenio') {
+        if (!esDuenio()) {
             return { permitido: false };
         }
         // Géneros que ya usa el catálogo, como sugerencias. Si la API no responde, el formulario

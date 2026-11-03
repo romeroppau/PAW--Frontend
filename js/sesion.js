@@ -24,6 +24,12 @@ function avisar(usuario) {
 export const usuario = () => usuarioActual;
 
 /**
+ * true si el conectado es el dueño de la librería: carga libros y no compra.
+ * Sirve para mostrar u ocultar opciones; los permisos los controla la API (403).
+ */
+export const esDuenio = () => usuarioActual?.role === 'duenio';
+
+/**
  * Pregunta a la API si hay sesión (una sola vez, al abrir el sitio).
  * Las vistas que dependen de la sesión la esperan con: await sesionInicial().
  * Si la API no responde, se sigue como si no hubiera sesión.

@@ -2,6 +2,7 @@ import { api } from '../api.js';
 import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
+import { esDuenio, sesionInicial } from '../sesion.js';
 
 /**
  * Listado del catálogo (#/catalogo).
@@ -102,10 +103,12 @@ const tarjetaLibro = (libro) => html`
         <p>${libro.author}</p>
         <p><strong>Precio:</strong> ${dinero(libro.price)}</p>
         <p>${libro.summary}</p>
-        <form data-agregar>
-            <input type="hidden" name="libro" value="${libro.slug}">
-            <button type="submit">Añadir al carrito</button>
-        </form>
+        ${!esDuenio() && html`
+            <form data-agregar>
+                <input type="hidden" name="libro" value="${libro.slug}">
+                <button type="submit">Añadir al carrito</button>
+            </form>
+        `}
     </article>
 `;
 
@@ -113,7 +116,9 @@ export default {
     titulo: 'Catálogo',
     estilos: ['css/paginas/catalogo.css', 'css/paginas/catalogo-paginado.css'],
 
-    cargar: () => api('/libros/todos'),
+    // Junto con los libros se espera saber quién está conectado: al dueño no se le muestra
+    // "Añadir al carrito" (no compra). Las dos peticiones van en paralelo.
+    cargar: async () => (await Promise.all([api('/libros/todos'), sesionInicial()]))[0],
 
     // Solo el esqueleto: la cantidad y los libros los completa actualizar(), en montar().
     render: ({ sorts }, { query }) => {
