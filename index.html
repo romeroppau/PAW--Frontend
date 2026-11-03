@@ -29,10 +29,14 @@
                 <a href="#/contacto">Contacto</a>
             </div>
 
-            <!-- La búsqueda la maneja js/app.js: navega a #/catalogo?q=... -->
+            <!-- La búsqueda la maneja js/app.js: navega a #/catalogo?q=...
+                 Las sugerencias son las últimas búsquedas (localStorage, js/busquedas.js); app.js llena el
+                 datalist, que también usa el buscador del catálogo. -->
             <form role="search" data-buscador>
                 <label for="buscar">Buscar</label>
-                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required>
+                <input type="search" id="buscar" name="q" placeholder="Buscar libros..." required
+                       maxlength="100" list="busquedas-recientes">
+                <datalist id="busquedas-recientes"></datalist>
                 <button type="submit">Buscar</button>
             </form>
 

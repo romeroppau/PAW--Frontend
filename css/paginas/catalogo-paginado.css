@@ -197,6 +197,55 @@ aside select {
     font: inherit;
 }
 
+/* Búsquedas recientes (localStorage), debajo del buscador del panel de filtros */
+.busquedas-recientes {
+    margin-top: 0.75rem;
+}
+
+.busquedas-recientes h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+/* Cada búsqueda es una "pastilla": se ven varias por línea */
+.busquedas-recientes ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.busquedas-recientes ul button {
+    min-height: 36px;
+    max-width: 100%;
+    padding: 0.3rem 0.8rem;
+    border: 1.5px solid var(--color-borde);
+    border-radius: var(--radio);
+    background-color: var(--color-suave);
+    color: var(--color-texto);
+    font: inherit;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere; /* una búsqueda larga se corta en líneas en vez de salirse del panel */
+    cursor: pointer;
+}
+
+.busquedas-recientes ul button:hover {
+    border-color: var(--color-morado);
+}
+
+/* "Borrar": acción secundaria, como un enlace */
+.busquedas-recientes .borrar-recientes {
+    background: none;
+    border: none;
+    padding: 0.25rem 0;
+    color: var(--color-morado);
+    font: inherit;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .sin-resultados {
     grid-area: catalogo;
 }

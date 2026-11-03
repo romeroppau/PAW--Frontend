@@ -2,6 +2,7 @@ import { Router } from './router.js';
 import { rutas } from './rutas.js';
 import { noEncontrada, error } from './vistas/errores.js';
 import { obtenerCarrito } from './carrito.js';
+import { guardarBusqueda, ultimasBusquedas } from './busquedas.js';
 import { cerrarSesion, esDuenio, sesionInicial } from './sesion.js';
 
 /**
@@ -57,12 +58,23 @@ document.querySelector('[data-cerrar-sesion]').addEventListener('click', async (
     }
 });
 
-// Buscador del menú: lleva al catálogo con la búsqueda en la URL.
+// Buscador del menú: guarda la búsqueda entre las últimas y lleva al catálogo con la búsqueda en la URL.
 document.querySelector('[data-buscador]').addEventListener('submit', (evento) => {
     evento.preventDefault();
     const q = evento.currentTarget.elements.q.value.trim();
+    guardarBusqueda(q);
     router.navegar(`/catalogo?${new URLSearchParams({ q })}`);
 });
+
+// Sugerencias de los buscadores (menú y catálogo): las últimas búsquedas, en el <datalist> del menú.
+// Se actualizan al buscar, al borrarlas y si cambian en otra pestaña (evento "storage").
+const sugerencias = document.querySelector('#busquedas-recientes');
+function mostrarSugerencias(busquedas) {
+    sugerencias.replaceChildren(...busquedas.map((busqueda) => new Option(busqueda))); // Option: sin HTML
+}
+document.addEventListener('busquedas:cambio', ({ detail: busquedas }) => mostrarSugerencias(busquedas));
+window.addEventListener('storage', () => mostrarSugerencias(ultimasBusquedas()));
+mostrarSugerencias(ultimasBusquedas());
 
 document.querySelector('[data-anio]').textContent = new Date().getFullYear();
 
