@@ -104,7 +104,10 @@ const tarjetaLibro = (libro) => html`
         <p>${libro.author}</p>
         <p><strong>Precio:</strong> ${dinero(libro.price)}</p>
         <p>${libro.summary}</p>
-        ${!esDuenio() && html`
+        ${esDuenio() ? html`
+            <!-- Con varios "Editar" en la página, el título (solo para lectores de pantalla) dice cuál. -->
+            <p><a href="#/libros/${encodeURIComponent(libro.slug)}/editar" class="btn-editar">Editar<span class="solo-lectores"> «${libro.title}»</span></a></p>
+        ` : html`
             <form data-agregar>
                 <input type="hidden" name="libro" value="${libro.slug}">
                 <button type="submit">Añadir al carrito</button>

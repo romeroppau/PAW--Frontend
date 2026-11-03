@@ -1014,7 +1014,10 @@ main > section h2::after {
 
 /* ─── BOTÓN CARRITO ─── */
 
-.btn-carrito {
+/* "Editar libro" (solo el dueño) tiene el mismo aspecto que "Añadir al carrito": ocupa su lugar. */
+.btn-carrito,
+.btn-editar {
+    display: inline-block;
     margin-top: 15px;
     padding: 10px 18px;
 
@@ -1031,7 +1034,8 @@ main > section h2::after {
         opacity 0.2s ease;
 }
 
-.btn-carrito:hover {
+.btn-carrito:hover,
+.btn-editar:hover {
     transform: scale(1.05);
     opacity: 0.9;
 }

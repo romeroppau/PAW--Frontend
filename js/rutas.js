@@ -9,7 +9,7 @@ import compra from './vistas/compra.js';
 import compraConfirmada from './vistas/compraConfirmada.js';
 import iniciarSesion from './vistas/iniciarSesion.js';
 import registrarse from './vistas/registrarse.js';
-import libroNuevo from './vistas/libroNuevo.js';
+import libroFormulario from './vistas/libroFormulario.js';
 
 /**
  * Mapa de rutas del sitio (lo que va después de # en la URL) -> vista.
@@ -27,5 +27,7 @@ export const rutas = [
     { patron: '/compra/confirmada', vista: compraConfirmada },
     { patron: '/iniciar-sesion', vista: iniciarSesion },
     { patron: '/registrarse', vista: registrarse },
-    { patron: '/libros/nuevo', vista: libroNuevo }, // solo el dueño de la librería
+    // Cargar y editar libros: solo el dueño de la librería (la misma vista, con o sin :slug).
+    { patron: '/libros/nuevo', vista: libroFormulario },
+    { patron: '/libros/:slug/editar', vista: libroFormulario },
 ];
