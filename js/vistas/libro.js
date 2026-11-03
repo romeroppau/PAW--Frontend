@@ -2,17 +2,21 @@ import { api } from '../api.js';
 import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
+import { esDuenio, sesionInicial } from '../sesion.js';
 
 /**
  * Detalle de un libro (#/catalogo/{slug}). Datos de GET /api/libros/{slug}.
  * Si el libro no existe, la API responde 404 y el router muestra la vista "no encontrada".
  * Con ?cargado=1 (al venir de "Cargar un libro") avisa que el libro se cargó.
+ * Al dueño de la librería no se le muestra "Añadir al carrito" (no compra).
  */
 export default {
     titulo: ({ data: libro }) => libro.title,
     estilos: ['css/paginas/libros.css'],
 
-    cargar: ({ params }) => api(`/libros/${encodeURIComponent(params.slug)}`),
+    // Junto con el libro se espera saber quién está conectado (para el botón del carrito), en paralelo.
+    cargar: async ({ params }) =>
+        (await Promise.all([api(`/libros/${encodeURIComponent(params.slug)}`), sesionInicial()]))[0],
 
     render: ({ data: libro }, { query }) => html`
         ${query.get('cargado') === '1' && html`
@@ -37,10 +41,12 @@ export default {
                 </ul>
                 <p>Precio: ${dinero(libro.price)}</p>
 
-                <form data-agregar>
-                    <button type="submit" class="btn-carrito">Añadir al carrito</button>
-                </form>
-                <p class="alerta-error" role="alert" hidden data-alerta></p>
+                ${!esDuenio() && html`
+                    <form data-agregar>
+                        <button type="submit" class="btn-carrito">Añadir al carrito</button>
+                    </form>
+                    <p class="alerta-error" role="alert" hidden data-alerta></p>
+                `}
                 <p><a href="#/catalogo">← Volver al catálogo</a></p>
             </section>
         </article>
@@ -54,6 +60,8 @@ export default {
         }
 
         const form = main.querySelector('[data-agregar]');
+        if (!form) return; // el dueño no tiene el botón
+
         form.addEventListener('submit', async (evento) => {
             evento.preventDefault();
             try {
