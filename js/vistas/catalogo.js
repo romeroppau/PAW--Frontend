@@ -1,4 +1,5 @@
 import { api } from '../api.js';
+import { borrarBusquedas, guardarBusqueda, ultimasBusquedas } from '../busquedas.js';
 import { agregarOIniciarSesion } from '../carrito.js';
 import { conBotonDeshabilitado, mostrarAlerta } from '../formularios.js';
 import { dinero, html, urlTapa } from '../html.js';
@@ -134,7 +135,15 @@ export default {
                         <fieldset>
                             <legend>Búsqueda</legend>
                             <label for="q-catalogo">Título o autor</label>
-                            <input type="search" id="q-catalogo" name="q" value="${query.get('q') ?? ''}" maxlength="100">
+                            <!-- Sugerencias: las últimas búsquedas (el <datalist> está en el menú, index.html). -->
+                            <input type="search" id="q-catalogo" name="q" value="${query.get('q') ?? ''}" maxlength="100"
+                                list="busquedas-recientes">
+                            <!-- Últimas búsquedas (localStorage): las completa mostrarRecientes(). Oculto si no hay. -->
+                            <section class="busquedas-recientes" aria-labelledby="titulo-recientes" hidden data-recientes>
+                                <h3 id="titulo-recientes">Búsquedas recientes</h3>
+                                <ul data-lista-recientes></ul>
+                                <button type="button" class="borrar-recientes" data-borrar-recientes>Borrar búsquedas recientes</button>
+                            </section>
                         </fieldset>
                         <fieldset>
                             <legend>Orden</legend>
@@ -198,6 +207,8 @@ export default {
         const panel = main.querySelector('[data-panel]');
         const activos = main.querySelector('[data-activos]');
         const limpiar = main.querySelector('[data-limpiar]');
+        const recientes = main.querySelector('[data-recientes]');
+        const listaRecientes = main.querySelector('[data-lista-recientes]');
         // Página de la URL (?pagina=3); si no viene o no es un número válido, la 1.
         let pagina = Math.max(1, Math.floor(Number(query.get('pagina'))) || 1);
         // Resultados de los filtros actuales (todas las páginas): los usa "Descargar CSV".
@@ -241,6 +252,21 @@ export default {
 
             const consulta = String(parametros);
             history.replaceState(null, '', `#/catalogo${consulta ? `?${consulta}` : ''}`);
+        }
+
+        // Últimas búsquedas (js/busquedas.js): un botón por cada una, que la vuelve a aplicar.
+        // aria-label "Buscar …": fuera de la lista (ej. pasando con Tab) el botón dice qué hace.
+        function mostrarRecientes() {
+            const busquedas = ultimasBusquedas();
+            listaRecientes.innerHTML = String(html`${busquedas.map((busqueda) => html`
+                <li><button type="button" aria-label="Buscar ${busqueda}" data-busqueda="${busqueda}">${busqueda}</button></li>
+            `)}`);
+            recientes.hidden = busquedas.length === 0;
+        }
+
+        function recordarBusqueda() {
+            guardarBusqueda(form.elements.q.value);
+            mostrarRecientes();
         }
 
         // Redibuja solo la lista (no toda la vista): se llama al entrar y cada vez que cambie un filtro.
@@ -303,15 +329,45 @@ export default {
             actualizar();
         });
 
-        // Enter o "Ver resultados": que el form no se envíe (recargaría la página); los filtros ya están aplicados.
-        // En el celular, además, se cierra el panel y se lleva a los libros.
-        form.addEventListener('submit', (evento) => {
-            evento.preventDefault();
-            actualizar();
+        // Mostrar los resultados: en el celular se cierra el panel y se lleva a los libros.
+        function irAResultados() {
             if (!matchMedia(DESKTOP).matches) {
                 panel.open = false;
                 subirALaLista();
             }
+        }
+
+        // La búsqueda se guarda entre las últimas cuando se confirma: "change" ocurre al apretar Enter o al
+        // salir del campo después de cambiarlo. No en cada tecla: si no, se guardarían "b", "bo", "bor"...
+        form.elements.q.addEventListener('change', recordarBusqueda);
+
+        // Enter o "Ver resultados": que el form no se envíe (recargaría la página); los filtros ya están aplicados.
+        form.addEventListener('submit', (evento) => {
+            evento.preventDefault();
+            recordarBusqueda();
+            actualizar();
+            irAResultados();
+        });
+
+        // Repetir una búsqueda reciente (pasa a ser la más reciente).
+        listaRecientes.addEventListener('click', (evento) => {
+            const boton = evento.target.closest('[data-busqueda]');
+            if (!boton) return;
+            form.elements.q.value = boton.dataset.busqueda;
+            pagina = 1;
+            recordarBusqueda();
+            actualizar();
+            // La lista se redibujó (y el botón ya no existe): el foco pasa al buscador, que ahora tiene la búsqueda.
+            // En el celular, a "Filtros y orden": el foco en el buscador abriría el teclado mientras se cierra el panel.
+            const destino = matchMedia(DESKTOP).matches ? form.elements.q : panel.querySelector('summary');
+            destino.focus({ preventScroll: true });
+            irAResultados();
+        });
+
+        main.querySelector('[data-borrar-recientes]').addEventListener('click', () => {
+            borrarBusquedas();
+            mostrarRecientes();
+            form.elements.q.focus({ preventScroll: true }); // el botón se ocultó junto con la lista
         });
 
         // Vacía búsqueda, orden y precio. "Libros por página" se respeta: es cómo se quiere ver la lista, no un filtro.
@@ -358,6 +414,7 @@ export default {
             }
         });
 
+        mostrarRecientes();
         actualizar();
     },
 };
